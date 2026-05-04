@@ -693,10 +693,44 @@ export default function Landing() {
       {/* ── Purpose ── */}
       <section id="overview" className="purpose-band">
         <div className="section-bg-mesh section-bg-mesh--purpose" aria-hidden="true" />
+
+        {/* Left column — heading + highlight cards */}
         <RevealSection>
           <p className="section-kicker">Purpose</p>
           <h2>Designed to make screening feel clear, structured, and human.</h2>
+          <div className="purpose-highlights">
+            <div className="purpose-highlight-item">
+              <span className="purpose-highlight-icon"><Activity size={17} /></span>
+              <div>
+                <strong>Psychomotor Signals</strong>
+                <span>Keystroke timing, cursor dynamics &amp; hesitation</span>
+              </div>
+            </div>
+            <div className="purpose-highlight-item">
+              <span className="purpose-highlight-icon"><ClipboardList size={17} /></span>
+              <div>
+                <strong>PHQ-9 + GAD-7</strong>
+                <span>Validated depression &amp; anxiety screening</span>
+              </div>
+            </div>
+            <div className="purpose-highlight-item">
+              <span className="purpose-highlight-icon"><Brain size={17} /></span>
+              <div>
+                <strong>Emotional Response Task</strong>
+                <span>12 typed prompts for richer behavioral context</span>
+              </div>
+            </div>
+            <div className="purpose-highlight-item">
+              <span className="purpose-highlight-icon"><FileText size={17} /></span>
+              <div>
+                <strong>Exportable Reports</strong>
+                <span>Clinician-ready decision-support summaries</span>
+              </div>
+            </div>
+          </div>
         </RevealSection>
+
+        {/* Right column — body text + capability checklist */}
         <RevealSection delay={150}>
           <p>
             PsyClick helps clinicians run structured psychomotor and mental health screening sessions. It pairs familiar PHQ-9 and GAD-7 questionnaires with interaction patterns — keystroke timing, cursor movement, hesitation, and response behavior — then organizes results into reviewable, exportable reports.
@@ -704,6 +738,14 @@ export default function Landing() {
           <p style={{ marginTop: 20 }}>
             It captures typing rhythm, mouse dynamics, hesitation patterns, and emotional response behavior. The result helps clinicians review psychomotor slowing, agitation, and follow-up needs with more context. It does not replace clinical judgment, diagnosis, crisis assessment, or emergency protocols.
           </p>
+          <div className="purpose-features">
+            <div className="purpose-feature"><Check size={14} /><span>Session-based psychomotor analysis</span></div>
+            <div className="purpose-feature"><Check size={14} /><span>Adaptive personal baseline (EWMA)</span></div>
+            <div className="purpose-feature"><Check size={14} /><span>Normative population comparison</span></div>
+            <div className="purpose-feature"><Check size={14} /><span>GREEN / AMBER / RED decision flags</span></div>
+            <div className="purpose-feature"><Check size={14} /><span>Hotelling T² anomaly detection</span></div>
+            <div className="purpose-feature"><Check size={14} /><span>Temporal hesitation heatmap</span></div>
+          </div>
         </RevealSection>
       </section>
 

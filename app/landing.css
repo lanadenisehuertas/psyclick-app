@@ -217,7 +217,19 @@
     0 24px 64px rgba(13,45,45,.05),
     inset 0 1px 0 rgba(255,255,255,.95),
     inset 0 -1px 0 rgba(10,191,188,.10);
-  transition: background .3s ease, box-shadow .3s ease, border-color .3s ease;
+  /* Transition covers both the glass state changes AND the hide/reveal slide */
+  transition:
+    transform .55s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity   .45s cubic-bezier(0.4, 0, 0.2, 1),
+    background .3s ease,
+    box-shadow .3s ease,
+    border-color .3s ease;
+}
+/* Nav hides by sliding up and fading out */
+.landing-nav.nav-hidden {
+  transform: translateX(-50%) translateY(-120%);
+  opacity: 0;
+  pointer-events: none;
 }
 .landing-nav.scrolled {
   background: rgba(237,250,250,.88);
@@ -357,9 +369,9 @@
 /* ── Hero ── */
 .hero-section {
   position: relative;
-  width: min(1520px, calc(100% - 48px));
-  margin: 0 auto;
-  padding: 60px 0 110px;
+  width: 100%;
+  margin: 0;
+  padding: 60px max(24px, calc((100% - 1520px) / 2)) 110px;
   display: grid;
   grid-template-columns: minmax(0, 0.88fr) minmax(420px, 1.12fr);
   align-items: center;
@@ -678,12 +690,12 @@
 /* ── Purpose Band ── */
 .purpose-band {
   position: relative;
-  width: min(1520px, calc(100% - 48px));
-  margin: 120px auto 0;
+  width: 100%;
+  margin: 120px 0 0;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 80px;
-  padding-bottom: 120px;
+  padding: 0 max(24px, calc((100% - 1520px) / 2)) 120px;
   
   align-items: start;
 }
@@ -727,13 +739,18 @@
 .purpose-highlight-icon {
   display: grid;
   place-items: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 12px;
-  background: var(--deep);
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #1a4a4a 0%, var(--deep) 100%);
   color: #ffffff;
   flex-shrink: 0;
-  box-shadow: 0 3px 10px rgba(10,191,188,.25);
+  box-shadow: 0 4px 14px rgba(13,45,45,.28);
+}
+/* Ensure SVG strokes and fills are pure white, no color bleed from lucide defaults */
+.purpose-highlight-icon svg {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
 }
 .purpose-highlight-item > div {
   display: flex;
@@ -785,9 +802,9 @@
 
 /* ── Roles Section ── */
 .roles-section {
-  width: min(1520px, calc(100% - 48px));
-  margin: 120px auto 0;
-  padding-bottom: 120px;
+  width: 100%;
+  margin: 120px 0 0;
+  padding: 0 max(24px, calc((100% - 1520px) / 2)) 120px;
   
 }
 
@@ -1129,9 +1146,9 @@
 /* ── Features ── */
 .feature-section {
   position: relative;
-  width: min(1520px, calc(100% - 48px));
-  margin: 120px auto 0;
-  padding-bottom: 120px;
+  width: 100%;
+  margin: 120px 0 0;
+  padding: 0 max(24px, calc((100% - 1520px) / 2)) 120px;
   
 }
 
@@ -1288,9 +1305,9 @@
 /* ── Guide ── */
 .guide-section {
   position: relative;
-  width: min(1520px, calc(100% - 48px));
-  margin: 120px auto 0;
-  padding-bottom: 120px;
+  width: 100%;
+  margin: 120px 0 0;
+  padding: 0 max(24px, calc((100% - 1520px) / 2)) 120px;
   
 }
 .guide-role-bar {
@@ -1439,9 +1456,9 @@
 /* ── Algorithm ── */
 .algorithm-section {
   position: relative;
-  width: min(1520px, calc(100% - 48px));
-  margin: 120px auto 0;
-  padding-bottom: 120px;
+  width: 100%;
+  margin: 120px 0 0;
+  padding: 0 max(24px, calc((100% - 1520px) / 2)) 120px;
   
 }
 
@@ -1708,9 +1725,9 @@
 /* ── Download ── */
 .download-section {
   position: relative;
-  width: min(1520px, calc(100% - 48px));
-  margin: 120px auto 0;
-  padding-bottom: 120px;
+  width: 100%;
+  margin: 120px 0 0;
+  padding: 0 max(24px, calc((100% - 1520px) / 2)) 120px;
   
   overflow: hidden;
 }
@@ -1842,9 +1859,9 @@
 
 /* ── Trust ── */
 .trust-section {
-  width: min(1520px, calc(100% - 48px));
-  margin: 120px auto 0;
-  padding-bottom: 120px;
+  width: 100%;
+  margin: 120px 0 0;
+  padding: 0 max(24px, calc((100% - 1520px) / 2)) 120px;
   
 }
 .trust-grid {
@@ -1893,9 +1910,9 @@
 /* ── Team ── */
 .team-section {
   position: relative;
-  width: min(1520px, calc(100% - 48px));
-  margin: 120px auto 0;
-  padding-bottom: 120px;
+  width: 100%;
+  margin: 120px 0 0;
+  padding: 0 max(24px, calc((100% - 1520px) / 2)) 120px;
   
   overflow: hidden;
 }
@@ -2048,9 +2065,9 @@
 /* ── FAQ ── */
 .faq-section {
   position: relative;
-  width: min(1520px, calc(100% - 48px));
-  margin: 120px auto 0;
-  padding-bottom: 120px;
+  width: 100%;
+  margin: 120px 0 0;
+  padding: 0 max(24px, calc((100% - 1520px) / 2)) 120px;
   overflow: hidden;
 }
 .faq-section > * { position: relative; z-index: 1; }

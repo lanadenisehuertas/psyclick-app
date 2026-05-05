@@ -597,9 +597,28 @@ function FaqAccordion() {
 export default function Landing() {
   const [mobileOpen, setMobileOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const [navHidden, setNavHidden] = useState(false)
+  const lastScrollY = useRef(0)
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20)
+    // Threshold: hide nav only after scrolling past the hero (~80vh)
+    const HIDE_THRESHOLD = typeof window !== 'undefined' ? window.innerHeight * 0.75 : 600
+
+    const onScroll = () => {
+      const currentY = window.scrollY
+      const scrollingDown = currentY > lastScrollY.current
+
+      setScrolled(currentY > 20)
+
+      if (scrollingDown && currentY > HIDE_THRESHOLD) {
+        setNavHidden(true)
+      } else if (!scrollingDown) {
+        setNavHidden(false)
+      }
+
+      lastScrollY.current = currentY
+    }
+
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
@@ -607,7 +626,7 @@ export default function Landing() {
   return (
     <main className="landing-page">
       {/* ── Nav ── */}
-      <nav className={`landing-nav${scrolled ? ' scrolled' : ''}`}>
+      <nav className={`landing-nav${scrolled ? ' scrolled' : ''}${navHidden ? ' nav-hidden' : ''}`}>
         <a className="landing-brand" href="#top">
           <img src="/psyclick-icon.png" className="brand-logo-img" alt="PsyClick" />
           <span className="brand-name">PsyClick</span>

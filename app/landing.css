@@ -248,6 +248,14 @@
   gap: 10px;
   flex-shrink: 0;
 }
+/* Full word-mark logo in nav */
+.brand-wordmark {
+  height: 32px;
+  width: auto;
+  display: block;
+  flex-shrink: 0;
+  object-fit: contain;
+}
 .brand-psi {
   width: 38px;
   height: 38px;
@@ -691,11 +699,11 @@
 .purpose-band {
   position: relative;
   width: 100%;
-  margin: 120px 0 0;
+  margin: 56px 0 0;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 80px;
-  padding: 0 max(24px, calc((100% - 1520px) / 2)) 120px;
+  gap: 64px;
+  padding: 0 max(24px, calc((100% - 1520px) / 2)) 56px;
   
   align-items: start;
 }
@@ -803,8 +811,8 @@
 /* ── Roles Section ── */
 .roles-section {
   width: 100%;
-  margin: 120px 0 0;
-  padding: 0 max(24px, calc((100% - 1520px) / 2)) 120px;
+  margin: 56px 0 0;
+  padding: 0 max(24px, calc((100% - 1520px) / 2)) 56px;
   
 }
 
@@ -1098,6 +1106,8 @@
   font-weight: 900;
   display: grid;
   place-items: center;
+  overflow: hidden;
+  padding: 10px;
 }
 .mini-portal-title {
   font-size: 15px;
@@ -1147,8 +1157,8 @@
 .feature-section {
   position: relative;
   width: 100%;
-  margin: 120px 0 0;
-  padding: 0 max(24px, calc((100% - 1520px) / 2)) 120px;
+  margin: 56px 0 0;
+  padding: 0 max(24px, calc((100% - 1520px) / 2)) 56px;
   
 }
 
@@ -1306,8 +1316,8 @@
 .guide-section {
   position: relative;
   width: 100%;
-  margin: 120px 0 0;
-  padding: 0 max(24px, calc((100% - 1520px) / 2)) 120px;
+  margin: 56px 0 0;
+  padding: 0 max(24px, calc((100% - 1520px) / 2)) 56px;
   
 }
 .guide-role-bar {
@@ -1457,8 +1467,8 @@
 .algorithm-section {
   position: relative;
   width: 100%;
-  margin: 120px 0 0;
-  padding: 0 max(24px, calc((100% - 1520px) / 2)) 120px;
+  margin: 56px 0 0;
+  padding: 0 max(24px, calc((100% - 1520px) / 2)) 56px;
   
 }
 
@@ -1726,8 +1736,8 @@
 .download-section {
   position: relative;
   width: 100%;
-  margin: 120px 0 0;
-  padding: 0 max(24px, calc((100% - 1520px) / 2)) 120px;
+  margin: 56px 0 0;
+  padding: 0 max(24px, calc((100% - 1520px) / 2)) 56px;
   
   overflow: hidden;
 }
@@ -1860,8 +1870,8 @@
 /* ── Trust ── */
 .trust-section {
   width: 100%;
-  margin: 120px 0 0;
-  padding: 0 max(24px, calc((100% - 1520px) / 2)) 120px;
+  margin: 56px 0 0;
+  padding: 0 max(24px, calc((100% - 1520px) / 2)) 56px;
   
 }
 .trust-grid {
@@ -1911,8 +1921,8 @@
 .team-section {
   position: relative;
   width: 100%;
-  margin: 120px 0 0;
-  padding: 0 max(24px, calc((100% - 1520px) / 2)) 120px;
+  margin: 56px 0 0;
+  padding: 0 max(24px, calc((100% - 1520px) / 2)) 56px;
   
   overflow: hidden;
 }
@@ -2066,8 +2076,8 @@
 .faq-section {
   position: relative;
   width: 100%;
-  margin: 120px 0 0;
-  padding: 0 max(24px, calc((100% - 1520px) / 2)) 120px;
+  margin: 56px 0 0;
+  padding: 0 max(24px, calc((100% - 1520px) / 2)) 56px;
   overflow: hidden;
 }
 .faq-section > * { position: relative; z-index: 1; }
@@ -2311,7 +2321,7 @@
   .download-section,
   .trust-section,
   .team-section,
-  .faq-section { margin-top: 72px; padding-bottom: 72px; }
+  .faq-section { margin-top: 40px; padding-bottom: 40px; }
 
   .role-panel { padding: 28px; gap: 32px; }
   .download-inner { padding: 28px; }

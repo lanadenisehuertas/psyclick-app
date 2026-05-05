@@ -480,7 +480,7 @@ function RoleTabs() {
           </div>
           <div className="role-panel-visual tester-visual">
             <div className="mini-portal-card">
-              <div className="mini-portal-icon">Ψ</div>
+              <div className="mini-portal-icon"><img src="/psyclick-icon.png" alt="PsyClick" style={{ width: 36, height: 36, objectFit: 'contain' }} /></div>
               <p className="mini-portal-title">Normative Tester Portal</p>
               <div className="mini-input-row"><span>Tester ID</span><div className="mini-input-bar" /></div>
               <div className="mini-input-row"><span>Session Password</span><div className="mini-input-bar" /></div>
@@ -628,8 +628,7 @@ export default function Landing() {
       {/* ── Nav ── */}
       <nav className={`landing-nav${scrolled ? ' scrolled' : ''}${navHidden ? ' nav-hidden' : ''}`}>
         <a className="landing-brand" href="#top">
-          <img src="/psyclick-icon.png" className="brand-logo-img" alt="PsyClick" />
-          <span className="brand-name">PsyClick</span>
+          <img src="/psyclick-logo.png" className="brand-wordmark" alt="PsyClick" />
         </a>
         <div className="landing-links">
           {NAV_LINKS.map((l) => (

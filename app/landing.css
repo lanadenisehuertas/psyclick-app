@@ -699,16 +699,16 @@
 .purpose-band {
   position: relative;
   width: 100%;
-  margin: 35px 0 0;
+  margin: 10px 0 0;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 64px;
+  gap: 60px;
   padding: 0 max(24px, calc((100% - 1520px) / 2)) 56px;
   
   align-items: start;
 }
 .purpose-band h2 {
-  margin: 18px 0 0;
+  margin: 25px 0 0;
   font-size: clamp(30px, 3.8vw, 52px);
   line-height: 1.02;
   letter-spacing: -.02em;

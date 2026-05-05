@@ -625,6 +625,15 @@ export default function Landing() {
 
   return (
     <main className="landing-page">
+      {/* ── Global blob background layer ── */}
+      <div className="page-blobs" aria-hidden="true">
+        <span className="blob blob-1" />
+        <span className="blob blob-2" />
+        <span className="blob blob-3" />
+        <span className="blob blob-4" />
+        <span className="blob blob-5" />
+        <span className="blob blob-6" />
+      </div>
       {/* ── Nav ── */}
       <nav className={`landing-nav${scrolled ? ' scrolled' : ''}${navHidden ? ' nav-hidden' : ''}`}>
         <a className="landing-brand" href="#top">
@@ -717,7 +726,6 @@ export default function Landing() {
 
       {/* ── Purpose ── */}
       <section id="overview" className="purpose-band">
-        <div className="section-bg-mesh section-bg-mesh--purpose" aria-hidden="true" />
 
         {/* Left column — heading + highlight cards */}
         <RevealSection>
@@ -786,7 +794,6 @@ export default function Landing() {
 
       {/* ── Features ── */}
       <section id="features" className="feature-section">
-        <div className="section-bg-mesh section-bg-mesh--features" aria-hidden="true" />
         <RevealSection className="section-heading">
           <div>
             <p className="section-kicker">Feature Tour</p>
@@ -799,7 +806,6 @@ export default function Landing() {
 
       {/* ── Usage Guide ── */}
       <section id="guide" className="guide-section">
-        <div className="section-bg-mesh section-bg-mesh--guide" aria-hidden="true" />
         <RevealSection className="section-heading centered">
           <p className="section-kicker">Usage Guide</p>
           <h2>One calm path through a PsyClick session.</h2>
@@ -812,7 +818,6 @@ export default function Landing() {
 
       {/* ── Algorithm ── */}
       <section id="algorithm" className="algorithm-section">
-        <div className="section-bg-mesh section-bg-mesh--algo" aria-hidden="true" />
         <RevealSection className="section-heading">
           <div>
             <p className="section-kicker">Behind the Signals</p>
@@ -886,7 +891,6 @@ export default function Landing() {
 
       {/* ── Trust & Safety ── */}
       <section className="trust-section">
-        <div className="section-bg-mesh section-bg-mesh--trust" aria-hidden="true" />
         <RevealSection className="section-heading centered">
           <p className="section-kicker">Trust & Safety</p>
           <h2>Designed to support clinicians, not replace them.</h2>

@@ -108,71 +108,97 @@
   min-height: 100vh;
   overflow-x: hidden;
   padding-top: 96px; /* offset for fixed nav (16px top + 68px height + 12px gap) */
-  background:
-    radial-gradient(ellipse 80% 60% at 20% 8%, rgba(10,191,188,.13), transparent),
-    radial-gradient(ellipse 60% 50% at 95% 8%, rgba(91,164,207,.12), transparent),
-    radial-gradient(ellipse 70% 40% at 50% 100%, rgba(54,201,142,.08), transparent),
-    linear-gradient(180deg, #edfafa 0%, #f5fdfd 40%, #f3fafa 75%);
+  /* Single unified page gradient — deep teal at top fading to soft aqua-white at bottom */
+  background: linear-gradient(
+    170deg,
+    #b8eeeb 0%,
+    #d0f5f2 18%,
+    #e4faf8 38%,
+    #edfcfa 55%,
+    #daf6f3 72%,
+    #c8f0ec 88%,
+    #baecea 100%
+  );
   color: var(--deep);
 }
 .landing-page a { text-decoration: none; color: inherit; }
 
-/* ── Section background meshes ── */
-.section-bg-mesh {
-  position: absolute;
+/* ── Global floating blob layer ── */
+.page-blobs {
+  position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 0;
-  border-radius: inherit;
+  overflow: hidden;
 }
-/* All direct children of sections with a mesh must be z-index: 1 to sit above.
-   Exclude .section-bg-mesh so it stays position:absolute and doesn't take a grid slot. */
-.purpose-band > *:not(.section-bg-mesh),
-.feature-section > *:not(.section-bg-mesh),
-.guide-section > *:not(.section-bg-mesh),
-.algorithm-section > *:not(.section-bg-mesh),
-.trust-section > *:not(.section-bg-mesh) {
-  position: relative;
-  z-index: 1;
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+  will-change: transform;
+}
+/* Blob 1 — large teal top-left */
+.blob-1 {
+  width: 700px; height: 600px;
+  top: -80px; left: -100px;
+  background: radial-gradient(circle, rgba(10,191,188,.32) 0%, rgba(10,191,188,.10) 60%, transparent 100%);
+  animation: blobDrift1 22s ease-in-out infinite;
+}
+/* Blob 2 — aqua-blue top-right */
+.blob-2 {
+  width: 600px; height: 550px;
+  top: 5%; right: -120px;
+  background: radial-gradient(circle, rgba(54,180,210,.28) 0%, rgba(54,180,210,.08) 65%, transparent 100%);
+  animation: blobDrift2 18s ease-in-out infinite;
+  animation-delay: -5s;
+}
+/* Blob 3 — green-teal mid-left */
+.blob-3 {
+  width: 650px; height: 500px;
+  top: 35%; left: -80px;
+  background: radial-gradient(circle, rgba(54,201,142,.24) 0%, rgba(54,201,142,.07) 65%, transparent 100%);
+  animation: blobDrift3 26s ease-in-out infinite;
+  animation-delay: -10s;
+}
+/* Blob 4 — teal mid-right */
+.blob-4 {
+  width: 700px; height: 600px;
+  top: 48%; right: -140px;
+  background: radial-gradient(circle, rgba(10,191,188,.26) 0%, rgba(10,191,188,.07) 65%, transparent 100%);
+  animation: blobDrift1 20s ease-in-out infinite;
+  animation-delay: -8s;
+}
+/* Blob 5 — blue-teal lower-left */
+.blob-5 {
+  width: 580px; height: 520px;
+  bottom: 20%; left: 8%;
+  background: radial-gradient(circle, rgba(91,164,207,.22) 0%, rgba(91,164,207,.06) 65%, transparent 100%);
+  animation: blobDrift2 24s ease-in-out infinite;
+  animation-delay: -14s;
+}
+/* Blob 6 — green bottom-right */
+.blob-6 {
+  width: 650px; height: 550px;
+  bottom: -60px; right: -60px;
+  background: radial-gradient(circle, rgba(54,201,142,.26) 0%, rgba(54,201,142,.08) 65%, transparent 100%);
+  animation: blobDrift3 19s ease-in-out infinite;
+  animation-delay: -3s;
 }
 
-.section-bg-mesh--purpose {
-  background:
-    radial-gradient(ellipse 100% 85% at 100% 50%, rgba(10,191,188,.11), transparent),
-    radial-gradient(ellipse 50% 85% at 0% 80%, rgba(54,201,142,.08), transparent);
-}
-.section-bg-mesh--features {
-  background:
-    radial-gradient(ellipse 200% 120% at 5% 50%, rgba(91,164,207,.09), transparent),
-    radial-gradient(ellipse 50% 40% at 95% 10%, rgba(10,191,188,.1), transparent),
-    radial-gradient(ellipse 150% 100% at 50% 100%, rgba(54,201,142,.07), transparent);
-}
-.section-bg-mesh--guide {
-  background:
-    radial-gradient(ellipse 160% 190% at 95% 40%, rgba(10,191,188,.11), transparent),
-    radial-gradient(ellipse 80% 100% at 10% 10%, rgba(91,164,207,.09), transparent);
-}
-.section-bg-mesh--algo {
-  background:
-    radial-gradient(ellipse 120% 100% at 0% 30%, rgba(10,191,188,.1), transparent),
-    radial-gradient(ellipse 55% 60% at 100% 70%, rgba(54,201,142,.09), transparent),
-    radial-gradient(ellipse 90% 80% at 50% 5%, rgba(91,164,207,.07), transparent);
-}
-.section-bg-mesh--trust {
-  background:
-    radial-gradient(ellipse 170% 120% at 100% 0%, rgba(10,191,188,.09), transparent),
-    radial-gradient(ellipse 100% 61200% at 0% 100%, rgba(54,201,142,.08), transparent);
-  background-size: 200% 200%;
-  animation: gradientShift 12s ease infinite;
-}
-
-/* Section backgrounds need the parent to be positioned */
+/* All sections and their children sit above the blob layer */
 .purpose-band,
 .feature-section,
 .guide-section,
 .algorithm-section,
-.trust-section {
+.trust-section,
+.roles-section,
+.download-section,
+.team-section,
+.faq-section,
+.hero-section,
+.ticker-wrap {
   position: relative;
+  z-index: 1;
 }
 
 .section-kicker {
@@ -2350,7 +2376,22 @@
   .landing-btn { width: 100%; justify-content: center; }
   .feature-sandwich-row { grid-template-columns: 1fr; gap: 4px; }
   .timeline-node { width: 38px; height: 38px; font-size: 11px; }
-  .timeline-slot-right { padding-left: 10px; }
-  .purpose-band { gap: 32px; }
-  .team-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .timeline-slot-right { padding-left: 16px; }
+  .timeline-slot-left { padding-right: 16px; }
+  .timeline-step { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .timeline-slot-left, .timeline-slot-right { padding: 0; text-align: left; }
+  .purpose-band { grid-template-columns: 1fr; }
+  .download-inner { grid-template-columns: 1fr; }
+  .download-badge-wrap { display: none; }
+  .trust-grid { grid-template-columns: 1fr; }
+  .team-grid { grid-template-columns: 1fr; }
+  .algo-pipeline-v2 { grid-template-columns: 1fr; }
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .blob-1, .blob-2, .blob-3, .blob-4, .blob-5, .blob-6 { animation: none; }
+  .organic-one, .organic-two { animation: none; }
+  .reveal-section { transition: none; opacity: 1; transform: none; }
+  .ticker-track { animation: none; }
 }

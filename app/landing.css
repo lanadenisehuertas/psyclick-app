@@ -574,7 +574,7 @@
   color: #7a9a9a;
   letter-spacing: .05em;
 }
-.device-header h3 { font-size: 20px; margin-top: 4px; }
+.device-header h3 { font-size: 20px; margin-top: 4px; color: #1a3a3a; }
 .flag-green {
   padding: 5px 10px;
   border-radius: 999px;
@@ -1595,8 +1595,9 @@
   position: relative;
 }
 
-/* Green triangle indicator on each card */
+/* Green triangle indicator — removed from JSX, hidden via CSS as fallback */
 .algo-card-triangle {
+  display: none;
   position: absolute;
   bottom: 16px;
   right: 16px;
@@ -2145,6 +2146,7 @@
   border: 1px solid var(--border);
   background: white;
   overflow: hidden;
+  margin-bottom: 12px;
 }
 .faq-item.open {
   box-shadow: 0 8px 24px rgba(10,191,188,.1);
@@ -2530,13 +2532,14 @@
   display: block;
   margin-top: 6px;
   font-size: 11.5px;
-  color: rgba(255,255,255,.7);
+  color: #fff;
   text-decoration: none;
   word-break: break-all;
-  transition: color .2s;
+  transition: opacity .2s;
+  opacity: 0.85;
 }
 .team-card-email:hover {
-  color: #fff;
+  opacity: 1;
   text-decoration: underline;
 }
 
@@ -2598,6 +2601,91 @@
   .feature-float-grid { grid-template-columns: 1fr; }
   .feature-float-card:nth-child(9),
   .feature-float-card:nth-child(10) { grid-column: span 1; }
+}
+
+/* ══════════════════════════════════════════════
+   MOBILE RESPONSIVE — COMPREHENSIVE
+   ══════════════════════════════════════════════ */
+
+/* ══════════════════════════════════════════════
+   MOBILE RESPONSIVE — COMPREHENSIVE
+   ══════════════════════════════════════════════ */
+
+/* ── Tablet (≤ 900px) ── */
+@media (max-width: 900px) {
+  .landing-links { display: none; }
+  .nav-mobile-toggle { display: flex; }
+  .hero-section { grid-template-columns: 1fr; padding: 32px 20px 64px; gap: 40px; }
+  .hero-visual { order: -1; }
+  .landing-device { max-width: 420px; margin: 0 auto; }
+  .purpose-band { grid-template-columns: 1fr; gap: 36px; margin-top: 56px; padding-bottom: 48px; }
+  .purpose-band h2 { margin-top: 12px; }
+  .role-panel { grid-template-columns: 1fr; gap: 32px; padding: 32px 24px; }
+  .role-panel-visual { display: none; }
+  .feature-float-grid { grid-template-columns: repeat(2, 1fr); }
+  .feature-float-card:nth-child(9),
+  .feature-float-card:nth-child(10) { grid-column: span 1; }
+  .algo-pipeline-v2 { grid-template-columns: repeat(2, 1fr); }
+  .trust-grid { grid-template-columns: repeat(2, 1fr); }
+  .download-hero-wrap { grid-template-columns: 1fr; gap: 32px; }
+  .download-hero-mockup { display: none; }
+  .download-section { margin: 0 16px !important; padding: 56px 28px 56px !important; }
+  .footer-inner { flex-direction: column; gap: 32px; }
+  .footer-links { flex-direction: column; gap: 16px; }
+}
+
+/* ── Mobile (≤ 640px) ── */
+@media (max-width: 640px) {
+  .landing-page { padding-top: 80px; }
+  .landing-nav { height: 56px; padding: 0 8px 0 16px; top: 10px; width: calc(100% - 24px); }
+  .brand-wordmark { height: 26px; }
+  .nav-cta { display: none; }
+  .hero-section { padding: 24px 16px 56px; gap: 32px; }
+  .hero-copy h1 { font-size: clamp(28px, 9vw, 44px); }
+  .hero-actions { flex-direction: column; gap: 10px; }
+  .landing-btn { width: 100%; justify-content: center; }
+  .landing-device { max-width: 100%; }
+  .purpose-band { padding: 0 16px 40px; margin-top: 40px; }
+  .purpose-highlight-item { padding: 12px 14px; gap: 12px; }
+  .role-tab-bar { flex-wrap: wrap; gap: 6px; }
+  .role-tab-btn { font-size: 12px; padding: 8px 14px; }
+  .role-panel { padding: 24px 16px; border-radius: 20px; }
+  .role-panel-copy h3 { font-size: clamp(20px, 6vw, 28px); }
+  .role-list { gap: 8px; }
+  .feature-float-grid { grid-template-columns: 1fr; gap: 14px; margin-top: 28px; }
+  .feature-float-card { transform: none !important; animation: none !important; }
+  .guide-role-bar { flex-wrap: wrap; gap: 6px; }
+  .guide-role-btn { font-size: 12px; padding: 8px 14px; }
+  .timeline-v2-content { padding: 12px 14px; }
+  .timeline-v2-content p { font-size: 13.5px; }
+  .algo-pipeline-v2 { grid-template-columns: 1fr; }
+  .algo-signal-card { padding: 20px; }
+  .trust-grid { grid-template-columns: 1fr; gap: 14px; }
+  .trust-card { padding: 20px; }
+  .download-section { border-radius: 20px !important; padding: 40px 20px 48px !important; }
+  .download-hero-text h2 { font-size: clamp(24px, 7vw, 32px); }
+  .download-actions { flex-direction: column; gap: 10px; }
+  .download-actions .landing-btn,
+  .download-actions .dl-ghost { width: 100%; justify-content: center; text-align: center; }
+  .team-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .team-card { border-radius: 18px; }
+  .team-mentor { padding: 20px; flex-direction: column; gap: 12px; text-align: center; align-items: center; }
+  .faq-two-col { grid-template-columns: 1fr; }
+  .faq-trigger { font-size: 14px; padding: 18px 20px; }
+  .footer-inner { padding: 40px 16px 32px; }
+  .footer-bottom { padding: 20px 16px; flex-direction: column; gap: 8px; text-align: center; font-size: 12px; }
+  .ticker-wrap { padding: 12px 0; }
+  .algo-sub, .section-sub { font-size: 13px; }
+  .section-heading h2 { font-size: clamp(24px, 7.5vw, 34px); }
+}
+
+/* ── Small mobile (≤ 390px) ── */
+@media (max-width: 390px) {
+  .team-grid { grid-template-columns: 1fr; }
+  .hero-copy h1 { font-size: 26px; }
+  .feature-float-card { padding: 20px 16px; }
+  .role-tab-btn { font-size: 11px; padding: 7px 11px; }
+  .landing-nav { height: 52px; }
 }
 
 /* ── Reduced motion ── */

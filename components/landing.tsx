@@ -26,7 +26,7 @@ import {
   Menu,
 } from 'lucide-react'
 import type React from 'react'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useTransition } from 'react'
 
 /* ─── Data ─────────────────────────────────────────────── */
 
@@ -366,6 +366,7 @@ function ProductMockup() {
 
 function RoleTabs() {
   const [active, setActive] = useState<'clients' | 'clinicians' | 'testers'>('clients')
+  const [, startRoleTransition] = useTransition()
   const { ref, visible } = useReveal()
 
   return (
@@ -375,7 +376,7 @@ function RoleTabs() {
           <button
             key={role}
             className={`role-tab-btn${active === role ? ' active' : ''}`}
-            onClick={() => setActive(role)}
+            onClick={() => startRoleTransition(() => setActive(role))}
           >
             {role === 'clients' && <Users size={15} />}
             {role === 'clinicians' && <UserCheck size={15} />}
@@ -595,6 +596,7 @@ function FeatureShowcase() {
 
 function FaqAccordion() {
   const [open, setOpen] = useState<number | null>(null)
+  const [, startFaqTransition] = useTransition()
   const { ref, visible } = useReveal()
   const half = Math.ceil(FAQ_ITEMS.length / 2)
   const cols = [FAQ_ITEMS.slice(0, half), FAQ_ITEMS.slice(half)]
@@ -611,7 +613,7 @@ function FaqAccordion() {
             const idx = colIdx * half + i
             return (
               <div key={idx} className={`faq-item${open === idx ? ' open' : ''}`}>
-                <button className="faq-trigger" onClick={() => setOpen(open === idx ? null : idx)}>
+                <button className="faq-trigger" onClick={() => startFaqTransition(() => setOpen(open === idx ? null : idx))}>
                   <span>{item.q}</span>
                   <ChevronDown size={17} className="faq-chevron" />
                 </button>
@@ -872,8 +874,6 @@ export default function Landing() {
                   </div>
                   <h3>{step.title}</h3>
                   <p>{step.summary}</p>
-                  {/* Green triangle hover trigger */}
-                  <i className="algo-card-triangle" aria-hidden="true">▶</i>
                   {/* Detail overlay revealed on hover */}
                   <div className="algo-card-detail-overlay">
                     <p>{step.detail}</p>
@@ -1057,13 +1057,14 @@ function TimelineStep({ step, index, total }: { step: string; index: number; tot
 
 function GuideSteps() {
   const [role, setRole] = useState<'clinician' | 'client' | 'tester'>('clinician')
+  const [, startGuideTransition] = useTransition()
   const steps = role === 'clinician' ? CLINICIAN_STEPS : role === 'client' ? CLIENT_STEPS : TESTER_STEPS
 
   return (
     <div>
       <div className="guide-role-bar">
         {(['clinician', 'client', 'tester'] as const).map((r) => (
-          <button key={r} className={`guide-role-btn${role === r ? ' active' : ''}`} onClick={() => setRole(r)}>
+          <button key={r} className={`guide-role-btn${role === r ? ' active' : ''}`} onClick={() => startGuideTransition(() => setRole(r))}>
             {r === 'clinician' ? <UserCheck size={14} /> : r === 'client' ? <Users size={14} /> : <ShieldCheck size={14} />}
             {r === 'clinician' ? 'Clinician flow' : r === 'client' ? 'Client flow' : 'Tester flow'}
           </button>

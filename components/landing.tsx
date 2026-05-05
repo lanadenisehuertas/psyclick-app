@@ -259,10 +259,10 @@ const FAQ_ITEMS = [
 ]
 
 const TEAM_MEMBERS = [
-  { name: 'Jon Añonuevo', role: 'System Architect & Lead Backend Engineer', photo: '/team/member1.png', initials: 'M1' },
-  { name: 'Denise Ballano', role: 'Full-Stack Developer & Quality Assurance Lead', photo: '/team/member2.png', initials: 'M2' },
-  { name: 'Lana Huertas', role: 'Project Manager, Backend & Lead UI/UX Designer', photo: '/team/member3.jpg', initials: 'M3' },
-  { name: 'Judea tablate', role: 'Lead Researcher & Documentation Specialist', photo: '/team/member4.png', initials: 'M4' },
+  { name: 'Jon Añonuevo', role: 'System Architect & Lead Backend Engineer', photo: '/team/member1.png', initials: 'JA', email: 'jaanonuevo@fit.edu.ph'},
+  { name: 'Denise Ballano', role: 'Full-Stack Developer & Quality Assurance Lead', photo: '/team/member2.png', initials: 'DB', email: 'dmballano@fit.edu.ph' },
+  { name: 'Lana Huertas', role: 'Project Manager, Backend & Lead UI/UX Designer', photo: '/team/member3.jpg', initials: 'LH', email: 'lrhuertas@fit.edu.ph' },
+  { name: 'Judea Tablate', role: 'Lead Researcher & Documentation Specialist', photo: '/team/member4.png', initials: 'JT', email: 'jctablate@fit.edu.ph' },
 ]
 
 /* ─── Sub-components ────────────────────────────────────── */
@@ -567,25 +567,60 @@ function AlgorithmAccordion() {
   )
 }
 
+function FeatureShowcase() {
+  const TILTS = [-2, 1.5, -1.5, 2, -2.5, 1, -1, 2.5, -1.5, 1]
+  const DELAYS = ['0s', '1.4s', '2.8s', '0.7s', '2.1s', '3.5s', '1.1s', '3s', '0.4s', '2.4s']
+
+  return (
+    <div className="feature-float-grid">
+      {FEATURE_CARDS.map((f, i) => {
+        const Icon = f.icon
+        return (
+          <RevealSection key={f.title} delay={i * 55}>
+            <article
+              className="feature-float-card"
+              style={{ '--tilt': `${TILTS[i]}deg`, '--float-delay': DELAYS[i] } as React.CSSProperties}
+            >
+              <span className="feature-float-icon"><Icon size={20} /></span>
+              <h4>{f.title}</h4>
+              <p className="feature-float-intent">{f.intent}</p>
+              <p className="feature-float-use">{f.use}</p>
+            </article>
+          </RevealSection>
+        )
+      })}
+    </div>
+  )
+}
+
 function FaqAccordion() {
   const [open, setOpen] = useState<number | null>(null)
   const { ref, visible } = useReveal()
+  const half = Math.ceil(FAQ_ITEMS.length / 2)
+  const cols = [FAQ_ITEMS.slice(0, half), FAQ_ITEMS.slice(half)]
 
   return (
     <div
       ref={ref}
-      className="faq-accordion"
+      className="faq-two-col"
       style={{ opacity: visible ? 1 : 0, transform: visible ? 'translateY(0)' : 'translateY(32px)', transition: 'opacity 0.7s ease, transform 0.7s ease' }}
     >
-      {FAQ_ITEMS.map((item, i) => (
-        <div key={i} className={`faq-item${open === i ? ' open' : ''}`}>
-          <button className="faq-trigger" onClick={() => setOpen(open === i ? null : i)}>
-            <span>{item.q}</span>
-            <ChevronDown size={17} className="faq-chevron" />
-          </button>
-          <div className="faq-answer-wrap">
-            <div className="faq-answer"><p>{item.a}</p></div>
-          </div>
+      {cols.map((col, colIdx) => (
+        <div key={colIdx} className="faq-col">
+          {col.map((item, i) => {
+            const idx = colIdx * half + i
+            return (
+              <div key={idx} className={`faq-item${open === idx ? ' open' : ''}`}>
+                <button className="faq-trigger" onClick={() => setOpen(open === idx ? null : idx)}>
+                  <span>{item.q}</span>
+                  <ChevronDown size={17} className="faq-chevron" />
+                </button>
+                <div className="faq-answer-wrap">
+                  <div className="faq-answer"><p>{item.a}</p></div>
+                </div>
+              </div>
+            )
+          })}
         </div>
       ))}
     </div>
@@ -794,14 +829,12 @@ export default function Landing() {
 
       {/* ── Features ── */}
       <section id="features" className="feature-section">
-        <RevealSection className="section-heading">
-          <div>
-            <p className="section-kicker">Feature Tour</p>
-            <h2>Everything the app does, presented with intention.</h2>
-          </div>
-          <p className="algo-sub">Click any feature to expand details.</p>
+        <RevealSection className="section-heading centered">
+          <p className="section-kicker">Feature Tour</p>
+          <h2>Everything the app does, presented with intention.</h2>
+          <p className="section-sub">Every screen, every metric, every workflow — PsyClick keeps it clear.</p>
         </RevealSection>
-        <FeatureAccordion />
+        <FeatureShowcase />
       </section>
 
       {/* ── Usage Guide ── */}
@@ -855,38 +888,31 @@ export default function Landing() {
 
       {/* ── Download ── */}
       <section id="download" className="download-section">
-        <RevealSection>
-          <div className="download-inner">
-            <div>
-              <p className="section-kicker">Download</p>
-              <h2>PsyClick for Windows</h2>
-              <p>First public PsyClick release. Direct Windows installer for approved deployment. Requires Windows 10 or later, internet access, keyboard and mouse.</p>
-              <ul className="download-reqs">
-                <li><Check size={14} /> Windows 10 or later</li>
-                <li><Check size={14} /> Internet access for cloud database mode</li>
-                <li><Check size={14} /> Keyboard and mouse required</li>
-                <li><Check size={14} /> Clinic or research authorization</li>
-              </ul>
-              <div className="download-actions">
-                <a className="landing-btn primary" href="https://drive.google.com/file/d/14UocPZpKoXTbJU9HiyT83Z0mE22xALeR/view?usp=drive_link">
-                  <Download size={17} /> Download PsyClick-Setup.exe
-                </a>
-                <a className="landing-btn secondary" href="#guide">
-                  View installation guide
-                </a>
-              </div>
-              <p className="download-smartscreen">If Windows SmartScreen appears, choose More info then Run anyway — only if the installer source is trusted.</p>
+        <div className="download-hero-wrap">
+          <RevealSection className="download-hero-text">
+            <p className="section-kicker dl-kicker">Download</p>
+            <h2>PsyClick for Windows</h2>
+            <p className="download-tagline">First public PsyClick release — a direct Windows installer for approved clinical and research deployment.</p>
+            <div className="download-actions">
+              <a className="landing-btn primary dl-primary" href="https://drive.google.com/file/d/14UocPZpKoXTbJU9HiyT83Z0mE22xALeR/view?usp=drive_link">
+                <Download size={17} /> Download PsyClick-Setup.exe
+              </a>
+              <a className="landing-btn dl-ghost" href="#guide">
+                View installation guide
+              </a>
             </div>
-            <div className="download-badge-wrap">
-              <div className="download-badge">
-                <img src="/psyclick-icon.png" className="download-badge-icon-img" alt="PsyClick" />
-                <span>PsyClick</span>
-                <small>Windows Desktop App</small>
-                <div className="download-badge-flag flag-green">● Decision-support tool</div>
-              </div>
-            </div>
-          </div>
-        </RevealSection>
+            <ul className="download-reqs dl-reqs">
+              <li><Check size={13} /> Windows 10 or later</li>
+              <li><Check size={13} /> Internet access for cloud mode</li>
+              <li><Check size={13} /> Keyboard and mouse required</li>
+              <li><Check size={13} /> Clinic or research authorization</li>
+            </ul>
+            <p className="download-smartscreen dl-smartscreen">If Windows SmartScreen appears, choose <em>More info</em> then <em>Run anyway</em> — only if the installer source is trusted.</p>
+          </RevealSection>
+          <RevealSection delay={200} className="download-hero-mockup">
+            <ProductMockup />
+          </RevealSection>
+        </div>
       </section>
 
       {/* ── Trust & Safety ── */}
@@ -921,13 +947,12 @@ export default function Landing() {
         <RevealSection className="section-heading centered">
           <p className="section-kicker">Our Team</p>
           <h2>Built by ByteMe.</h2>
-          <p className="section-sub">Hover a card to reveal each person's role.</p>
+          <p className="section-sub">Hover a card to reveal each person's role and contact.</p>
         </RevealSection>
         <RevealSection delay={100}>
           <div className="team-grid">
             {TEAM_MEMBERS.map((member) => (
               <div className="team-card" key={member.name}>
-                {/* Initials placeholder always behind — covered by photo when it loads */}
                 <div className="team-card-placeholder">
                   <span>{member.initials}</span>
                 </div>
@@ -940,9 +965,20 @@ export default function Landing() {
                 <div className="team-card-overlay">
                   <strong>{member.name}</strong>
                   <span>{member.role}</span>
+                  <a href={`mailto:${member.email}`} className="team-card-email">{member.email}</a>
                 </div>
               </div>
             ))}
+          </div>
+        </RevealSection>
+        <RevealSection delay={200}>
+          <div className="team-mentor">
+            <span className="team-mentor-icon">🎓</span>
+            <div>
+              <p>Special thanks to our thesis group mentor,</p>
+              <strong>Sir Justine Jude Pura</strong>
+              <p>for guidance and support throughout the development of PsyClick.</p>
+            </div>
           </div>
         </RevealSection>
       </section>
@@ -1000,37 +1036,20 @@ export default function Landing() {
 function TimelineStep({ step, index, total }: { step: string; index: number; total: number }) {
   const { ref, visible } = useReveal()
   const isLast = index === total - 1
-  const isEven = index % 2 === 0
   return (
     <div
       ref={ref}
-      className={`timeline-step${visible ? ' visible' : ''}${isEven ? ' even' : ' odd'}`}
-      style={{ transitionDelay: `${index * 60}ms` }}
+      className={`timeline-step-v2${visible ? ' visible' : ''}`}
+      style={{ transitionDelay: `${index * 50}ms` }}
     >
-      {/* Left slot — filled on odd steps */}
-      <div className="timeline-slot timeline-slot-left">
-        {!isEven && (
-          <div className="timeline-content">
-            <p>{step}</p>
-          </div>
-        )}
-      </div>
-
-      {/* Center column: number node + connecting line */}
-      <div className="timeline-center-col">
-        <div className="timeline-node">
+      <div className="timeline-v2-left">
+        <div className="timeline-v2-node">
           <span>{String(index + 1).padStart(2, '0')}</span>
         </div>
-        {!isLast && <div className="timeline-line" />}
+        {!isLast && <div className="timeline-v2-line" />}
       </div>
-
-      {/* Right slot — filled on even steps */}
-      <div className="timeline-slot timeline-slot-right">
-        {isEven && (
-          <div className="timeline-content">
-            <p>{step}</p>
-          </div>
-        )}
+      <div className="timeline-v2-content">
+        <p>{step}</p>
       </div>
     </div>
   )

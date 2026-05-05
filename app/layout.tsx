@@ -14,7 +14,12 @@ export const metadata: Metadata = {
   title: "PsyClick | Clinical Psychomotor Screening",
   description: "PsyClick is a welcoming desktop companion for psychomotor screening, emotional tasks, and clinician-ready reports. Decision-support tool by ByteMe.",
   keywords: ["clinical screening", "psychomotor", "PHQ-9", "GAD-7", "decision support", "healthcare"],
-  generator: 'v0.app'
+  generator: 'v0.app',
+  icons: {
+    icon: '/psyclick-icon.png',
+    apple: '/psyclick-icon.png',
+    shortcut: '/psyclick-icon.png',
+  },
 }
 
 export const viewport: Viewport = {

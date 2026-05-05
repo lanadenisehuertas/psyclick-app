@@ -2527,7 +2527,7 @@
   width: 100%;
 }
 
-/* ── Team email on hover ── */
+/* ── Team email — hidden until card is hovered ── */
 .team-card-email {
   display: block;
   margin-top: 6px;
@@ -2535,13 +2535,18 @@
   color: #fff;
   text-decoration: none;
   word-break: break-all;
-  transition: opacity .2s;
-  opacity: 0.85;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity .25s ease .05s, transform .25s ease .05s;
+}
+.team-card:hover .team-card-email {
+  opacity: 0.9;
+  transform: translateY(0);
 }
 .team-card-email:hover {
-  opacity: 100;
+  opacity: 1;
   text-decoration: underline;
-   color: #fff;
+  color: #fff;
 }
 
 /* ── Team Mentor block ── */

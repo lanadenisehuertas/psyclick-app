@@ -868,7 +868,7 @@ export default function Landing() {
                 <li><Check size={14} /> Clinic or research authorization</li>
               </ul>
               <div className="download-actions">
-                <a className="landing-btn primary" href="/downloads/PsyClick-Setup.exe">
+                <a className="landing-btn primary" href="https://drive.google.com/file/d/14UocPZpKoXTbJU9HiyT83Z0mE22xALeR/view?usp=drive_link">
                   <Download size={17} /> Download PsyClick-Setup.exe
                 </a>
                 <a className="landing-btn secondary" href="#guide">

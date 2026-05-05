@@ -258,6 +258,13 @@ const FAQ_ITEMS = [
   },
 ]
 
+const TEAM_MEMBERS = [
+  { name: 'Member Name 1', role: 'Role 1', photo: '/team/member1.jpg', initials: 'M1' },
+  { name: 'Member Name 2', role: 'Role 2', photo: '/team/member2.jpg', initials: 'M2' },
+  { name: 'Member Name 3', role: 'Role 3', photo: '/team/member3.jpg', initials: 'M3' },
+  { name: 'Member Name 4', role: 'Role 4', photo: '/team/member4.jpg', initials: 'M4' },
+]
+
 /* ─── Sub-components ────────────────────────────────────── */
 
 function useReveal() {
@@ -303,7 +310,7 @@ function ProductMockup() {
       </div>
       <div className="device-content">
         <div className="device-sidebar">
-          <div className="device-sidebar-logo">Ψ</div>
+          <div className="device-sidebar-logo"><img src="/psyclick-icon.png" alt="Ψ" style={{ width: 22, height: 22, objectFit: 'contain' }} /></div>
           <div className="device-pill active" />
           <div className="device-pill" />
           <div className="device-pill" />
@@ -602,7 +609,7 @@ export default function Landing() {
       {/* ── Nav ── */}
       <nav className={`landing-nav${scrolled ? ' scrolled' : ''}`}>
         <a className="landing-brand" href="#top">
-          <div className="brand-psi">Ψ</div>
+          <img src="/psyclick-icon.png" className="brand-logo-img" alt="PsyClick" />
           <span className="brand-name">PsyClick</span>
         </a>
         <div className="landing-links">
@@ -821,10 +828,6 @@ export default function Landing() {
             )
           })}
         </div>
-
-        <RevealSection delay={100}>
-          <AlgorithmAccordion />
-        </RevealSection>
       </section>
 
       {/* ── Download ── */}
@@ -853,7 +856,7 @@ export default function Landing() {
             </div>
             <div className="download-badge-wrap">
               <div className="download-badge">
-                <div className="download-badge-icon">Ψ</div>
+                <img src="/psyclick-icon.png" className="download-badge-icon-img" alt="PsyClick" />
                 <span>PsyClick</span>
                 <small>Windows Desktop App</small>
                 <div className="download-badge-flag flag-green">● Decision-support tool</div>
@@ -893,22 +896,31 @@ export default function Landing() {
 
       {/* ── Team ── */}
       <section id="team" className="team-section">
-        <RevealSection>
-          <div className="team-photo" role="img" aria-label="Team photo placeholder">
-            <Users size={48} />
-            <span>Team photo — add in Vercel before launch</span>
-          </div>
-        </RevealSection>
-        <RevealSection delay={150}>
+        <RevealSection className="section-heading centered">
           <p className="section-kicker">Our Team</p>
           <h2>Built by ByteMe.</h2>
-          <p>Team member names, roles, bios, contact details, and adviser information will be added directly in Vercel before launch.</p>
-          <div className="team-tags">
-            <span>Product</span>
-            <span>Clinical workflow</span>
-            <span>Frontend</span>
-            <span>Psychomotor algorithms</span>
-            <span>ByteMe</span>
+          <p className="section-sub">Hover a card to reveal each person's role.</p>
+        </RevealSection>
+        <RevealSection delay={100}>
+          <div className="team-grid">
+            {TEAM_MEMBERS.map((member) => (
+              <div className="team-card" key={member.name}>
+                {/* Initials placeholder always behind — covered by photo when it loads */}
+                <div className="team-card-placeholder">
+                  <span>{member.initials}</span>
+                </div>
+                <img
+                  src={member.photo}
+                  alt={member.name}
+                  className="team-card-img"
+                  onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
+                />
+                <div className="team-card-overlay">
+                  <strong>{member.name}</strong>
+                  <span>{member.role}</span>
+                </div>
+              </div>
+            ))}
           </div>
         </RevealSection>
       </section>
@@ -926,7 +938,7 @@ export default function Landing() {
       <footer className="landing-footer">
         <div className="footer-inner">
           <div className="footer-brand">
-            <div className="brand-psi large">Ψ</div>
+            <img src="/psyclick-icon.png" className="brand-logo-img large" alt="PsyClick" />
             <div>
               <span className="brand-name">PsyClick</span>
               <p>Clinical decision-support tool by ByteMe.</p>

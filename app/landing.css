@@ -2146,7 +2146,7 @@
   border: 1px solid var(--border);
   background: white;
   overflow: hidden;
-  margin-bottom: 12px;
+  margin-bottom: 19px;
 }
 .faq-item.open {
   box-shadow: 0 8px 24px rgba(10,191,188,.1);

@@ -699,7 +699,7 @@
 .purpose-band {
   position: relative;
   width: 100%;
-  margin: 56px 0 0;
+  margin: 35px 0 0;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 64px;

@@ -2536,8 +2536,10 @@
   text-decoration: none;
   word-break: break-all;
   transition: opacity .2s;
+  opacity: 0.85;
 }
 .team-card-email:hover {
+  opacity: 100;
   text-decoration: underline;
 }
 

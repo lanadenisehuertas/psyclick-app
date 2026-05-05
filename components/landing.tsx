@@ -259,10 +259,10 @@ const FAQ_ITEMS = [
 ]
 
 const TEAM_MEMBERS = [
-  { name: 'Member Name 1', role: 'Role 1', photo: '/team/member1.jpg', initials: 'M1' },
-  { name: 'Member Name 2', role: 'Role 2', photo: '/team/member2.jpg', initials: 'M2' },
-  { name: 'Member Name 3', role: 'Role 3', photo: '/team/member3.jpg', initials: 'M3' },
-  { name: 'Member Name 4', role: 'Role 4', photo: '/team/member4.jpg', initials: 'M4' },
+  { name: 'Jon Añonuevo', role: 'System Architect & Lead Backend Engineer', photo: '/team/member1.jpg', initials: 'M1' },
+  { name: 'Denise Ballano', role: 'Full-Stack Developer & Quality Assurance Lead', photo: '/team/member2.jpg', initials: 'M2' },
+  { name: 'Lana Huertas', role: 'Project Manager, Backend & Lead UI/UX Designer', photo: '/team/member3.jpg', initials: 'M3' },
+  { name: 'Judea tablate', role: 'Lead Researcher & Documentation Specialist', photo: '/team/member4.jpg', initials: 'M4' },
 ]
 
 /* ─── Sub-components ────────────────────────────────────── */

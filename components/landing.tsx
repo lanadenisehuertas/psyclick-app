@@ -892,15 +892,39 @@ export default function Landing() {
           <RevealSection className="download-hero-text">
             <p className="section-kicker dl-kicker">Download</p>
             <h2>PsyClick for Windows</h2>
-            <p className="download-tagline">First public PsyClick release — a direct Windows installer for approved clinical and research deployment.</p>
-            <div className="download-actions">
-              <a className="landing-btn primary dl-primary" href="https://drive.google.com/file/d/14UocPZpKoXTbJU9HiyT83Z0mE22xALeR/view?usp=drive_link">
-                <Download size={17} /> Download PsyClick-Setup.exe
-              </a>
-              <a className="landing-btn dl-ghost" href="#guide">
-                View installation guide
-              </a>
+            <p className="download-tagline">First public PsyClick release — direct Windows installers for approved clinical and research deployment.</p>
+
+            {/* Two download cards */}
+            <div className="dl-cards">
+              <div className="dl-card">
+                <div className="dl-card-header">
+                  <span className="dl-card-icon"><UserCheck size={18} /></span>
+                  <div>
+                    <strong>Clinician Edition</strong>
+                    <span>Full clinical workflow</span>
+                  </div>
+                </div>
+                <p className="dl-card-desc">Includes dashboard, client intake, session recording, report generation, client database, and audit log. For registered clinicians only.</p>
+                <a className="landing-btn primary dl-primary" href="https://drive.google.com/file/d/1QnQB82jyHkmiTClwGfXqP6NFxmm81YvH/view?usp=drive_link">
+                  <Download size={16} /> PsyClick-Clinician-Setup.exe
+                </a>
+              </div>
+
+              <div className="dl-card">
+                <div className="dl-card-header">
+                  <span className="dl-card-icon dl-card-icon--tester"><ShieldCheck size={18} /></span>
+                  <div>
+                    <strong>Normative Tester Edition</strong>
+                    <span>Reference dataset portal</span>
+                  </div>
+                </div>
+                <p className="dl-card-desc">Includes the Normative Tester Portal only. Authorized testers complete the session flow to contribute to the normative baseline dataset.</p>
+                <a className="landing-btn primary dl-primary dl-tester" href="https://drive.google.com/file/d/14UocPZpKoXTbJU9HiyT83Z0mE22xALeR/view?usp=drive_link">
+                  <Download size={16} /> PsyClick-Tester-Setup.exe
+                </a>
+              </div>
             </div>
+
             <ul className="download-reqs dl-reqs">
               <li><Check size={13} /> Windows 10 or later</li>
               <li><Check size={13} /> Internet access for cloud mode</li>

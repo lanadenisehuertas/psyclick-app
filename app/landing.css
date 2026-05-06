@@ -2473,6 +2473,74 @@
   background: var(--teal-dark) !important;
   transform: translateY(-2px);
 }
+
+/* ── Download cards (two editions) ── */
+.dl-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin: 28px 0 24px;
+}
+.dl-card {
+  background: rgba(255,255,255,.09);
+  border: 1px solid rgba(255,255,255,.2);
+  border-radius: 20px;
+  padding: 22px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transition: background .2s, border-color .2s;
+}
+.dl-card:hover {
+  background: rgba(255,255,255,.14);
+  border-color: rgba(255,255,255,.32);
+}
+.dl-card-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.dl-card-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px; height: 38px;
+  border-radius: 10px;
+  background: rgba(10,191,188,.35);
+  color: #fff;
+  flex-shrink: 0;
+}
+.dl-card-icon--tester { background: rgba(54,201,142,.35); }
+.dl-card-header strong {
+  display: block;
+  font-size: 14px;
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.2;
+}
+.dl-card-header span {
+  font-size: 11.5px;
+  color: rgba(255,255,255,.55);
+  font-weight: 500;
+}
+.dl-card-desc {
+  font-size: 12.5px;
+  color: rgba(255,255,255,.65);
+  line-height: 1.65;
+  flex: 1;
+}
+.dl-tester {
+  background: var(--green) !important;
+  box-shadow: 0 6px 24px rgba(54,201,142,.4) !important;
+}
+.dl-tester:hover { background: #2ab37c !important; }
+.dl-card .landing-btn {
+  font-size: 13px;
+  padding: 10px 16px;
+  width: 100%;
+  justify-content: center;
+}
+
 .dl-ghost {
   display: inline-flex;
   align-items: center;

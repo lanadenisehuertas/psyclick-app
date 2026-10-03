@@ -55,7 +55,9 @@ export default function FooterWord() {
       o.textAlign = 'center'
       o.textBaseline = 'alphabetic'
       o.fillStyle = '#fff'
-      o.fillText('PsyClick', w / 2, h * 0.97)
+      // sit the glyph tops flush with the top of the box so spacing above is exact
+      const ascent = o.measureText('PsyClick').actualBoundingBoxAscent
+      o.fillText('PsyClick', w / 2, Math.min(h * 0.97, ascent + 1))
       mask = o.getImageData(0, 0, w, h).data
       img = ctx.createImageData(w, h)
       draw(performance.now())
@@ -128,8 +130,10 @@ export default function FooterWord() {
     const onLeave = () => {
       pointer.target = 0
     }
-    wrap.addEventListener('pointermove', onMove)
-    wrap.addEventListener('pointerleave', onLeave)
+    // listen on the whole footer so the blob follows the pointer over the links too
+    const zone = wrap.parentElement ?? wrap
+    zone.addEventListener('pointermove', onMove)
+    zone.addEventListener('pointerleave', onLeave)
 
     build()
     const ro = new ResizeObserver(() => build())
@@ -140,8 +144,8 @@ export default function FooterWord() {
       cancelAnimationFrame(raf)
       io.disconnect()
       ro.disconnect()
-      wrap.removeEventListener('pointermove', onMove)
-      wrap.removeEventListener('pointerleave', onLeave)
+      zone.removeEventListener('pointermove', onMove)
+      zone.removeEventListener('pointerleave', onLeave)
     }
   }, [])
 

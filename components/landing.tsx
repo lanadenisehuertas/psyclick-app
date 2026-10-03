@@ -894,6 +894,7 @@ function Footer() {
           </a>
         </div>
       </div>
+      <FooterWord />
       <div className="footer-mid">
         <nav aria-label="Footer">
           {NAV.map((l) => (
@@ -909,7 +910,6 @@ function Footer() {
         PsyClick is a decision-support tool. It does not replace clinical judgment, diagnosis, emergency assessment, or
         clinic protocols.
       </p>
-      <FooterWord />
     </footer>
   )
 }

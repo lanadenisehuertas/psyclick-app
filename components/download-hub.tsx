@@ -1,55 +1,45 @@
 'use client'
 
-import { AnimatePresence, motion, useMotionValue, useSpring, useTransform } from 'framer-motion'
+import { motion, useInView, useMotionValue, useSpring, useTransform } from 'framer-motion'
 import {
   ArrowRight,
   Check,
+  CloudOff,
   ExternalLink,
   Download,
   KeyRound,
   Monitor,
   MousePointer2,
-  ShieldCheck,
-  UserCheck,
-  Wifi,
 } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
+import AnimatedLogo from '@/components/animated-logo'
 import { EASE, Reveal } from '@/components/landing-kit'
 
 /*
- * The download centrepiece: pick an edition, see that edition's app in a
- * pointer-tilted window, download through a magnetic button, and follow the
- * real install steps (including the SmartScreen prompt).
+ * The download centrepiece: one app for the whole clinic, shown in a
+ * pointer-tilted window, a magnetic download button, and the real install
+ * steps (including the SmartScreen prompt).
  */
 
-type Edition = 'clinician' | 'tester'
-
-const EDITIONS = {
-  clinician: {
-    title: 'Clinician edition',
-    tagline: 'The full clinical workflow',
-    icon: UserCheck,
-    desc: 'For registered clinicians running screening sessions from intake to exported report.',
-    includes: ['Dashboard and client database', 'Client intake and consent', 'Calibration, PHQ-9, GAD-7, emotional task', 'Clinical Assessment Report and export', 'Audit log'],
-    file: 'PsyClick-Clinician-Setup.exe',
-    href: 'https://drive.google.com/file/d/1QnQB82jyHkmiTClwGfXqP6NFxmm81YvH/view?usp=drive_link',
-    signIn: 'Sign in with your clinician ID',
-  },
-  tester: {
-    title: 'Normative tester edition',
-    tagline: 'Builds the reference baseline',
-    icon: ShieldCheck,
-    desc: 'For authorized testers whose sessions form the population baseline used in clinical comparisons.',
-    includes: ['Normative Tester Portal', 'Same session flow as clients', 'Authorized session password', 'Not stored as a clinical record'],
-    file: 'PsyClick-Tester-Setup.exe',
-    href: 'https://drive.google.com/file/d/14UocPZpKoXTbJU9HiyT83Z0mE22xALeR/view?usp=drive_link',
-    signIn: 'Enter tester ID and session password',
-  },
-} as const
+// Update file and href when a new installer is uploaded.
+const APP = {
+  desc: 'One app for the whole clinic. Administrators, clinicians and auditors each sign in with their own ID, on any computer.',
+  includes: [
+    'Dashboard, clients and a worklist of who needs attention',
+    'Consent, typing and clicking warm-ups',
+    'PHQ-9, GAD-7 and twelve short written prompts',
+    'Report: what stood out, profile radar, attention heatmap',
+    'Works offline, syncs when online',
+    'Audit log and Security center',
+  ],
+  file: 'PsyClick-Clinician-Setup.exe',
+  href: 'https://drive.google.com/file/d/1QnQB82jyHkmiTClwGfXqP6NFxmm81YvH/view?usp=drive_link',
+  signIn: 'Sign in with the ID you were given',
+}
 
 const REQS = [
   { icon: Monitor, label: 'Windows 10 or later' },
-  { icon: Wifi, label: 'Internet for cloud mode' },
+  { icon: CloudOff, label: 'Works offline · syncs when online' },
   { icon: MousePointer2, label: 'Keyboard and mouse' },
   { icon: KeyRound, label: 'Clinic or research authorization' },
 ]
@@ -83,57 +73,60 @@ function MagneticButton({ href, children }: { href: string; children: React.Reac
   )
 }
 
-function ClinicianPreview() {
+function AppPreview() {
+  const stats: [string, string, string][] = [
+    ['15', 'Clients', 'mint'],
+    ['6', 'This week', 'cyan'],
+    ['9', 'Follow-up', 'peri'],
+    ['4', 'Self-harm', 'alert'],
+  ]
+  const rows: [string, string, string][] = [
+    ['C-015', 'review', 'Review now'],
+    ['C-002', 'follow', 'Follow up'],
+    ['C-001', 'clear', 'No concerns'],
+  ]
   return (
     <div className="pv pv-dash">
       <aside>
         <span className="pv-logo" />
+        <span className="pv-new" />
         <i className="on" />
         <i />
         <i />
         <i />
       </aside>
       <div className="pv-main">
-        <div className="pv-top">
-          <span className="pv-search" />
-          <span className="pv-cta">+ New Intake</span>
+        <div className="pv-start">
+          <span>Start a new assessment</span>
+          <b>Begin</b>
         </div>
         <div className="pv-stats">
-          {[
-            ['48', 'Total Clients', '#E0F9F9', '#0ABFBC'],
-            ['12', 'This Week', '#EEF4FF', '#5BA4CF'],
-            ['31', 'No Concerns', '#E8FBF2', '#36C98E'],
-            ['17', 'Need Review', '#FFF0F0', '#F27C7C'],
-          ].map(([v, l, bg, c], i) => (
+          {stats.map(([v, l, t], i) => (
             <motion.div
               key={l}
-              style={{ background: bg }}
+              className={`pd-stat t-${t}`}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 + i * 0.06, duration: 0.4, ease: EASE }}
             >
-              <strong style={{ color: c }}>{v}</strong>
+              <strong>{v}</strong>
               <small>{l}</small>
             </motion.div>
           ))}
         </div>
         <div className="pv-chart">
-          {[30, 52, 40, 68, 44, 58, 90].map((h, i) => (
+          {[30, 0, 52, 30, 76, 52, 100].map((h, i) => (
             <motion.i
               key={i}
               className={i === 6 ? 'today' : ''}
               initial={{ height: '6%' }}
-              animate={{ height: `${h}%` }}
+              animate={{ height: `${Math.max(6, h)}%` }}
               transition={{ delay: 0.25 + i * 0.05, duration: 0.6, ease: EASE }}
             />
           ))}
         </div>
         <div className="pv-rows">
-          {[
-            ['C-0148', 'AMBER'],
-            ['C-0147', 'GREEN'],
-            ['C-0146', 'RED'],
-          ].map(([id, f], i) => (
+          {rows.map(([id, f, label], i) => (
             <motion.div
               key={id}
               initial={{ opacity: 0, x: -10 }}
@@ -141,7 +134,7 @@ function ClinicianPreview() {
               transition={{ delay: 0.45 + i * 0.07, duration: 0.4, ease: EASE }}
             >
               <span>{id}</span>
-              <span className={`app-flag ${f.toLowerCase()}`}>{f}</span>
+              <span className={`pd-pill ${f}`}>{label}</span>
             </motion.div>
           ))}
         </div>
@@ -150,37 +143,10 @@ function ClinicianPreview() {
   )
 }
 
-function TesterPreview() {
-  return (
-    <div className="pv pv-portal">
-      <motion.div
-        className="pv-portal-card"
-        initial={{ opacity: 0, y: 14, scale: 0.97 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 0.5, ease: EASE }}
-      >
-        <img src="/psyclick-icon.png" alt="" width={44} height={44} />
-        <strong>Normative Tester Portal</strong>
-        <small>Authorized access only</small>
-        <label>
-          <span>Tester ID</span>
-          <i>NT-0042</i>
-        </label>
-        <label>
-          <span>Session password</span>
-          <i>••••••••</i>
-        </label>
-        <b>Begin session</b>
-      </motion.div>
-    </div>
-  )
-}
-
 export default function DownloadHub() {
-  const [edition, setEdition] = useState<Edition>('clinician')
   const [step, setStep] = useState(0)
   const sectionRef = useRef<HTMLElement>(null)
-  const ed = EDITIONS[edition]
+  const ed = APP
 
   // pointer spotlight + window tilt
   const px = useMotionValue(0.5)
@@ -188,10 +154,13 @@ export default function DownloadHub() {
   const rotateY = useSpring(useTransform(px, [0, 1], [-14, 8]), { stiffness: 80, damping: 18 })
   const rotateX = useSpring(useTransform(py, [0, 1], [10, -6]), { stiffness: 80, damping: 18 })
 
+  // The install steps rotate only while the section is on screen.
+  const live = useInView(sectionRef, { margin: '200px' })
   useEffect(() => {
+    if (!live) return
     const id = window.setInterval(() => setStep((s) => (s + 1) % 4), 2200)
     return () => clearInterval(id)
-  }, [])
+  }, [live])
 
   const steps = [
     { title: 'Download the installer', note: ed.file },
@@ -230,66 +199,40 @@ export default function DownloadHub() {
             <i /> Download · First public release
           </span>
           <h2>PsyClick for Windows</h2>
-          <p>Two installers, one for each role. Pick yours, run the setup, and sign in with the ID you were given.</p>
+          <p>One installer for every role. Run the setup and sign in with the ID you were given. Everything is stored on the computer and works without internet.</p>
         </Reveal>
 
         <div className="hub-grid">
           <div className="hub-left">
-            <div className="hub-switch" role="radiogroup" aria-label="Choose an edition">
-              {(Object.keys(EDITIONS) as Edition[]).map((k) => {
-                const E = EDITIONS[k]
-                const Icon = E.icon
-                const on = edition === k
-                return (
-                  <button key={k} role="radio" aria-checked={on} className={on ? 'on' : ''} onClick={() => setEdition(k)}>
-                    {on && (
-                      <motion.span
-                        layoutId="hub-pill"
-                        className="hub-switch-pill"
-                        transition={{ type: 'spring', stiffness: 380, damping: 32 }}
-                      />
-                    )}
-                    <span className="hub-switch-icon">
-                      <Icon size={18} />
-                    </span>
-                    <span className="hub-switch-text">
-                      <strong>{E.title}</strong>
-                      <small>{E.tagline}</small>
-                    </span>
-                  </button>
-                )
-              })}
+            <div className="hub-app">
+              <AnimatedLogo size={112} />
+              <div>
+                <strong>PsyClick</strong>
+                <small>Clinical decision support · Windows</small>
+              </div>
             </div>
 
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={edition}
-                className="hub-detail"
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -8 }}
-                transition={{ duration: 0.35, ease: EASE }}
-              >
-                <p className="hub-desc">{ed.desc}</p>
-                <ul className="hub-includes">
-                  {ed.includes.map((it, i) => (
-                    <motion.li
-                      key={it}
-                      initial={{ opacity: 0, x: -8 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.08 + i * 0.05, duration: 0.3 }}
-                    >
-                      <Check size={14} /> {it}
-                    </motion.li>
-                  ))}
-                </ul>
-              </motion.div>
-            </AnimatePresence>
+            <div className="hub-detail">
+              <p className="hub-desc">{ed.desc}</p>
+              <ul className="hub-includes">
+                {ed.includes.map((it, i) => (
+                  <motion.li
+                    key={it}
+                    initial={{ opacity: 0, x: -8 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.08 + i * 0.05, duration: 0.3 }}
+                  >
+                    <Check size={14} /> {it}
+                  </motion.li>
+                ))}
+              </ul>
+            </div>
 
             <div className="hub-cta">
               <MagneticButton href={ed.href}>
                 <Download size={18} />
-                Download {edition === 'clinician' ? 'clinician' : 'tester'} edition
+                Download PsyClick
                 <ArrowRight size={18} className="dl-magnet-arrow" />
               </MagneticButton>
               <span className="hub-file mono">
@@ -305,27 +248,17 @@ export default function DownloadHub() {
                   <span />
                   <span />
                   <span />
-                  <em>{edition === 'clinician' ? 'PsyClick — Clinical Edition' : 'PsyClick — Normative Tester'}</em>
+                  <em>PsyClick</em>
                 </div>
                 <div className="hub-window-body">
-                  <AnimatePresence mode="wait">
-                    <motion.div
-                      key={edition}
-                      initial={{ opacity: 0, filter: 'blur(8px)' }}
-                      animate={{ opacity: 1, filter: 'blur(0px)' }}
-                      exit={{ opacity: 0, filter: 'blur(8px)' }}
-                      transition={{ duration: 0.35 }}
-                    >
-                      {edition === 'clinician' ? <ClinicianPreview /> : <TesterPreview />}
-                    </motion.div>
-                  </AnimatePresence>
+                  <AppPreview />
                 </div>
                 <span className="hub-chip c1">
-                  <span className="flag-dot amber" /> AMBER · review
+                  <span className="flag-dot amber" /> Follow up · slowing
                 </span>
-                <span className="hub-chip c2 mono">T² 1.27×</span>
+                <span className="hub-chip c2 mono">T² 92 · limit 78</span>
                 <span className="hub-chip c3">
-                  <Check size={12} /> Report exported
+                  <Check size={12} /> Saved as PDF
                 </span>
               </motion.div>
             </div>

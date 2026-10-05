@@ -228,7 +228,7 @@ export default function HeroInstrument({ heroRef }: { heroRef: React.RefObject<H
       wctx.clearRect(0, 0, ww, wh)
       const lane = wh / 2
       // grid
-      wctx.strokeStyle = 'rgba(127, 240, 224, 0.07)'
+      wctx.strokeStyle = 'rgba(112,232,192, 0.07)'
       wctx.lineWidth = 1
       for (let x = (-(now / 40) % 20) + 20; x < ww; x += 20) {
         wctx.beginPath()
@@ -242,7 +242,7 @@ export default function HeroInstrument({ heroRef }: { heroRef: React.RefObject<H
         wctx.lineTo(ww, y)
         wctx.stroke()
       }
-      wctx.strokeStyle = 'rgba(127, 240, 224, 0.16)'
+      wctx.strokeStyle = 'rgba(112,232,192, 0.16)'
       wctx.beginPath()
       wctx.moveTo(0, lane)
       wctx.lineTo(ww, lane)
@@ -259,7 +259,7 @@ export default function HeroInstrument({ heroRef }: { heroRef: React.RefObject<H
 
       // lane 1 — keystrokes as spikes (height ∝ dwell)
       const base1 = lane * 0.72
-      glow('#5fe0d5')
+      glow('#68d8e8')
       wctx.beginPath()
       wctx.moveTo(0, base1)
       const spikes = interactive && keySpikes.length
@@ -323,8 +323,8 @@ export default function HeroInstrument({ heroRef }: { heroRef: React.RefObject<H
       })
       // sweep head
       const g = wctx.createLinearGradient(ww - 40, 0, ww, 0)
-      g.addColorStop(0, 'rgba(6, 26, 26, 0)')
-      g.addColorStop(1, 'rgba(127, 240, 224, 0.18)')
+      g.addColorStop(0, 'rgba(7,24,30, 0)')
+      g.addColorStop(1, 'rgba(112,232,192, 0.18)')
       wctx.fillStyle = g
       wctx.fillRect(ww - 40, 0, 40, wh)
     }
@@ -337,7 +337,7 @@ export default function HeroInstrument({ heroRef }: { heroRef: React.RefObject<H
         const age = now - b.t
         if (age > 1600) continue
         const k = 1 - age / 1600
-        tctx.strokeStyle = `rgba(8, 159, 157, ${0.55 * k})`
+        tctx.strokeStyle = `rgba(8,126,159, ${0.55 * k})`
         tctx.lineWidth = 1 + 2.5 * k
         tctx.lineCap = 'round'
         tctx.beginPath()
@@ -365,17 +365,19 @@ export default function HeroInstrument({ heroRef }: { heroRef: React.RefObject<H
       }
     }
 
+    // Draw only while the hero is on screen; off screen no frames are requested.
     let visible = true
-    const io = new IntersectionObserver(([e]) => (visible = e.isIntersecting))
-    io.observe(hero)
     const frame = () => {
-      if (visible) {
-        const now = performance.now()
-        drawWave(now)
-        if (interactive) drawTrail(now)
-      }
-      raf = requestAnimationFrame(frame)
+      const now = performance.now()
+      drawWave(now)
+      if (interactive) drawTrail(now)
+      raf = visible ? requestAnimationFrame(frame) : 0
     }
+    const io = new IntersectionObserver(([e]) => {
+      visible = e.isIntersecting
+      if (visible && !raf) raf = requestAnimationFrame(frame)
+    })
+    io.observe(hero)
     raf = requestAnimationFrame(frame)
 
     if (interactive) {

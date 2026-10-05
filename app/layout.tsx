@@ -1,19 +1,19 @@
 import type React from "react"
 import type { Metadata, Viewport } from "next"
-import { DM_Sans, Funnel_Display, IBM_Plex_Mono } from "next/font/google"
+import { DM_Sans, IBM_Plex_Mono, Schibsted_Grotesk } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"
 
-const display = Funnel_Display({
+const display = Schibsted_Grotesk({
   subsets: ["latin"],
   variable: "--font-display",
-  weight: ["300", "400", "500", "600", "700", "800"],
+  weight: ["400", "500", "600", "700"],
 })
 
 const sans = DM_Sans({
   subsets: ["latin"],
   variable: "--font-body",
-  weight: ["300", "400", "500", "600", "700"],
+  weight: ["400", "500", "600", "700"],
 })
 
 const mono = IBM_Plex_Mono({
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
-  themeColor: "#0ABFBC",
+  themeColor: "#0f2a33",
 }
 
 export default function RootLayout({
@@ -44,7 +44,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${display.variable} ${sans.variable} ${mono.variable}`}>
+    <html lang="en" className={`${display.variable} ${sans.variable} ${mono.variable}`} suppressHydrationWarning>
       <body className="font-sans antialiased">
         {children}
         <Analytics />

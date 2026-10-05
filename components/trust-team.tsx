@@ -1,6 +1,6 @@
 'use client'
 
-import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion'
+import { motion, useInView, useMotionValue, useSpring, useTransform } from 'framer-motion'
 import { Check, Database, GraduationCap, Lock, Mail } from 'lucide-react'
 import { useRef } from 'react'
 import { Eyebrow, Reveal } from '@/components/landing-kit'
@@ -8,17 +8,27 @@ import { TEAM_MEMBERS } from '@/lib/landing-data'
 
 /* ─── Trust & safety: each principle gets a small working illustration ─── */
 
+const FLAGS = [
+  ['clear', 'No concerns'],
+  ['follow', 'Follow up'],
+  ['review', 'Review now'],
+] as const
+
 function FlagsArt() {
+  // The float only runs while the card is on screen (an off-screen loop would
+  // keep the whole page re-rendering every frame).
+  const ref = useRef<HTMLDivElement>(null)
+  const live = useInView(ref, { margin: '200px' })
   return (
-    <div className="ta ta-flags" aria-hidden="true">
-      {(['green', 'amber', 'red'] as const).map((f, i) => (
+    <div ref={ref} className="ta ta-flags" aria-hidden="true">
+      {FLAGS.map(([f, label], i) => (
         <motion.span
           key={f}
-          className={`app-flag ${f}`}
-          animate={{ y: [0, -6, 0] }}
-          transition={{ duration: 3, repeat: Infinity, delay: i * 0.4, ease: 'easeInOut' }}
+          className={`pd-pill ${f}`}
+          animate={live ? { y: [0, -6, 0] } : { y: 0 }}
+          transition={live ? { duration: 3, repeat: Infinity, delay: i * 0.4, ease: 'easeInOut' } : { duration: 0.3 }}
         >
-          {f.toUpperCase()}
+          {label}
         </motion.span>
       ))}
       <span className="ta-caption mono">signals, not diagnoses</span>
@@ -82,10 +92,10 @@ function LocalArt() {
 }
 
 const TRUST = [
-  { art: FlagsArt, title: 'Decision support only', text: 'GREEN, AMBER, and RED are prompts for a clinician, never a diagnosis, emergency assessment, or replacement for protocol.' },
+  { art: FlagsArt, title: 'Decision support only', text: 'No concerns, Follow up and Review now are prompts for a clinician, never a diagnosis, emergency assessment, or replacement for protocol.' },
   { art: ReviewArt, title: 'Clinician review required', text: 'Every flag, score, and recommendation is reviewed by a qualified clinician before it informs any decision.' },
   { art: TimingArt, title: 'Timing, not content', text: 'What a client writes is never analyzed for meaning. Only the timing of keys and cursor movement is measured.' },
-  { art: LocalArt, title: 'Local-first data', text: 'Sessions are stored locally first, with cloud mode optional. The per-session baseline is discarded when the session ends. Built with RA 10173 in mind.' },
+  { art: LocalArt, title: 'Local-first data', text: 'Everything is stored on the computer and works offline, then syncs when online so accounts work on any clinic computer. Built with RA 10173 in mind.' },
 ]
 
 export function Trust() {
@@ -149,6 +159,8 @@ function Person({ m, i }: { m: (typeof TEAM_MEMBERS)[number]; i: number }) {
         <img
           src={m.photo}
           alt={m.name}
+          loading="lazy"
+          decoding="async"
           onError={(e) => {
             ;(e.target as HTMLImageElement).style.display = 'none'
           }}

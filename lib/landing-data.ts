@@ -3,6 +3,7 @@ import {
   BarChart3,
   Brain,
   ClipboardList,
+  Cloud,
   Database,
   FileText,
   HeartPulse,
@@ -10,7 +11,6 @@ import {
   Keyboard,
   Lock,
   MousePointer2,
-  ShieldCheck,
 } from 'lucide-react'
 
 /* ─── Data ─────────────────────────────────────────────── */
@@ -18,31 +18,31 @@ import {
 export const FEATURE_CARDS = [
   {
     icon: Lock,
-    title: 'Clinician Login & Registration',
-    intent: 'Secure clinician access.',
-    use: 'Register, receive clinician ID, sign in with password.',
-    benefit: 'Keeps clinical workflows role-based and protected.',
+    title: 'Sign-in & Accounts',
+    intent: 'Role-based access for the whole clinic.',
+    use: 'Administrators create accounts for clinicians and auditors; everyone signs in with their own ID.',
+    benefit: 'Each person sees only their own clients, on any computer.',
   },
   {
     icon: BarChart3,
     title: 'Dashboard',
-    intent: 'Quick clinic and session overview.',
-    use: 'View total clients, sessions this week, concern counts, recent sessions, charts, and export.',
-    benefit: 'Supports fast review and prioritization.',
+    intent: 'What needs attention today.',
+    use: 'Key numbers, a worklist with self-harm answers first, then Review now and Follow up, and the week at a glance.',
+    benefit: 'The clients who need you most are always on top.',
   },
   {
     icon: ClipboardList,
-    title: 'New Client Intake & Consent',
-    intent: 'Begin sessions with client identity and consent.',
-    use: 'Enter full name or client ID, confirm consent, begin baseline calibration.',
-    benefit: 'Keeps session start consistent and accountable.',
+    title: 'New Assessment & Consent',
+    intent: 'Start every session the same way.',
+    use: 'Enter a client code (never a name), read what is recorded, and record consent.',
+    benefit: 'Keeps sessions consistent, private and accountable.',
   },
   {
     icon: Keyboard,
     title: 'Keyboard Calibration',
     intent: 'Establish the client\'s baseline typing rhythm.',
-    use: 'Client types the displayed paragraph naturally.',
-    benefit: 'Gives the algorithm a within-session reference for comparison.',
+    use: 'Client types the displayed paragraph naturally. Pasted or held-key typing is refused.',
+    benefit: 'Gives the algorithm a trustworthy within-session reference.',
   },
   {
     icon: MousePointer2,
@@ -69,52 +69,52 @@ export const FEATURE_CARDS = [
     icon: Brain,
     title: 'Emotional Response Task',
     intent: 'Observe written responses and psychomotor dynamics under different emotional prompts.',
-    use: 'Client answers 12 prompts with typed responses up to 500 characters each.',
-    benefit: 'Supports per-question biomarker analysis across domains.',
+    use: 'Client answers 12 everyday prompts, from mild to emotionally strong, in their own words.',
+    benefit: 'Shows which topics and how much emotional load move the client most.',
   },
   {
     icon: FileText,
-    title: 'Decision-Support Report',
-    intent: 'Summarize clinical decision-support signals.',
-    use: 'Review flags, scores, charts, heatmaps, recommendation text, and per-question data.',
-    benefit: 'Gives clinicians a clearer basis for discussion and follow-up.',
+    title: 'Assessment Report',
+    intent: 'The most important results first.',
+    use: 'Overall result, headline cards ranked by urgency, what stood out, profile radar, session trace, attention heatmap and next steps. Save as PDF.',
+    benefit: 'Small signals are listed too, because that is where early change shows.',
   },
   {
     icon: Database,
     title: 'Client Database',
     intent: 'Manage client records.',
-    use: 'Search, filter, open client details, view session history.',
-    benefit: 'Supports continuity across sessions.',
+    use: 'Search and filter clients, open their history, and see what changed since the last visit.',
+    benefit: 'Each client is compared with their own earlier sessions.',
   },
   {
     icon: History,
     title: 'Audit Log',
-    intent: 'Track clinician and client activity.',
-    use: 'Review sign-ins, exports, session progress, and task events.',
-    benefit: 'Supports compliance review and troubleshooting.',
+    intent: 'A tamper-evident record of activity.',
+    use: 'Review sign-ins, account changes, assessment steps and exports, linked in a hash chain.',
+    benefit: 'Supports compliance review and shows if records were altered.',
   },
   {
-    icon: ShieldCheck,
-    title: 'Normative Tester Portal',
-    intent: 'Collect baseline reference sessions.',
-    use: 'Authorized testers complete the same session flow.',
-    benefit: 'Improves the normative comparison dataset.',
+    icon: Cloud,
+    title: 'Offline-first Sync',
+    intent: 'Works fully without internet.',
+    use: 'Everything is saved on the computer first, then accounts and sessions sync when online.',
+    benefit: 'Any account can sign in on any clinic computer.',
   },
 ]
 
 export const CLINICIAN_STEPS = [
   'Install and open PsyClick',
-  'Register or sign in with clinician ID and password',
-  'Click New Intake',
-  'Enter client ID / name and confirm consent',
+  'Sign in with your ID and password',
+  'Click New assessment',
+  'Enter a client code and record consent',
   'Guide the client through keyboard calibration',
   'Guide the client through mouse calibration',
   'Have the client complete PHQ-9',
   'Have the client complete GAD-7',
   'Have the client complete the emotional response task',
-  'Review the final report',
-  'Export the report if needed',
-  'Return to dashboard / client database for follow-up',
+  'Review the report: what stood out comes first',
+  'Save the report as a PDF if needed',
+  'Return to the dashboard for follow-up',
 ]
 
 export const CLIENT_STEPS = [
@@ -126,16 +126,6 @@ export const CLIENT_STEPS = [
   'Wait while the clinician reviews the report',
 ]
 
-export const TESTER_STEPS = [
-  'Open the Normative Tester Portal',
-  'Enter assigned tester ID and authorized session password',
-  'Complete keyboard calibration',
-  'Complete mouse calibration',
-  'Complete PHQ-9',
-  'Complete GAD-7',
-  'Complete emotional response task',
-  'Exit portal after the completion page',
-]
 
 export const ALGORITHM_STEPS = [
   {
@@ -154,7 +144,7 @@ export const ALGORITHM_STEPS = [
     num: '3',
     title: 'Extract',
     summary: '8-feature psychomotor vector from keyboard and mouse.',
-    detail: 'Keyboard: flight time, dwell time, typing velocity, and error rate. Cursor: velocity, jerk, path entropy, and pause frequency (stops longer than 500 ms per minute), plus coordinates for the heatmap.',
+    detail: 'Keyboard: flight time, dwell time, typing velocity, error rate, and pauses longer than 1 s per second of typing. Cursor (while answering the questionnaires): velocity, jerk, and path entropy. Cursor rests over prompt words feed the attention heatmap.',
   },
   {
     num: '4',
@@ -166,25 +156,25 @@ export const ALGORITHM_STEPS = [
     num: '5',
     title: 'Hotelling T²',
     summary: 'Multivariate anomaly detection across all features.',
-    detail: 'Compares the current feature vector to the baseline across multiple psychomotor features. Uses a Ledoit-Wolf regularized covariance inverse and an F-distribution threshold at 95% confidence, falling back to χ²(0.95; 8) ≈ 15.51 when calibration samples are few.',
+    detail: 'Compares the current feature vector with the personal baseline across all eight features at once: T² = Δxᵀ·S⁻¹·Δx, with a shrinkage-regularized covariance. Cut-offs are the 95th and 99th percentiles of 71 healthy adults (Harrell–Davis): 59.1 and 86.5 for a session.',
   },
   {
     num: '6',
     title: 'PSI & PAI',
     summary: 'Psychomotor Slowing and Agitation Indices.',
-    detail: 'PSI uses flight time, dwell time, and pause frequency — higher values indicate slowing. PAI uses typing velocity, error rate, path entropy, cursor velocity, and jerk — higher values indicate agitation.',
+    detail: 'Each index sums the T² contributions of its features in the direction of change. PSI: slower key presses, longer key holds, more pauses and more errors (hesitation). PAI: lower typing velocity, more errors, and more irregular, faster, jerkier cursor movement.',
   },
   {
     num: '7',
     title: 'Classify',
-    summary: 'Fuzzy logic maps signals to GREEN / AMBER / RED.',
-    detail: 'Converts T², PSI, and PAI into graded memberships. Produces labels: Normal, Psychomotor Retardation, Psychomotor Agitation, or Mixed Disturbance. Seven Mamdani rules assign a label and confidence. GREEN when T² stays within threshold, AMBER up to 1.5× threshold, RED beyond 1.5× when severe-class strength dominates.',
+    summary: 'Fuzzy logic maps signals to No concerns / Follow up / Review now.',
+    detail: 'Converts T², PSI, and PAI into graded memberships. Seven rules give a pattern (Normal, Psychomotor Retardation, Psychomotor Agitation, or Mixed Disturbance) and a confidence. No concerns while T² is within the healthy 95th percentile; Follow up above it; Review now above the 99th percentile when a marked pattern dominates.',
   },
   {
     num: '8',
     title: 'Normative',
     summary: 'Compare against reference population baseline.',
-    detail: 'Aggregates authorized normative tester sessions into reference statistics. Compares client/session metrics against the normative baseline when available.',
+    detail: '105 tester sessions were collected; 71 healthy adults (one session each, PHQ-9 and GAD-7 below 10, typing captured correctly) form the reference. Every score in the report is ranked against them as a percentile.',
   },
 ]
 
@@ -195,15 +185,15 @@ export const FAQ_ITEMS = [
   },
   {
     q: 'Who should use PsyClick?',
-    a: 'PsyClick is designed for clinicians running psychomotor and mental health screening sessions. Clients/patients complete guided tasks under clinician supervision. Authorized normative testers contribute to the reference dataset.',
+    a: 'PsyClick is designed for clinics running mental health screening sessions. Administrators manage accounts, clinicians run sessions, and auditors review the audit trail. Clients complete guided tasks under clinician supervision.',
   },
   {
     q: 'What does the client do during a session?',
     a: 'Clients type a paragraph naturally, click numbered circles, answer PHQ-9 and GAD-7 questionnaires, and respond to 12 written emotional prompts. There are no right or wrong answers.',
   },
   {
-    q: 'What do GREEN, AMBER, and RED mean?',
-    a: 'GREEN means Hotelling T² stayed within the client’s own threshold. AMBER means it exceeded the threshold by up to 1.5×, or the borderline class outweighed the severe class. RED means it exceeded 1.5× with severe-class strength dominant. All flags are decision-support signals, not diagnoses.',
+    q: 'What do No concerns, Follow up, and Review now mean?',
+    a: 'No concerns: behaviour changed no more than in 95 of 100 healthy adults. Follow up: a larger change than most healthy adults show. Review now: a change beyond 99 of 100 healthy adults with a marked pattern. Repeat session: too little typing to judge behaviour, with questionnaires that need no follow-up on their own. A self-harm answer on PHQ-9 is always shown first, whatever the result. All results are decision support, not diagnoses.',
   },
   {
     q: 'What are PHQ-9 and GAD-7?',
@@ -223,18 +213,18 @@ export const FAQ_ITEMS = [
   },
   {
     q: 'What system does PsyClick run on?',
-    a: 'PsyClick runs on Windows 10 or later with a keyboard and mouse. Sessions are stored locally first; internet access is only needed for the optional cloud mode. Use requires clinic or research authorization.',
+    a: 'PsyClick runs on Windows 10 or later with a keyboard and mouse. Everything is stored on the computer and works without internet; when online, accounts and sessions sync so you can sign in on any clinic computer. Use requires clinic or research authorization.',
   },
   {
     q: 'Where can I download the app?',
-    a: 'Use the Download section on this page. Clinicians install PsyClick-Clinician-Setup.exe; authorized normative testers install PsyClick-Tester-Setup.exe. If Windows SmartScreen appears, choose More info, then Run anyway, only if you trust the source.',
+    a: 'Use the Download section on this page. One installer covers every role. If Windows SmartScreen appears, choose More info, then Run anyway, only if you trust the source.',
   },
 ]
 
 export const TEAM_MEMBERS = [
-  { name: 'Jon Añonuevo', role: 'System Architect & Lead Backend Engineer', photo: '/team/member1.png', initials: 'JA', email: 'jaanonuevo@fit.edu.ph'},
-  { name: 'Denise Ballano', role: 'Full-Stack Developer & Quality Assurance Lead', photo: '/team/member2.png', initials: 'DB', email: 'dmballano@fit.edu.ph' },
-  { name: 'Lana Huertas', role: 'Project Manager, Backend & Lead UI/UX Designer', photo: '/team/member3.jpg', initials: 'LH', email: 'lrhuertas@fit.edu.ph' },
-  { name: 'Judea Tablate', role: 'Lead Researcher & Documentation Specialist', photo: '/team/member4.png', initials: 'JT', email: 'jctablate@fit.edu.ph' },
+  { name: 'Jon Añonuevo', role: 'System Architect & Lead Backend Engineer', photo: '/team/member1.webp', initials: 'JA', email: 'jaanonuevo@fit.edu.ph'},
+  { name: 'Denise Ballano', role: 'Full-Stack Developer & Quality Assurance Lead', photo: '/team/member2.webp', initials: 'DB', email: 'dmballano@fit.edu.ph' },
+  { name: 'Lana Huertas', role: 'Project Manager, Backend & Lead UI/UX Designer', photo: '/team/member3.webp', initials: 'LH', email: 'lrhuertas@fit.edu.ph' },
+  { name: 'Judea Tablate', role: 'Lead Researcher & Documentation Specialist', photo: '/team/member4.webp', initials: 'JT', email: 'jctablate@fit.edu.ph' },
 ]
 

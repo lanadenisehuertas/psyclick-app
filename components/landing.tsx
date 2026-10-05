@@ -47,7 +47,6 @@ import {
   FEATURE_CARDS,
   CLINICIAN_STEPS,
   CLIENT_STEPS,
-  TESTER_STEPS,
   ALGORITHM_STEPS,
   FAQ_ITEMS,
   TEAM_MEMBERS,
@@ -182,7 +181,7 @@ function Nav() {
     <>
       <nav className={`nav${scrolled ? ' scrolled' : ''}${hidden && !open ? ' nav-hidden' : ''}`} aria-label="Main">
         <a className="nav-brand" href="#top" aria-label="PsyClick home">
-          <img src="/psyclick-icon.png" alt="" width={28} height={28} />
+          <img src="/psyclick-icon.webp" alt="" width={28} height={28} />
           <span>PsyClick</span>
         </a>
         <div className="nav-pill">
@@ -340,7 +339,7 @@ function About() {
         <Reveal className="about-byline">
           <div className="avatar-stack">
             {TEAM_MEMBERS.map((m) => (
-              <img key={m.name} src={m.photo} alt="" />
+              <img key={m.name} src={m.photo} alt="" loading="lazy" decoding="async" />
             ))}
           </div>
           <p>
@@ -447,7 +446,7 @@ function AppShowcase() {
         </Reveal>
       </div>
       <AppDashboard />
-      <p className="dash-note">Sample data. Layout mirrors the PsyClick Clinical Edition dashboard.</p>
+      <p className="dash-note">Sample data. Layout mirrors the PsyClick dashboard.</p>
     </section>
   )
 }
@@ -490,12 +489,12 @@ function Evidence() {
 }
 
 function RolePanels() {
-  const [active, setActive] = useState<'clients' | 'clinicians' | 'testers'>('clinicians')
+  const [active, setActive] = useState<'clients' | 'clinicians' | 'admins'>('clinicians')
   const [, startTransition] = useTransition()
   const tabs = [
     { id: 'clinicians' as const, label: 'Clinicians', icon: UserCheck },
     { id: 'clients' as const, label: 'Clients', icon: Users },
-    { id: 'testers' as const, label: 'Normative testers', icon: ShieldCheck },
+    { id: 'admins' as const, label: 'Administrators', icon: ShieldCheck },
   ]
 
   return (
@@ -539,47 +538,46 @@ function RolePanels() {
           {active === 'clinicians' && (
             <>
               <div className="role-copy">
-                <h3>A complete workflow from intake to export.</h3>
+                <h3>A complete workflow from consent to report.</h3>
                 <p>
-                  A repeatable path through intake, calibration, screening, emotional response tasks, normative comparison,
-                  report export, and session history.
+                  A repeatable path through consent, two warm-ups, two questionnaires and twelve written prompts, then a
+                  report that puts the most urgent results first and compares each visit with the last.
                 </p>
                 <ul className="check-list">
-                  <li><Check size={15} /> Structured intake with recorded consent</li>
-                  <li><Check size={15} /> Behavioral context beyond questionnaires alone</li>
-                  <li><Check size={15} /> Exportable reports for documentation</li>
-                  <li><Check size={15} /> Longitudinal session history per client</li>
-                  <li><Check size={15} /> Audit trail for review and troubleshooting</li>
+                  <li><Check size={15} /> Consent recorded before anything is captured</li>
+                  <li><Check size={15} /> Behaviour measured against the client&apos;s own baseline</li>
+                  <li><Check size={15} /> Small signals listed, not only the overall result</li>
+                  <li><Check size={15} /> Change since earlier sessions, visit by visit</li>
+                  <li><Check size={15} /> Save as PDF and a full audit trail</li>
                 </ul>
               </div>
               <div className="role-visual">
                 <div className="mini-report">
                   <div className="mini-report-top">
-                    <span>Session report</span>
-                    <span className="flag-chip green">GREEN</span>
+                    <span>Assessment report</span>
+                    <span className="pd-pill follow">Follow up</span>
                   </div>
-                  <div className="mini-scores">
+                  <div className="mini-kpis">
                     {[
-                      ['PHQ-9', '7'],
-                      ['GAD-7', '5'],
-                      ['T²', '3.2'],
-                      ['PSI', '0.82'],
-                      ['PAI', '0.44'],
-                    ].map(([k, v]) => (
-                      <div key={k}>
+                      ['Behaviour change', '92', 'limit 78', 'cyan', 'Watch'],
+                      ['Depression', '6', '/ 27', 'mint', 'Mild'],
+                      ['Anxiety', '4', '/ 21', 'peri', 'Minimal'],
+                    ].map(([k, v, unit, t, chip]) => (
+                      <div key={k} className={`pd-stat t-${t}`}>
                         <small>{k}</small>
-                        <strong>{v}</strong>
+                        <strong>
+                          {v} <em>{unit}</em>
+                        </strong>
+                        <b>{chip}</b>
                       </div>
                     ))}
                   </div>
-                  <div className="mini-heat" aria-hidden="true">
-                    {Array.from({ length: 30 }).map((_, i) => (
-                      <i key={i} style={{ animationDelay: `${(i % 10) * 0.07}s` }} />
-                    ))}
-                  </div>
-                  <p className="mini-rec">
-                    <ShieldCheck size={14} /> Within normal psychomotor range. Continue routine follow-up.
-                  </p>
+                  <p className="mini-stood">What stood out</p>
+                  <ul className="mini-signals">
+                    <li className="watch">Typing slowed more than in 95% of healthy adults</li>
+                    <li className="note">Long hesitation before prompt C4: 24 s</li>
+                    <li className="note">Cursor lingered on “hard?” for 3.4 s</li>
+                  </ul>
                 </div>
               </div>
             </>
@@ -620,33 +618,41 @@ function RolePanels() {
             </>
           )}
 
-          {active === 'testers' && (
+          {active === 'admins' && (
             <>
               <div className="role-copy">
-                <h3>Your session builds the reference dataset.</h3>
+                <h3>Accounts, roles and records you can trust.</h3>
                 <p>
-                  Testers complete the same flow as clients through a separate portal. Sessions are not clinical records;
-                  they form the population baseline that gives clinical comparisons context.
+                  Create accounts for clinicians and auditors, change roles, and check the audit trail. Everything works
+                  offline and syncs when online, so every account signs in on any clinic computer.
                 </p>
                 <ul className="check-list">
-                  <li><Check size={15} /> Separate portal from the clinical workflow</li>
-                  <li><Check size={15} /> Authorized session password required</li>
-                  <li><Check size={15} /> Same structured session flow as clients</li>
+                  <li><Check size={15} /> Administrator, clinician and auditor roles</li>
+                  <li><Check size={15} /> Tamper-evident, hash-chained audit log</li>
+                  <li><Check size={15} /> Encrypted, verified backups</li>
+                  <li><Check size={15} /> Offline first, synced across devices</li>
                 </ul>
               </div>
               <div className="role-visual">
-                <div className="mini-portal">
-                  <img src="/psyclick-icon.png" alt="" width={40} height={40} />
-                  <strong>Normative Tester Portal</strong>
-                  <label>
-                    <span>Tester ID</span>
-                    <i />
-                  </label>
-                  <label>
-                    <span>Session password</span>
-                    <i />
-                  </label>
-                  <span className="btn btn-ink btn-sm btn-block">Begin session</span>
+                <div className="mini-accounts">
+                  <div className="mini-report-top">
+                    <span>Security center</span>
+                    <span className="pd-pill clear">Synced</span>
+                  </div>
+                  {[
+                    ['AS', 'Dr. A. Santos', 'Administrator'],
+                    ['MR', 'M. Reyes', 'Clinician'],
+                    ['JL', 'J. Lim', 'Auditor'],
+                  ].map(([i, n, r]) => (
+                    <div key={n} className="mini-account">
+                      <i>{i}</i>
+                      <span>
+                        <strong>{n}</strong>
+                        <small>{r}</small>
+                      </span>
+                      <b>Active</b>
+                    </div>
+                  ))}
                 </div>
               </div>
             </>
@@ -667,6 +673,67 @@ function Segments({ value, max, tone }: { value: number; max: number; tone: 'gre
   )
 }
 
+const HEAT_WORDS: [string, number][] = [
+  ['What', 0], ['words', 0.25], ['do', 0], ['you', 0], ['use', 0.1], ['to', 0], ['describe', 0.35], ['yourself', 0.7],
+  ['on', 0], ['days', 0.15], ['when', 0], ['things', 0.2], ['are', 0], ['very', 0.3], ['hard?', 1],
+]
+const TOP_WORDS: [string, number][] = [['hard?', 3.4], ['yourself', 2.2], ['left', 1.9], ['down', 1.6]]
+
+function heatColor(t: number) {
+  // white → mint → cyan → periwinkle → deep blue, as in the app
+  const stops: [number, number[]][] = [[0, [255, 255, 255]], [0.15, [112, 232, 192]], [0.45, [104, 216, 232]], [0.75, [120, 168, 216]], [1, [61, 95, 168]]]
+  for (let k = 1; k < stops.length; k++) {
+    const [p1, c1] = stops[k - 1]
+    const [p2, c2] = stops[k]
+    if (t <= p2) {
+      const f = (t - p1) / (p2 - p1)
+      return `rgb(${c1.map((v, n) => Math.round(v + (c2[n] - v) * f)).join(',')})`
+    }
+  }
+  return 'rgb(61,95,168)'
+}
+
+function MiniRadar({ run }: { run: boolean }) {
+  const axes = [['Behaviour', 96], ['Slowing', 97], ['Restless', 62], ['Anxiety', 58], ['Depression', 74]] as const
+  const C = 90
+  const R = 64
+  const pt = (k: number, f: number) => {
+    const a = -Math.PI / 2 + (k * 2 * Math.PI) / axes.length
+    return [C + Math.cos(a) * R * f, C + Math.sin(a) * R * f]
+  }
+  const poly = (f: number) => axes.map((_, k) => pt(k, f).join(',')).join(' ')
+  const client = axes.map(([, p], k) => pt(k, p / 100).join(',')).join(' ')
+  return (
+    <svg viewBox="-46 -6 272 192" className="mini-radar" aria-hidden="true">
+      <polygon points={poly(1)} fill="#fbe3e1" />
+      <polygon points={poly(0.95)} fill="#fcefd9" />
+      <polygon points={poly(0.85)} fill="#e3f7ef" stroke="#3ccb9a" strokeDasharray="3 3" />
+      {axes.map((_, k) => {
+        const [x, y] = pt(k, 1)
+        return <line key={k} x1={C} y1={C} x2={x} y2={y} stroke="#d9e6ea" />
+      })}
+      <motion.polygon
+        points={client}
+        fill="rgba(104,216,232,.4)"
+        stroke="#3d5fa8"
+        strokeWidth="2"
+        style={{ originX: `${C}px`, originY: `${C}px` }}
+        initial={{ scale: 0 }}
+        animate={{ scale: run ? 1 : 0 }}
+        transition={{ type: 'spring', stiffness: 120, damping: 16, delay: 0.2 }}
+      />
+      {axes.map(([name, p], k) => {
+        const [x, y] = pt(k, 1.22)
+        return (
+          <text key={name} x={x} y={y} textAnchor={Math.abs(x - C) < 6 ? 'middle' : x > C ? 'start' : 'end'} fontSize="10.5" fill={p >= 95 ? '#b83a38' : p >= 85 ? '#9a5b00' : '#0f2a33'} fontWeight="600">
+            {name}
+          </text>
+        )
+      })}
+    </svg>
+  )
+}
+
 function Report() {
   const ringRef = useRef<HTMLDivElement>(null)
   const inView = useInView(ringRef, { once: true, amount: 0.4 })
@@ -676,112 +743,92 @@ function Report() {
       <div className="section-head split">
         <Reveal>
           <Eyebrow>The report</Eyebrow>
-          <h2>Everything a clinician reviews, on one page.</h2>
+          <h2>The most important results, first.</h2>
         </Reveal>
         <Reveal delay={0.1}>
           <p className="section-sub">
-            The same blocks as the Clinical Assessment Report: flag, scores, indices, heatmap, and flight-time distribution.
-            Values are illustrative.
+            The same blocks as the Assessment report: overall result, what stood out, the profile against healthy adults,
+            where attention lingered, and the questionnaires. Values are illustrative.
           </p>
         </Reveal>
       </div>
 
       <div ref={ringRef} className={`bento${inView ? ' in' : ''}`}>
         <Reveal className="tile tile-flag">
-          <div className="t2-ring" style={{ '--p': inView ? 0.18 : 0 } as React.CSSProperties}>
+          <div className="t2-ring" style={{ '--p': inView ? 0.62 : 0 } as React.CSSProperties}>
             <svg viewBox="0 0 120 120" aria-hidden="true">
               <circle cx="60" cy="60" r="50" className="ring-track" />
               <circle cx="60" cy="60" r="50" className="ring-fill" />
             </svg>
             <div className="ring-center">
-              <small className="mono">Hotelling T²</small>
-              <strong>3.2</strong>
+              <small className="mono">Behaviour change</small>
+              <strong>92</strong>
             </div>
           </div>
-          <span className="app-flag green">GREEN · No Significant Concerns</span>
-          <p>Within the client’s own threshold. Continue routine monitoring.</p>
+          <span className="pd-pill follow">Follow up · slowed responses</span>
+          <p>Above the healthy limit of 78. Plan a follow-up conversation within 48–72 hours.</p>
         </Reveal>
 
         <Reveal className="tile tile-heat" delay={0.06}>
           <div className="tile-top">
-            <strong>Temporal Hesitation Heatmap</strong>
-            <span className="mono muted">reading latency →</span>
+            <strong>Where attention lingered</strong>
+            <span className="mono muted">cursor rest per word</span>
           </div>
-          <div className="heat-bands" aria-hidden="true">
-            {[
-              ['Time/Workload', '#5BA4CF'],
-              ['Interpersonal', '#0ABFBC'],
-              ['Academic', '#36C98E'],
-              ['Self-Eval', '#F27C7C'],
-            ].map(([name, color], row) => (
-              <div className="heat-band" key={name} style={{ '--band': color } as React.CSSProperties}>
-                <small>{name}</small>
-                <div>
-                  {Array.from({ length: 12 }).map((_, i) => {
-                    const v = (Math.sin(i * 1.3 + row * 2.1) + Math.cos(i * 0.7 + row) + 2) / 4
-                    return (
-                      <i
-                        key={i}
-                        style={{ '--v': v.toFixed(2), transitionDelay: `${(row * 12 + i) * 18}ms` } as React.CSSProperties}
-                      />
-                    )
-                  })}
-                </div>
-              </div>
+          <p className="heat-words">
+            {HEAT_WORDS.map(([w, t], k) => (
+              <span
+                key={k}
+                style={{ background: t ? heatColor(inView ? t : 0) : undefined, color: t > 0.8 ? '#fff' : undefined, fontWeight: t > 0.3 ? 600 : 400, transitionDelay: `${k * 40}ms` }}
+              >
+                {w}
+              </span>
             ))}
-          </div>
+          </p>
+          <ol className="heat-top">
+            {TOP_WORDS.map(([w, sec], k) => (
+              <li key={w}>
+                <span className="mono">{k + 1}</span> “{w.replace('?', '')}” <em className="mono">{sec.toFixed(1)} s</em>
+              </li>
+            ))}
+          </ol>
         </Reveal>
 
         <Reveal className="tile" delay={0.1}>
           <div className="tile-top">
-            <strong>PHQ-9 — Depression</strong>
+            <strong>Depression · PHQ-9</strong>
           </div>
           <p className="tile-figure">
-            7 <small>/ 27 · mild</small>
+            6 <small>/ 27 · mild</small>
           </p>
-          <Segments value={7} max={27} tone="green" />
+          <Segments value={6} max={27} tone="green" />
         </Reveal>
 
         <Reveal className="tile" delay={0.14}>
           <div className="tile-top">
-            <strong>GAD-7 — Anxiety</strong>
+            <strong>Anxiety · GAD-7</strong>
           </div>
           <p className="tile-figure">
-            5 <small>/ 21 · mild</small>
+            4 <small>/ 21 · minimal</small>
           </p>
-          <Segments value={5} max={21} tone="green" />
+          <Segments value={4} max={21} tone="blue" />
         </Reveal>
 
         <Reveal className="tile tile-index" delay={0.18}>
           <div className="tile-top">
-            <strong>Slowing & agitation</strong>
-            <span className="mono muted">vs. baseline</span>
+            <strong>Profile against healthy adults</strong>
           </div>
-          <div className="index-row">
-            <div>
-              <small className="mono">PSI</small>
-              <p className="tile-figure">0.82</p>
-            </div>
-            <div>
-              <small className="mono">PAI</small>
-              <p className="tile-figure">0.44</p>
-            </div>
-          </div>
-          <svg className="wave" viewBox="0 0 240 60" preserveAspectRatio="none" aria-hidden="true">
-            <path className="wave-a" d="M0,40 C30,10 60,10 90,34 C120,58 150,50 180,26 C200,12 220,16 240,24" />
-            <path className="wave-b" d="M0,30 C30,46 60,50 90,30 C120,12 150,20 180,40 C200,52 220,44 240,36" />
-          </svg>
+          <MiniRadar run={inView} />
         </Reveal>
 
         <Reveal className="tile tile-glacier" delay={0.22}>
           <div className="tile-top">
-            <strong>Keystroke Flight Time Distribution</strong>
+            <strong>What stood out</strong>
           </div>
-          <div className="histo" aria-hidden="true">
-            {[18, 34, 58, 82, 96, 74, 52, 36, 24, 14, 9, 6].map((h, i) => (
-              <span key={i} style={{ '--h': `${h}%`, transitionDelay: `${i * 50}ms` } as React.CSSProperties} />
-            ))}
-          </div>
+          <ul className="stood-list">
+            <li>Typing slowed more than in 95% of healthy adults</li>
+            <li>Long hesitation before prompt C4: 24 s</li>
+            <li>Mild depressive symptoms (PHQ-9 6)</li>
+          </ul>
         </Reveal>
       </div>
     </section>
@@ -916,9 +963,28 @@ function Footer() {
 
 /* ─── Page ──────────────────────────────────────────────── */
 
+/**
+ * Looping CSS animations keep the compositor and style engine busy even when
+ * their section is far off screen. Mark sections that are out of view so CSS
+ * can pause them; anything on screen (plus a margin) runs exactly as designed.
+ */
+function usePauseOffscreen() {
+  useEffect(() => {
+    const els = Array.from(document.querySelectorAll<HTMLElement>('main.pc > section, main.pc > footer, main.pc > div'))
+    const io = new IntersectionObserver(
+      (entries) => entries.forEach((e) => e.target.toggleAttribute('data-offscreen', !e.isIntersecting)),
+      { rootMargin: '300px 0px' },
+    )
+    els.forEach((el) => io.observe(el))
+
+    return () => io.disconnect()
+  }, [])
+}
+
 export default function Landing() {
   const [introDone, setIntroDone] = useState(false)
   const onIntroDone = useCallback(() => setIntroDone(true), [])
+  usePauseOffscreen()
   return (
     <ReactLenis root options={{ lerp: 0.1, smoothWheel: true, anchors: { offset: -80 } }}>
       <MotionConfig reducedMotion="user">

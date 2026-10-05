@@ -2,7 +2,8 @@
 
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { Environment, Float, Lightformer, MeshTransmissionMaterial, RoundedBox } from '@react-three/drei'
-import { useMemo, useRef } from 'react'
+import type React from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import * as THREE from 'three'
 
 /*
@@ -12,7 +13,7 @@ import * as THREE from 'three'
  * in flight time.
  */
 
-const TEAL = new THREE.Color('#0abfbc')
+const TEAL = new THREE.Color('#2bb8cf')
 const AMBER = new THREE.Color('#f5a623')
 
 function Backdrop() {
@@ -23,10 +24,10 @@ function Backdrop() {
     c.height = 512
     const g = c.getContext('2d')!
     const base = g.createLinearGradient(0, 0, 0, 512)
-    base.addColorStop(0, '#c6efea')
-    base.addColorStop(0.55, '#eaf9f7')
+    base.addColorStop(0, '#c6e6ef')
+    base.addColorStop(0.55, '#eaf6f9')
     base.addColorStop(0.62, '#ffffff')
-    base.addColorStop(1, '#b0e6df')
+    base.addColorStop(1, '#b0dae6')
     g.fillStyle = base
     g.fillRect(0, 0, 512, 512)
     const blob = (x: number, y: number, r: number, col: string) => {
@@ -37,7 +38,7 @@ function Backdrop() {
       g.fillRect(0, 0, 512, 512)
     }
     blob(150, 300, 180, 'rgba(54,201,142,0.35)')
-    blob(390, 180, 160, 'rgba(91,164,207,0.38)')
+    blob(390, 180, 160, 'rgba(120,168,216,0.38)')
     blob(256, 320, 120, 'rgba(255,255,255,0.9)')
     const t = new THREE.CanvasTexture(c)
     t.colorSpace = THREE.SRGBColorSpace
@@ -97,8 +98,8 @@ function Pointer() {
         distortion={0.15}
         distortionScale={0.3}
         temporalDistortion={0.05}
-        color="#e3fbf7"
-        attenuationColor="#5fd6cf"
+        color="#e3f6fb"
+        attenuationColor="#6fd6e6"
         attenuationDistance={1.4}
       />
     </mesh>
@@ -142,7 +143,7 @@ function Trace({ end }: { end: THREE.Vector3 }) {
 
   return (
     <mesh ref={ref} geometry={geometry}>
-      <meshBasicMaterial color="#0abfbc" toneMapped={false} transparent />
+      <meshBasicMaterial color="#2bb8cf" toneMapped={false} transparent />
     </mesh>
   )
 }
@@ -176,7 +177,7 @@ function Keycap({ pos, rot, at, late }: (typeof KEYS)[number]) {
     <group position={pos} rotation={rot}>
       <mesh position={[0, 0, -0.23]}>
         <boxGeometry args={[0.58, 0.58, 0.04]} />
-        <meshBasicMaterial ref={led} color="#0abfbc" transparent opacity={0.15} toneMapped={false} />
+        <meshBasicMaterial ref={led} color="#2bb8cf" transparent opacity={0.15} toneMapped={false} />
       </mesh>
       <group ref={cap}>
         <RoundedBox args={[0.62, 0.62, 0.34]} radius={0.1} smoothness={5}>
@@ -185,8 +186,8 @@ function Keycap({ pos, rot, at, late }: (typeof KEYS)[number]) {
             thickness={0.6}
             roughness={0.08}
             ior={1.42}
-            color={late ? '#fff2dc' : '#e6fbf8'}
-            attenuationColor={late ? '#f5a623' : '#0abfbc'}
+            color={late ? '#fff2dc' : '#e6f6fb'}
+            attenuationColor={late ? '#f5a623' : '#2bb8cf'}
             attenuationDistance={1.2}
             clearcoat={1}
             clearcoatRoughness={0.05}
@@ -195,7 +196,7 @@ function Keycap({ pos, rot, at, late }: (typeof KEYS)[number]) {
         {/* dished top */}
         <mesh position={[0, 0, 0.175]}>
           <circleGeometry args={[0.19, 40]} />
-          <meshBasicMaterial color={late ? '#ffd892' : '#9ff0e6'} transparent opacity={0.35} toneMapped={false} />
+          <meshBasicMaterial color={late ? '#ffd892' : '#9fdef0'} transparent opacity={0.35} toneMapped={false} />
         </mesh>
       </group>
     </group>
@@ -232,10 +233,38 @@ function Rig() {
   )
 }
 
+/** True while the element is on screen and the tab is visible. */
+function useOnScreen(ref: React.RefObject<HTMLElement | null>) {
+  const [onScreen, setOnScreen] = useState(true)
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    let inView = true
+    const update = () => setOnScreen(inView && document.visibilityState === 'visible')
+    const io = new IntersectionObserver(([e]) => {
+      inView = e.isIntersecting
+      update()
+    })
+    io.observe(el)
+    document.addEventListener('visibilitychange', update)
+    return () => {
+      io.disconnect()
+      document.removeEventListener('visibilitychange', update)
+    }
+  }, [ref])
+  return onScreen
+}
+
 export default function HeroGlass({ still = false }: { still?: boolean }) {
+  // The glass materials re-render several passes per frame. Nothing is drawn
+  // while the hero is off screen or the tab is hidden, so stop the loop then;
+  // what is on screen looks and moves exactly the same.
+  const wrap = useRef<HTMLDivElement>(null)
+  const onScreen = useOnScreen(wrap)
   return (
+    <div ref={wrap} style={{ width: '100%', height: '100%' }}>
     <Canvas
-      frameloop={still ? 'demand' : 'always'}
+      frameloop={still ? 'demand' : onScreen ? 'always' : 'never'}
       dpr={[1, 1.5]}
       camera={{ position: [0, 0, 6.4], fov: 38 }}
       gl={{ antialias: true, powerPreference: 'high-performance' }}
@@ -249,9 +278,10 @@ export default function HeroGlass({ still = false }: { still?: boolean }) {
       <Environment resolution={256}>
         <Lightformer form="rect" intensity={3} position={[0, 4, -2]} scale={[12, 2, 1]} />
         <Lightformer form="rect" intensity={2} position={[-5, 0, 2]} rotation-y={Math.PI / 2} scale={[8, 3, 1]} />
-        <Lightformer form="rect" intensity={1.5} color="#5fd6cf" position={[5, -1, 1]} rotation-y={-Math.PI / 2} scale={[8, 3, 1]} />
+        <Lightformer form="rect" intensity={1.5} color="#6fd6e6" position={[5, -1, 1]} rotation-y={-Math.PI / 2} scale={[8, 3, 1]} />
         <Lightformer form="circle" intensity={4} position={[0, 0, 6]} scale={3} />
       </Environment>
     </Canvas>
+    </div>
   )
 }

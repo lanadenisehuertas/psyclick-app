@@ -1,6 +1,6 @@
 'use client'
 
-import { Check, Download } from 'lucide-react'
+import { Check, Download, Laptop, Monitor } from 'lucide-react'
 import type React from 'react'
 import { Eyebrow, Reveal } from '@/components/landing-kit'
 import { FEATURE_CARDS } from '@/lib/landing-data'
@@ -13,33 +13,33 @@ import { FEATURE_CARDS } from '@/lib/landing-data'
  */
 
 const STAGE: Record<string, string> = {
-  'Clinician Login & Registration': 'Access',
+  'Sign-in & Accounts': 'Access',
   Dashboard: 'Overview',
-  'New Client Intake & Consent': 'Setup',
+  'New Assessment & Consent': 'Setup',
   'Keyboard Calibration': 'Calibration',
   'Mouse Calibration': 'Calibration',
   'PHQ-9': 'Screening',
   'GAD-7': 'Screening',
   'Emotional Response Task': 'Screening',
-  'Decision-Support Report': 'Review',
+  'Assessment Report': 'Review',
   'Client Database': 'Records',
   'Audit Log': 'Records',
-  'Normative Tester Portal': 'Normative',
+  'Offline-first Sync': 'Sync',
 }
 
 const ORDER: { title: string; wide?: boolean }[] = [
-  { title: 'Decision-Support Report', wide: true },
+  { title: 'Assessment Report', wide: true },
   { title: 'Dashboard' },
-  { title: 'Clinician Login & Registration' },
+  { title: 'Sign-in & Accounts' },
   { title: 'Keyboard Calibration' },
   { title: 'Mouse Calibration' },
   { title: 'Emotional Response Task', wide: true },
-  { title: 'New Client Intake & Consent' },
+  { title: 'New Assessment & Consent' },
   { title: 'PHQ-9' },
   { title: 'GAD-7' },
   { title: 'Client Database' },
   { title: 'Audit Log', wide: true },
-  { title: 'Normative Tester Portal', wide: true },
+  { title: 'Offline-first Sync', wide: true },
 ]
 
 /* ── Sketches ── */
@@ -47,15 +47,15 @@ const ORDER: { title: string; wide?: boolean }[] = [
 const ReportSketch = () => (
   <div className="sk sk-report">
     <div className="sk-banner">
-      <span className="flag-dot amber" /> Moderate Concerns <em>68%</em>
+      <span className="flag-dot amber" /> Follow up · slowed responses
     </div>
     <div className="sk-metrics">
       {[
-        ['PHQ-9', '6'],
-        ['GAD-7', '4'],
-        ['T²', '1.27×'],
-      ].map(([k, v]) => (
-        <div key={k}>
+        ['Behaviour', '92', 'cyan'],
+        ['PHQ-9', '6', 'mint'],
+        ['GAD-7', '4', 'peri'],
+      ].map(([k, v, t]) => (
+        <div key={k} className={`pd-stat t-${t}`}>
           <small>{k}</small>
           <strong>{v}</strong>
         </div>
@@ -67,7 +67,7 @@ const ReportSketch = () => (
       ))}
     </div>
     <span className="sk-export">
-      <Download size={11} /> Export
+      <Download size={11} /> Save as PDF
     </span>
   </div>
 )
@@ -75,8 +75,8 @@ const ReportSketch = () => (
 const DashboardSketch = () => (
   <div className="sk sk-dash">
     <div className="sk-stats">
-      {['#E0F9F9', '#EEF4FF', '#E8FBF2', '#FFF0F0'].map((bg, i) => (
-        <i key={bg} style={{ background: bg, borderColor: ['#0ABFBC', '#5BA4CF', '#36C98E', '#F27C7C'][i] }} />
+      {['mint', 'cyan', 'peri', 'alert'].map((t) => (
+        <i key={t} className={`pd-stat t-${t}`} />
       ))}
     </div>
     <div className="sk-bars">
@@ -89,8 +89,8 @@ const DashboardSketch = () => (
 
 const LoginSketch = () => (
   <div className="sk sk-login">
-    <img src="/psyclick-icon.png" alt="" width={26} height={26} />
-    <span className="sk-field mono">CL-2026-014</span>
+    <img src="/psyclick-icon.webp" alt="" width={26} height={26} loading="lazy" decoding="async" />
+    <span className="sk-field mono">2026006</span>
     <span className="sk-field mono">••••••••</span>
     <span className="sk-btn">Sign in</span>
   </div>
@@ -127,26 +127,26 @@ const MouseSketch = () => (
 
 const EmotionalSketch = () => (
   <div className="sk sk-emo">
-    <small className="mono">Level B · mild stressor</small>
+    <small className="mono">Moderate · Relationships</small>
     <p>
-      Describe how you typically react when unexpected <mark>changes</mark> are made to plans you have already prepared.
+      How did you react the last time you felt you <mark>let down</mark> someone important?
     </p>
     <p className="sk-typed mono">
-      I try to adjust but it takes me a while<b />
+      I kept apologising and avoided them for a while<b />
     </p>
   </div>
 )
 
 const IntakeSketch = () => (
   <div className="sk sk-intake">
-    <span className="sk-field mono">C-0148</span>
+    <span className="sk-field mono">C-016</span>
     <span className="sk-consent">
       <i>
         <Check size={10} />
       </i>
-      Consent confirmed
+      Consent recorded
     </span>
-    <span className="sk-btn">Begin calibration</span>
+    <span className="sk-btn">Start assessment</span>
   </div>
 )
 
@@ -171,14 +171,14 @@ const ItemsSketch = ({ n, done }: { n: number; done: number }) => (
 const DatabaseSketch = () => (
   <div className="sk sk-db">
     {[
-      ['48', 'C-0148', 'amber'],
-      ['47', 'C-0147', 'green'],
-      ['46', 'C-0146', 'red'],
-    ].map(([a, id, f]) => (
+      ['15', 'C-015', 'review', 'Review now'],
+      ['02', 'C-002', 'follow', 'Follow up'],
+      ['01', 'C-001', 'clear', 'No concerns'],
+    ].map(([a, id, f, label]) => (
       <div key={id}>
         <i>{a}</i>
         <span>{id}</span>
-        <b className={`app-flag ${f}`}>{f.toUpperCase()}</b>
+        <b className={`pd-pill ${f}`}>{label}</b>
       </div>
     ))}
   </div>
@@ -187,10 +187,10 @@ const DatabaseSketch = () => (
 const AuditSketch = () => (
   <div className="sk sk-audit">
     {[
-      ['09:02', 'Clinician signed in'],
-      ['09:05', 'Intake started · C-0148'],
-      ['09:19', 'Emotional task completed'],
-      ['09:24', 'Report exported'],
+      ['09:02', 'Logged in · Dr. A. Santos'],
+      ['09:05', 'Consent recorded · C-016'],
+      ['09:19', 'Finished session · C-016'],
+      ['09:24', 'Saved report as PDF'],
     ].map(([t, e], i) => (
       <div key={t} style={{ animationDelay: `${i * 0.6}s` }}>
         <span className="mono">{t}</span>
@@ -201,30 +201,38 @@ const AuditSketch = () => (
   </div>
 )
 
-const NormativeSketch = () => (
-  <div className="sk sk-norm">
-    <svg viewBox="0 0 200 70" preserveAspectRatio="none" aria-hidden="true">
-      <rect x="62" y="0" width="76" height="70" className="band" />
-      <path d="M0,68 C40,68 60,8 100,6 C140,8 160,68 200,68" className="curve" />
-      <line x1="128" y1="0" x2="128" y2="70" className="marker" />
-    </svg>
-    <span className="sk-norm-label mono">16–84% normative band · client at 78th percentile</span>
+const SyncSketch = () => (
+  <div className="sk sk-sync">
+    <span className="sk-device">
+      <Laptop size={22} />
+      <small>Clinic room</small>
+    </span>
+    <span className="sk-sync-line" aria-hidden="true">
+      <i />
+      <i />
+      <i />
+    </span>
+    <span className="sk-device">
+      <Monitor size={22} />
+      <small>Front desk</small>
+    </span>
+    <span className="sk-sync-label mono">Saved on this computer · synced 09:41</span>
   </div>
 )
 
 const SKETCH: Record<string, () => React.ReactElement> = {
-  'Decision-Support Report': ReportSketch,
+  'Assessment Report': ReportSketch,
   Dashboard: DashboardSketch,
-  'Clinician Login & Registration': LoginSketch,
+  'Sign-in & Accounts': LoginSketch,
   'Keyboard Calibration': KeyboardSketch,
   'Mouse Calibration': MouseSketch,
   'Emotional Response Task': EmotionalSketch,
-  'New Client Intake & Consent': IntakeSketch,
+  'New Assessment & Consent': IntakeSketch,
   'PHQ-9': () => <ItemsSketch n={9} done={3} />,
   'GAD-7': () => <ItemsSketch n={7} done={2} />,
   'Client Database': DatabaseSketch,
   'Audit Log': AuditSketch,
-  'Normative Tester Portal': NormativeSketch,
+  'Offline-first Sync': SyncSketch,
 }
 
 export default function FeaturesBento() {

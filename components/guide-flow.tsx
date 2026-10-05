@@ -1,10 +1,10 @@
 'use client'
 
-import { AnimatePresence, motion, useMotionValueEvent, useScroll, useSpring, useTransform } from 'framer-motion'
+import { AnimatePresence, motion, useInView, useMotionValueEvent, useScroll, useSpring, useTransform } from 'framer-motion'
 import { Check, Download, FileText, Keyboard, MousePointer2, ClipboardList, Brain, UserCheck } from 'lucide-react'
-import { useEffect, useRef, useState, useTransition } from 'react'
+import { createContext, useContext, useEffect, useRef, useState, useTransition } from 'react'
 import { EASE, Eyebrow, Reveal } from '@/components/landing-kit'
-import { CLIENT_STEPS, CLINICIAN_STEPS, TESTER_STEPS } from '@/lib/landing-data'
+import { CLIENT_STEPS, CLINICIAN_STEPS } from '@/lib/landing-data'
 
 /*
  * How a session runs, as a scroll-driven flow. The step nearest the middle of
@@ -12,8 +12,8 @@ import { CLIENT_STEPS, CLINICIAN_STEPS, TESTER_STEPS } from '@/lib/landing-data'
  * PsyClick screen (copy and colors follow the app's own pages).
  */
 
-type Role = 'clinician' | 'client' | 'tester'
-type Phase = 'intake' | 'portal' | 'keyboard' | 'mouse' | 'questionnaire' | 'emotional' | 'review' | 'done'
+type Role = 'clinician' | 'client'
+type Phase = 'intake' | 'keyboard' | 'mouse' | 'questionnaire' | 'emotional' | 'review'
 
 const FLOWS: Record<Role, { steps: string[]; phases: Phase[] }> = {
   clinician: {
@@ -24,28 +24,22 @@ const FLOWS: Record<Role, { steps: string[]; phases: Phase[] }> = {
     steps: CLIENT_STEPS,
     phases: ['intake', 'keyboard', 'mouse', 'questionnaire', 'emotional', 'review'],
   },
-  tester: {
-    steps: TESTER_STEPS,
-    phases: ['portal', 'portal', 'keyboard', 'mouse', 'questionnaire', 'questionnaire', 'emotional', 'done'],
-  },
 }
 
 const STAGES = [
-  { id: 'setup', label: 'Setup', phases: ['intake', 'portal'] },
+  { id: 'setup', label: 'Setup', phases: ['intake'] },
   { id: 'calibration', label: 'Calibration', phases: ['keyboard', 'mouse'] },
   { id: 'screening', label: 'Screening', phases: ['questionnaire', 'emotional'] },
-  { id: 'review', label: 'Review', phases: ['review', 'done'] },
+  { id: 'review', label: 'Review', phases: ['review'] },
 ]
 
 const PHASE_ICON: Record<Phase, typeof Check> = {
   intake: UserCheck,
-  portal: UserCheck,
   keyboard: Keyboard,
   mouse: MousePointer2,
   questionnaire: ClipboardList,
   emotional: Brain,
   review: FileText,
-  done: Check,
 }
 
 const PASSAGE =
@@ -53,12 +47,18 @@ const PASSAGE =
 
 /* ── Device screens (mirroring the PsyClick app) ── */
 
+// The demo screens tick on timers. They only tick while the section is on
+// screen, so an off-screen section costs nothing; on screen nothing changes.
+const FlowLive = createContext(true)
+
 function Typing() {
   const [n, setN] = useState(0)
+  const live = useContext(FlowLive)
   useEffect(() => {
+    if (!live) return
     const id = window.setInterval(() => setN((v) => (v >= PASSAGE.length ? 0 : v + 1)), 55)
     return () => clearInterval(id)
-  }, [])
+  }, [live])
   const pct = Math.round((n / PASSAGE.length) * 100)
   return (
     <div className="scr">
@@ -76,7 +76,7 @@ function Typing() {
         </p>
       </div>
       <div className="scr-progress">
-        <i style={{ width: `${pct}%`, background: pct >= 80 ? '#36C98E' : '#0ABFBC' }} />
+        <i style={{ width: `${pct}%`, background: pct >= 80 ? '#36C98E' : '#2bb8cf' }} />
       </div>
       <span className="scr-meta">{pct}% complete</span>
     </div>
@@ -93,10 +93,12 @@ const CIRCLES = [
 
 function Clicks() {
   const [k, setK] = useState(0)
+  const live = useContext(FlowLive)
   useEffect(() => {
+    if (!live) return
     const id = window.setInterval(() => setK((v) => (v + 1) % 7), 700)
     return () => clearInterval(id)
-  }, [])
+  }, [live])
   return (
     <div className="scr">
       <h5>Click Task</h5>
@@ -128,12 +130,14 @@ const LIKERT = ['Not at all', 'Several days', 'More than half the days', 'Nearly
 
 function Questionnaire() {
   const [sel, setSel] = useState(-1)
+  const live = useContext(FlowLive)
   useEffect(() => {
+    if (!live) return
     const seq = [-1, 0, 1, 1, -1]
     let i = 0
     const id = window.setInterval(() => setSel(seq[(i = (i + 1) % seq.length)]), 900)
     return () => clearInterval(id)
-  }, [])
+  }, [live])
   return (
     <div className="scr">
       <h5>PHQ-9</h5>
@@ -161,10 +165,12 @@ const REPLY = 'Usually near the end of the week when everything piles up'
 
 function Emotional() {
   const [n, setN] = useState(0)
+  const live = useContext(FlowLive)
   useEffect(() => {
+    if (!live) return
     const id = window.setInterval(() => setN((v) => (v >= REPLY.length + 12 ? 0 : v + 1)), 75)
     return () => clearInterval(id)
-  }, [])
+  }, [live])
   return (
     <div className="scr">
       <h5>Emotional Response Task</h5>
@@ -187,69 +193,50 @@ function Emotional() {
   )
 }
 
-function Intake({ tester }: { tester?: boolean }) {
+function Intake() {
   return (
     <div className="scr">
-      <h5>{tester ? 'Normative Tester Portal' : 'New Client Intake'}</h5>
-      <p className="scr-sub">{tester ? 'Authorized testers only.' : 'Client identity and consent before calibration.'}</p>
+      <h5>Set up the session</h5>
+      <p className="scr-sub">Choose the client and record their consent.</p>
       <div className="scr-card">
-        <small>{tester ? 'Tester ID' : 'Client ID'}</small>
-        <p className="scr-field-line">{tester ? 'NT-0042' : 'C-0148'}</p>
+        <small>Client code</small>
+        <p className="scr-field-line">C-016</p>
       </div>
       <div className="scr-card">
-        <small>{tester ? 'Session password' : 'Consent'}</small>
-        {tester ? (
-          <p className="scr-field-line">••••••••</p>
-        ) : (
-          <p className="scr-consent">
-            <motion.span
-              className="scr-check"
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ delay: 0.5, type: 'spring', stiffness: 400, damping: 18 }}
-            >
-              <Check size={12} />
-            </motion.span>
-            Client consents to the screening session
-          </p>
-        )}
+        <small>Consent</small>
+        <p className="scr-consent">
+          <motion.span
+            className="scr-check"
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ delay: 0.5, type: 'spring', stiffness: 400, damping: 18 }}
+          >
+            <Check size={12} />
+          </motion.span>
+          The client understands and agrees to this recording
+        </p>
       </div>
-      <span className="scr-btn">{tester ? 'Begin session' : 'Begin baseline calibration'}</span>
+      <span className="scr-btn">Start assessment for C-016</span>
     </div>
   )
 }
 
-function Review({ done }: { done?: boolean }) {
-  if (done)
-    return (
-      <div className="scr scr-center">
-        <motion.span
-          className="scr-big-check"
-          initial={{ scale: 0, rotate: -30 }}
-          animate={{ scale: 1, rotate: 0 }}
-          transition={{ type: 'spring', stiffness: 260, damping: 16 }}
-        >
-          <Check size={30} />
-        </motion.span>
-        <h5>Session complete</h5>
-        <p className="scr-sub">Thank you. Your session adds to the normative baseline.</p>
-      </div>
-    )
+function Review() {
   return (
     <div className="scr">
-      <h5>Clinical Assessment Report</h5>
-      <p className="scr-sub">Client: C-0148 · Oct 3, 2026</p>
+      <h5>Assessment report</h5>
+      <p className="scr-sub">Client C-016 · Mon, 5 Oct 2026</p>
       <div className="scr-banner">
-        <span className="flag-dot amber" /> Moderate Concerns
-        <em>Confidence 68%</em>
+        <span className="flag-dot amber" /> Follow up · slowed responses
+        <em>Not a diagnosis</em>
       </div>
       <div className="scr-metrics">
         {[
-          ['PHQ-9', '6', 'Mild'],
-          ['GAD-7', '4', 'Minimal'],
-          ['T²', '1.27×', 'threshold'],
-        ].map(([k, v, s]) => (
-          <div key={k}>
+          ['Behaviour change', '92', 'limit 78', 'cyan'],
+          ['Depression', '6', 'Mild', 'mint'],
+          ['Anxiety', '4', 'Minimal', 'peri'],
+        ].map(([k, v, s, t]) => (
+          <div key={k} className={`pd-stat t-${t}`}>
             <small>{k}</small>
             <strong>{v}</strong>
             <span>{s}</span>
@@ -257,7 +244,7 @@ function Review({ done }: { done?: boolean }) {
         ))}
       </div>
       <span className="scr-btn">
-        <Download size={13} /> Export Full Report
+        <Download size={13} /> Save as PDF
       </span>
     </div>
   )
@@ -267,8 +254,6 @@ function Screen({ phase }: { phase: Phase }) {
   switch (phase) {
     case 'intake':
       return <Intake />
-    case 'portal':
-      return <Intake tester />
     case 'keyboard':
       return <Typing />
     case 'mouse':
@@ -279,8 +264,6 @@ function Screen({ phase }: { phase: Phase }) {
       return <Emotional />
     case 'review':
       return <Review />
-    case 'done':
-      return <Review done />
   }
 }
 
@@ -291,6 +274,8 @@ export default function GuideFlow() {
   const [, startTransition] = useTransition()
   const [active, setActive] = useState(0)
   const listRef = useRef<HTMLOListElement>(null)
+  const sectionRef = useRef<HTMLElement>(null)
+  const live = useInView(sectionRef)
   const { steps, phases } = FLOWS[role]
 
   const { scrollYProgress } = useScroll({ target: listRef, offset: ['start 0.55', 'end 0.55'] })
@@ -307,7 +292,8 @@ export default function GuideFlow() {
   const PhaseIcon = PHASE_ICON[phase]
 
   return (
-    <section id="guide" className="flow">
+    <FlowLive.Provider value={live}>
+    <section id="guide" className="flow" ref={sectionRef}>
       <div className="flow-glow" aria-hidden="true" />
       <div className="flow-inner">
         <div className="flow-head">
@@ -318,7 +304,7 @@ export default function GuideFlow() {
           <Reveal delay={0.1} className="flow-head-side">
             <p>Every session follows the same order, so results stay comparable from visit to visit.</p>
             <div className="segmented dark" role="tablist" aria-label="Choose a flow">
-              {(['clinician', 'client', 'tester'] as const).map((r) => (
+              {(['clinician', 'client'] as const).map((r) => (
                 <button
                   key={r}
                   role="tab"
@@ -326,7 +312,7 @@ export default function GuideFlow() {
                   className={role === r ? 'on' : ''}
                   onClick={() => startTransition(() => setRole(r))}
                 >
-                  {r === 'clinician' ? 'Clinician' : r === 'client' ? 'Client' : 'Normative tester'}
+                  {r === 'clinician' ? 'Clinician' : 'Client'}
                 </button>
               ))}
             </div>
@@ -421,5 +407,6 @@ export default function GuideFlow() {
         </div>
       </div>
     </section>
+    </FlowLive.Provider>
   )
 }

@@ -8,7 +8,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
  * Opening takeover: an illustrative session told in four beats.
  *   1. say   — the client types "I'm fine" in the emotional response task
  *   2. hands — keystroke timing and a hesitant cursor path surface underneath
- *   3. sees  — those signals resolve into an AMBER decision-support flag
+ *   3. sees  — those signals resolve into a Follow up decision-support result
  *   4. claim — the thesis line, then the overlay lifts to reveal the page
  * Shown once per browser session; skippable; collapsed for reduced motion.
  */
@@ -126,7 +126,7 @@ export default function IntroTakeover({ onDone }: { onDone?: () => void }) {
 
             <div className="intro-top">
               <span className="intro-brand">
-                <img src="/psyclick-icon.png" alt="" width={22} height={22} />
+                <img src="/psyclick-icon.webp" alt="" width={22} height={22} />
                 PsyClick
               </span>
               <span className="intro-meta mono">Illustrative session · Emotional Response Task</span>
@@ -255,7 +255,7 @@ export default function IntroTakeover({ onDone }: { onDone?: () => void }) {
                         <span>mild</span>
                       </div>
                       <div>
-                        <small className="mono">Hotelling T² vs. personal threshold</small>
+                        <small className="mono">Behaviour change vs. healthy limit</small>
                         <div className="intro-bar">
                           <motion.i
                             initial={{ width: '6%' }}
@@ -264,7 +264,7 @@ export default function IntroTakeover({ onDone }: { onDone?: () => void }) {
                           />
                           <b style={{ left: '50%' }} title="threshold" />
                         </div>
-                        <span>1.27× threshold · AMBER band is 1.0–1.5×</span>
+                        <span>92 · healthy limit 78 · upper limit 114</span>
                       </div>
                     </div>
                     <motion.div
@@ -273,7 +273,7 @@ export default function IntroTakeover({ onDone }: { onDone?: () => void }) {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.5, ease: EASE, delay: 1.2 }}
                     >
-                      <span className="flag-dot amber" /> AMBER · Psychomotor Retardation, Borderline (68% confidence)
+                      <span className="flag-dot amber" /> Follow up · slowed responses (pattern clarity 68%)
                     </motion.div>
                   </motion.div>
                 )}

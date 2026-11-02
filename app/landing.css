@@ -6556,17 +6556,6 @@ html.intro-seen .intro {
   [data-reveal] { filter: none !important; }
 }
 
-/* skip layout and paint for far sections until they come near */
-@media (max-width: 900px) {
-  #faq,
-  #team,
-  .trust,
-  #evidence,
-  #report {
-    content-visibility: auto;
-    contain-intrinsic-size: auto 1100px;
-  }
-}
 
 /* footer runs into the page bottom; the wordmark sinks and is cut by the edge */
 .footer {
@@ -6605,4 +6594,28 @@ html.intro-seen .intro {
   margin-left: -10px;
   border-radius: 10px;
   background: rgba(7, 24, 30, 0.55);
+}
+
+
+/* Algorithm: timeline holds while scroll walks the eight steps */
+.algo-pin { position: relative; }
+.algo-pin > .algo-tl {
+  position: sticky;
+  top: 96px;
+  z-index: 1;
+}
+.algo-spacer { height: 320vh; }
+.algo-panel { min-height: 300px; align-content: start; }
+@media (max-width: 900px) {
+  .algo-pin > .algo-tl { top: 76px; }
+  .algo-spacer { height: 260vh; }
+  .algo-panel { min-height: 0; }
+}
+@media (max-width: 600px) {
+  /* one row of dots while pinned; the panel names the active step */
+  .algo-steps { grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 0; }
+  .algo-steps button { padding: 0 0 4px; gap: 4px; }
+  .algo-dot { width: 36px; height: 36px; }
+  .algo-step-title { display: none; }
+  .algo-panel { margin-top: 18px; }
 }

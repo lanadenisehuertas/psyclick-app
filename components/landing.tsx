@@ -36,7 +36,7 @@ import {
   type MotionValue,
   type TargetAndTransition,
 } from 'framer-motion'
-import { ReactLenis } from 'lenis/react'
+import { ReactLenis, useLenis } from 'lenis/react'
 import type React from 'react'
 import { useCallback, useEffect, useRef, useState, useTransition } from 'react'
 
@@ -801,13 +801,27 @@ const ALGO_METHODS: string[][] = [
 
 function Algorithm() {
   const [active, setActive] = useState(0)
-  const [touched, setTouched] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
-  // The timeline advances as you scroll past it, until a step is clicked.
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start 0.75', 'end 0.35'] })
+  const lenis = useLenis()
+  // The timeline holds on screen (sticky) while scrolling walks through the
+  // eight steps, one step per stretch of scroll, so each one can be read.
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start 96px', 'end end'] })
   useMotionValueEvent(scrollYProgress, 'change', (v) => {
-    if (!touched) setActive(Math.min(7, Math.max(0, Math.floor(v * 8))))
+    const i = Math.min(7, Math.max(0, Math.floor(v * 8)))
+    setActive((prev) => (prev === i ? prev : i))
   })
+  // Clicking a step scrolls to that step's stretch, so scroll and view agree.
+  const goTo = (i: number) => {
+    const el = ref.current
+    if (!el) return
+    const r = el.getBoundingClientRect()
+    const y0 = r.top + window.scrollY - 96
+    const y1 = r.bottom + window.scrollY - window.innerHeight
+    const y = y0 + ((i + 0.5) / 8) * (y1 - y0)
+    setActive(i)
+    if (lenis) lenis.scrollTo(y, { duration: 0.8 })
+    else window.scrollTo({ top: y, behavior: 'smooth' })
+  }
   const step = ALGORITHM_STEPS[active]
   const Icon = ALGO_ICONS[active] ?? Activity
 
@@ -819,10 +833,11 @@ function Algorithm() {
           <h2>Eight steps from keystroke to flag.</h2>
         </Reveal>
         <Reveal delay={0.1}>
-          <p className="section-sub">Each step runs in order inside a session, on the clinic computer. Pick a step for the technical detail.</p>
+          <p className="section-sub">Each step runs in order inside a session, on the clinic computer. Keep scrolling to walk through them, or pick a step.</p>
         </Reveal>
       </div>
-      <div ref={ref} className="algo-tl">
+      <div ref={ref} className="algo-pin">
+      <div className="algo-tl">
         <div className="algo-track" aria-hidden="true">
           <motion.i animate={{ scaleX: active / 7 }} transition={{ duration: 0.5, ease: EASE }} />
         </div>
@@ -835,10 +850,7 @@ function Algorithm() {
                   role="tab"
                   aria-selected={active === i}
                   className={active === i ? 'on' : i < active ? 'past' : ''}
-                  onClick={() => {
-                    setTouched(true)
-                    setActive(i)
-                  }}
+                  onClick={() => goTo(i)}
                 >
                   <span className="algo-dot">
                     <StepIcon size={16} />
@@ -879,6 +891,8 @@ function Algorithm() {
             </div>
           </motion.div>
         </AnimatePresence>
+      </div>
+      <div className="algo-spacer" aria-hidden="true" />
       </div>
     </section>
   )

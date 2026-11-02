@@ -12,12 +12,11 @@ import { useCallback, useEffect, useRef, useState } from 'react'
  *   2. read  — the cursor path draws over the strip and the readout (T² gauge,
  *              biomarker shifts, Follow up flag) slides in
  *   3. claim — the thesis line, then the overlay lifts to reveal the page
- * Shown once per browser session; skippable (button, Esc, Enter); collapsed
+ * Plays on every page load; skippable (button, Esc, Enter); collapsed
  * for reduced motion. Only transform/opacity are animated, so it stays smooth
  * on low-end machines.
  */
 
-const STORAGE_KEY = 'pc-intro-seen'
 const EASE = [0.22, 1, 0.36, 1] as const
 
 const ANSWER = 'It worked out fine.'
@@ -59,20 +58,7 @@ export default function IntroTakeover({ onDone }: { onDone?: () => void }) {
   const finish = useCallback(() => {
     timers.current.forEach(clearTimeout)
     timers.current = []
-    try {
-      sessionStorage.setItem(STORAGE_KEY, '1')
-    } catch {}
     setVisible(false)
-  }, [])
-
-  // Decide whether to play at all.
-  useEffect(() => {
-    let seen = false
-    try {
-      // ?intro in the URL replays it, e.g. for demos
-      seen = sessionStorage.getItem(STORAGE_KEY) === '1' && !new URLSearchParams(location.search).has('intro')
-    } catch {}
-    if (seen) setVisible(false)
   }, [])
 
   // Hold page scroll while the takeover is up.
@@ -121,12 +107,6 @@ export default function IntroTakeover({ onDone }: { onDone?: () => void }) {
 
   return (
     <>
-      {/* Hide before first paint for returning visitors in the same session */}
-      <script
-        dangerouslySetInnerHTML={{
-          __html: `try{if(sessionStorage.getItem('${STORAGE_KEY}')==='1'&&!/[?&]intro(=|&|$)/.test(location.search))document.documentElement.classList.add('intro-seen')}catch(e){}`,
-        }}
-      />
       <AnimatePresence>
         {visible && (
           <motion.div

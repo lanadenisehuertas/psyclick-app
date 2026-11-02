@@ -3,7 +3,7 @@
 import { motion, useInView, useMotionValue, useSpring, useTransform } from 'framer-motion'
 import { Check, Database, GraduationCap, Lock, Mail } from 'lucide-react'
 import { useRef } from 'react'
-import { Eyebrow, Reveal } from '@/components/landing-kit'
+import { Eyebrow, Reveal, SnapNav } from '@/components/landing-kit'
 import { TEAM_MEMBERS } from '@/lib/landing-data'
 
 /* ─── Trust & safety: each principle gets a small working illustration ─── */
@@ -99,6 +99,7 @@ const TRUST = [
 ]
 
 export function Trust() {
+  const rowRef = useRef<HTMLDivElement>(null)
   return (
     <section className="section trust">
       <div className="section-head split">
@@ -110,7 +111,7 @@ export function Trust() {
           <p className="section-sub">Four commitments built into how PsyClick measures, stores, and reports.</p>
         </Reveal>
       </div>
-      <div className="trust-bento">
+      <div className="trust-bento" ref={rowRef}>
         {TRUST.map((t, i) => {
           const Art = t.art
           return (
@@ -124,6 +125,7 @@ export function Trust() {
           )
         })}
       </div>
+      <SnapNav target={rowRef} count={TRUST.length} label="Browse commitments" />
     </section>
   )
 }
@@ -184,7 +186,9 @@ export function Team() {
       <div className="section-head split">
         <Reveal>
           <Eyebrow>Team</Eyebrow>
-          <h2>Built by ByteMe.</h2>
+          <h2>
+            Built by <em className="accent">ByteMe.</em>
+          </h2>
         </Reveal>
         <Reveal delay={0.1} className="team-adviser">
           <span className="team-adviser-icon">

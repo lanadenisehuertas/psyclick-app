@@ -225,6 +225,8 @@ export default function HeroInstrument({ heroRef }: { heroRef: React.RefObject<H
     let raf = 0
     let idle = 0 // demo signal phase for touch devices / before input
     const drawWave = (now: number) => {
+      // hidden (display: none on phones) means a 0×0 canvas: the grid loops below would never end
+      if (ww < 1 || wh < 1) return
       wctx.clearRect(0, 0, ww, wh)
       const lane = wh / 2
       // grid

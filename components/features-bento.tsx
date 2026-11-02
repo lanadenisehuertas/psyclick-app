@@ -2,7 +2,8 @@
 
 import { Check, Download, Laptop, Monitor } from 'lucide-react'
 import type React from 'react'
-import { Eyebrow, Reveal } from '@/components/landing-kit'
+import { useRef } from 'react'
+import { Eyebrow, Reveal, SnapNav } from '@/components/landing-kit'
 import { FEATURE_CARDS } from '@/lib/landing-data'
 
 /*
@@ -236,6 +237,7 @@ const SKETCH: Record<string, () => React.ReactElement> = {
 }
 
 export default function FeaturesBento() {
+  const rowRef = useRef<HTMLDivElement>(null)
   return (
     <section id="features" className="section features">
       <div className="section-head split">
@@ -247,7 +249,7 @@ export default function FeaturesBento() {
           <p className="section-sub">Hover or focus a screen to see how it’s used and why it matters.</p>
         </Reveal>
       </div>
-      <div className="fb-grid">
+      <div className="fb-grid" ref={rowRef}>
         {ORDER.map(({ title, wide }, i) => {
           const f = FEATURE_CARDS.find((c) => c.title === title)!
           const Icon = f.icon
@@ -285,6 +287,7 @@ export default function FeaturesBento() {
           )
         })}
       </div>
+      <SnapNav target={rowRef} count={ORDER.length} label="Browse features" />
     </section>
   )
 }

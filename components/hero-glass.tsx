@@ -2,8 +2,7 @@
 
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { Environment, Float, Lightformer, MeshTransmissionMaterial, RoundedBox } from '@react-three/drei'
-import type React from 'react'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import * as THREE from 'three'
 
 /*
@@ -40,15 +39,22 @@ function Backdrop() {
     blob(150, 300, 180, 'rgba(54,201,142,0.35)')
     blob(390, 180, 160, 'rgba(120,168,216,0.38)')
     blob(256, 320, 120, 'rgba(255,255,255,0.9)')
+    // fade the edges out so the canvas sits on the page without a visible box
+    g.globalCompositeOperation = 'destination-in'
+    const mask = g.createRadialGradient(256, 256, 120, 256, 256, 256)
+    mask.addColorStop(0, 'rgba(0,0,0,1)')
+    mask.addColorStop(1, 'rgba(0,0,0,0)')
+    g.fillStyle = mask
+    g.fillRect(0, 0, 512, 512)
     const t = new THREE.CanvasTexture(c)
     t.colorSpace = THREE.SRGBColorSpace
     return t
   }, [])
 
   return (
-    <mesh position={[0, 0, -4]} scale={[22, 13, 1]}>
+    <mesh position={[0, 0, -4]} scale={[9.6, 7.2, 1]}>
       <planeGeometry />
-      <meshBasicMaterial map={texture} toneMapped={false} />
+      <meshBasicMaterial map={texture} toneMapped={false} transparent depthWrite={false} />
     </mesh>
   )
 }
@@ -110,6 +116,7 @@ function Pointer() {
 function Trace({ end }: { end: THREE.Vector3 }) {
   const ref = useRef<THREE.Mesh>(null)
   const { geometry, count } = useMemo(() => {
+    const off = end.clone().sub(new THREE.Vector3(0.1, 1.05, 0))
     const curve = new THREE.CatmullRomCurve3(
       [
         new THREE.Vector3(-0.9, -0.85, -0.3),
@@ -121,8 +128,8 @@ function Trace({ end }: { end: THREE.Vector3 }) {
         new THREE.Vector3(-0.3, -0.2, 0),
         new THREE.Vector3(0.0, 0.35, 0),
         new THREE.Vector3(0.05, 0.75, 0),
-        end,
-      ],
+        new THREE.Vector3(0.1, 1.05, 0),
+      ].map((v) => v.add(off)),
       false,
       'catmullrom',
       0.5,
@@ -149,10 +156,10 @@ function Trace({ end }: { end: THREE.Vector3 }) {
 }
 
 const KEYS: { pos: [number, number, number]; rot: [number, number, number]; at: number; late?: boolean }[] = [
-  { pos: [1.05, -0.75, 0.2], rot: [0.55, -0.4, 0.12], at: 0.0 },
-  { pos: [1.8, -0.5, -0.3], rot: [0.5, -0.55, -0.08], at: 0.22 },
-  { pos: [1.5, 0.35, 0.1], rot: [0.45, -0.5, 0.15], at: 1.45, late: true },
-  { pos: [-0.6, 1.35, -0.7], rot: [0.5, 0.3, -0.1], at: 0.41 },
+  { pos: [-3.85, -0.15, 0.2], rot: [0.55, 0.4, 0.12], at: 0.0 },
+  { pos: [-2.15, 2.5, -0.4], rot: [0.5, 0.3, -0.1], at: 0.22 },
+  { pos: [-0.45, -1.92, 0.1], rot: [0.45, -0.3, 0.15], at: 1.45, late: true },
+  { pos: [4.0, -0.77, -0.2], rot: [0.5, -0.55, -0.08], at: 0.41 },
 ]
 const RHYTHM = 2.6 // seconds per typing burst
 const DWELL = 0.14
@@ -206,7 +213,7 @@ function Keycap({ pos, rot, at, late }: (typeof KEYS)[number]) {
 function Rig() {
   const group = useRef<THREE.Group>(null)
   const { pointer } = useThree()
-  const tip = useMemo(() => new THREE.Vector3(0.1, 1.05, 0), [])
+  const tip = useMemo(() => new THREE.Vector3(2.55, 1.95, 0.3), [])
 
   useFrame((state, delta) => {
     const g = group.current
@@ -220,7 +227,7 @@ function Rig() {
     <group ref={group}>
       <Trace end={tip} />
       <Float speed={1.4} rotationIntensity={0.25} floatIntensity={0.5}>
-        <group position={tip} rotation={[0.25, -0.45, 0.32]}>
+        <group position={tip} rotation={[0.25, -0.45, 0.32]} scale={0.72}>
           <Pointer />
         </group>
       </Float>
@@ -255,24 +262,58 @@ function useOnScreen(ref: React.RefObject<HTMLElement | null>) {
   return onScreen
 }
 
+/**
+ * True when the browser can create a WebGL context. Some machines and embedded
+ * browsers have the GPU disabled; checking first keeps three.js from throwing.
+ */
+function canUseWebGL() {
+  try {
+    const c = document.createElement('canvas')
+    const gl = (c.getContext('webgl2') || c.getContext('webgl')) as WebGLRenderingContext | null
+    if (!gl) return false
+    gl.getExtension('WEBGL_lose_context')?.loseContext()
+    return true
+  } catch {
+    return false
+  }
+}
+
+/** If the 3D scene fails anyway (e.g. context lost on creation), drop it quietly. */
+class GlassBoundary extends React.Component<{ children: React.ReactNode }, { failed: boolean }> {
+  state = { failed: false }
+  static getDerivedStateFromError() {
+    return { failed: true }
+  }
+  render() {
+    return this.state.failed ? null : this.props.children
+  }
+}
+
 export default function HeroGlass({ still = false }: { still?: boolean }) {
   // The glass materials re-render several passes per frame. Nothing is drawn
   // while the hero is off screen or the tab is hidden, so stop the loop then;
   // what is on screen looks and moves exactly the same.
   const wrap = useRef<HTMLDivElement>(null)
   const onScreen = useOnScreen(wrap)
+  const [webgl, setWebgl] = useState(false)
+  useEffect(() => setWebgl(canUseWebGL()), [])
   return (
     <div ref={wrap} style={{ width: '100%', height: '100%' }}>
+    {webgl && (
+    <GlassBoundary>
     <Canvas
       frameloop={still ? 'demand' : onScreen ? 'always' : 'never'}
       dpr={[1, 1.5]}
       camera={{ position: [0, 0, 6.4], fov: 38 }}
-      gl={{ antialias: true, powerPreference: 'high-performance' }}
+      gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
+      eventSource={document.body}
+      eventPrefix="client"
+      style={{ pointerEvents: 'none' }}
     >
       <Backdrop />
       <ambientLight intensity={0.7} />
       <directionalLight position={[3, 4, 5]} intensity={1.4} />
-      <group position={[1.3, 0.15, 0]} scale={0.92}>
+      <group scale={0.65}>
         <Rig />
       </group>
       <Environment resolution={256}>
@@ -282,6 +323,8 @@ export default function HeroGlass({ still = false }: { still?: boolean }) {
         <Lightformer form="circle" intensity={4} position={[0, 0, 6]} scale={3} />
       </Environment>
     </Canvas>
+    </GlassBoundary>
+    )}
     </div>
   )
 }

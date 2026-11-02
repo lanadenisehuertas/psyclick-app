@@ -30,14 +30,13 @@ import {
   animate,
   motion,
   useInView,
-  useReducedMotion,
+  useMotionValueEvent,
   useScroll,
   useTransform,
   type MotionValue,
   type TargetAndTransition,
 } from 'framer-motion'
 import { ReactLenis } from 'lenis/react'
-import dynamic from 'next/dynamic'
 import type React from 'react'
 import { useCallback, useEffect, useRef, useState, useTransition } from 'react'
 
@@ -56,13 +55,11 @@ import DownloadHub from '@/components/download-hub'
 import FeaturesBento from '@/components/features-bento'
 import FooterWord from '@/components/footer-word'
 import GuideFlow from '@/components/guide-flow'
+import TryRhythm from '@/components/try-rhythm'
 import { Team, Trust } from '@/components/trust-team'
 import IntroTakeover from '@/components/intro-takeover'
 
-const HeroGlass = dynamic(() => import('@/components/hero-glass'), {
-  ssr: false,
-  loading: () => null,
-})
+import HeroDemo from '@/components/hero-demo'
 
 const NAV = [
   { href: '#overview', label: 'Overview' },
@@ -72,17 +69,6 @@ const NAV = [
   { href: '#algorithm', label: 'Algorithm' },
   { href: '#evidence', label: 'Evidence' },
   { href: '#faq', label: 'FAQ' },
-]
-
-const MEASURES = [
-  'PHQ-9',
-  'GAD-7',
-  'Hotelling T²',
-  'EWMA baseline',
-  'Psychomotor Slowing Index',
-  'Psychomotor Agitation Index',
-  'Fuzzy classification',
-  'Normative comparison',
 ]
 
 const ALGO_ICONS = [Activity, MousePointer2, BarChart3, Database, Brain, HeartPulse, ShieldCheck, Users]
@@ -230,33 +216,53 @@ function Nav() {
 }
 
 function Hero({ play }: { play: boolean }) {
-  const reduce = useReducedMotion()
-  const lines = ['See what', 'words don’t', 'say.']
+  const lines: React.ReactNode[] = [
+    'catches what',
+    <>
+      words don’t <em className="accent">say.</em>
+    </>,
+  ]
   const at = (to: TargetAndTransition, from: TargetAndTransition) => (play ? to : from)
   const heroRef = useRef<HTMLElement>(null)
+  // The live monitor is hidden on phones (Try it covers it), so don't run its canvas there
+  const [showInst, setShowInst] = useState(false)
+  useEffect(() => {
+    const mq = window.matchMedia('(min-width: 601px)')
+    const update = () => setShowInst(mq.matches)
+    update()
+    mq.addEventListener('change', update)
+    return () => mq.removeEventListener('change', update)
+  }, [])
 
   return (
     <section id="top" className="hero" ref={heroRef}>
-      <div className="hero-stage" aria-hidden="true">
-        {play && <HeroGlass still={!!reduce} />}
-      </div>
       <div className="hero-grid">
         <div className="hero-copy">
           <motion.span
             className="hero-tag"
             initial={{ opacity: 0, y: 10 }}
             animate={at({ opacity: 1, y: 0 }, { opacity: 0, y: 10 })}
-            transition={{ duration: 0.7, ease: EASE, delay: 0.35 }}
+            transition={{ duration: 0.7, ease: EASE, delay: 0.2 }}
           >
-            <i /> Clinical decision support for Windows
+            <i /> Keystroke &amp; cursor biomarkers for mental health screening
           </motion.span>
           <h1>
+            <span className="line-mask">
+              <motion.span
+                className="hero-brand"
+                initial={{ y: '110%' }}
+                animate={at({ y: '0%' }, { y: '110%' })}
+                transition={{ duration: 0.9, ease: EASE, delay: 0.3 }}
+              >
+                PsyClick
+              </motion.span>
+            </span>
             {lines.map((line, i) => (
-              <span className="line-mask" key={line}>
+              <span className="line-mask" key={i}>
                 <motion.span
                   initial={{ y: '110%' }}
                   animate={at({ y: '0%' }, { y: '110%' })}
-                  transition={{ duration: 1.1, ease: EASE, delay: 0.45 + i * 0.12 }}
+                  transition={{ duration: 0.9, ease: EASE, delay: 0.42 + i * 0.12 }}
                 >
                   {line}
                 </motion.span>
@@ -265,18 +271,18 @@ function Hero({ play }: { play: boolean }) {
           </h1>
           <motion.p
             className="hero-lede"
-            initial={{ opacity: 0, y: 14, filter: 'blur(8px)' }}
-            animate={at({ opacity: 1, y: 0, filter: 'blur(0px)' }, { opacity: 0, y: 14, filter: 'blur(8px)' })}
-            transition={{ duration: 0.9, ease: EASE, delay: 0.9 }}
+            initial={{ opacity: 0, y: 14 }}
+            animate={at({ opacity: 1, y: 0 }, { opacity: 0, y: 14 })}
+            transition={{ duration: 0.8, ease: EASE, delay: 0.7 }}
           >
-            A 10–15 minute session pairs PHQ-9 and GAD-7 with eight keystroke and cursor biomarkers, then hands the
-            clinician one decision-support report.
+            A Windows app that times every keystroke and cursor move while a client answers PHQ-9, GAD-7 and short
+            written prompts, then flags psychomotor signs of depression and anxiety for the clinician to review.
           </motion.p>
           <motion.div
             className="hero-actions"
             initial={{ opacity: 0, y: 14 }}
             animate={at({ opacity: 1, y: 0 }, { opacity: 0, y: 14 })}
-            transition={{ duration: 0.8, ease: EASE, delay: 1.05 }}
+            transition={{ duration: 0.8, ease: EASE, delay: 0.85 }}
           >
             <a className="btn btn-ink" href="#download">
               Download for Windows <ArrowRight size={16} />
@@ -285,34 +291,47 @@ function Hero({ play }: { play: boolean }) {
               See how a session runs
             </a>
           </motion.div>
+          <motion.p
+            className="hero-trust"
+            initial={{ opacity: 0 }}
+            animate={at({ opacity: 1 }, { opacity: 0 })}
+            transition={{ duration: 0.8, ease: EASE, delay: 1 }}
+          >
+            <span>Pairs with</span> <b>PHQ-9</b> <b>GAD-7</b> <i /> Works offline <i /> Windows 10+
+          </motion.p>
         </div>
+        <HeroDemo play={play} />
       </div>
       <motion.div
         className="hero-inst-slot"
         initial={{ opacity: 0, y: 30 }}
         animate={at({ opacity: 1, y: 0 }, { opacity: 0, y: 30 })}
-        transition={{ duration: 1, ease: EASE, delay: 1.3 }}
+        transition={{ duration: 0.9, ease: EASE, delay: 1.1 }}
       >
-        <HeroInstrument heroRef={heroRef} />
+        {showInst && <HeroInstrument heroRef={heroRef} />}
       </motion.div>
     </section>
   )
 }
 
-function Measures() {
-  const row = [...MEASURES, ...MEASURES]
+const METRICS: { value: React.ReactNode; label: string; note: string }[] = [
+  { value: <CountUp to={2100} />, label: 'Psychologists and psychiatrists', note: 'for 110 million Filipinos (Alibudbud)' },
+  { value: <CountUp to={8} />, label: 'Psychomotor biomarkers', note: 'from keystroke timing and cursor movement' },
+  { value: '10–15', label: 'Minutes per session', note: 'consent, warm-ups, PHQ-9, GAD-7, 12 prompts' },
+  { value: '0', label: 'Words read for meaning', note: 'only the timing of keys and cursor is kept' },
+]
+
+/** Ruled band of key numbers right under the hero. */
+function Metrics() {
   return (
-    <section className="measures" aria-label="Measures PsyClick is built on">
-      <p className="measures-label">Built on established clinical and statistical measures</p>
-      <div className="marquee">
-        <div className="marquee-track">
-          {row.map((m, i) => (
-            <span key={i} aria-hidden={i >= MEASURES.length}>
-              {m}
-            </span>
-          ))}
-        </div>
-      </div>
+    <section className="metrics" aria-label="PsyClick at a glance">
+      {METRICS.map((m, i) => (
+        <Reveal key={m.label} className="metric" delay={i * 0.06}>
+          <strong>{m.value}</strong>
+          <span>{m.label}</span>
+          <small>{m.note}</small>
+        </Reveal>
+      ))}
     </section>
   )
 }
@@ -357,75 +376,6 @@ function About() {
         </Reveal>
       </div>
 
-      <div className="stat-grid">
-        <Reveal className="stat-card" delay={0}>
-          <div className="stat-head">
-            <h3>
-              Psychologists and
-              <br />
-              psychiatrists
-            </h3>
-            <div className="stat-figure">
-              <small>For 110 million Filipinos</small>
-              <strong>
-                <CountUp to={2100} />
-              </strong>
-            </div>
-          </div>
-          <div className="dot-scale" aria-hidden="true">
-            {Array.from({ length: 24 }).map((_, i) => (
-              <i key={i} className={i === 0 ? 'phq' : 'gad'} style={{ animationDelay: `${i * 0.08}s` }} />
-            ))}
-          </div>
-          <p className="stat-foot">
-            A service gap that leaves masked, mild-to-moderate distress easy to miss. Source: Alibudbud, cited in the
-            PsyClick manuscript.
-          </p>
-        </Reveal>
-
-        <Reveal className="stat-card glacier" delay={0.08}>
-          <div className="stat-head">
-            <h3>
-              Psychomotor
-              <br />
-              biomarkers
-            </h3>
-            <div className="stat-figure">
-              <small>Keyboard + mouse</small>
-              <strong>
-                <CountUp to={8} />
-              </strong>
-            </div>
-          </div>
-          <div className="bead-field" aria-hidden="true">
-            {Array.from({ length: 8 }).map((_, i) => (
-              <i key={i} />
-            ))}
-          </div>
-          <p className="stat-foot">
-            Flight time, dwell time, typing velocity, error rate, path entropy, cursor velocity, jerk, pause frequency.
-          </p>
-        </Reveal>
-
-        <Reveal className="stat-card" delay={0.16}>
-          <div className="stat-head">
-            <h3>
-              One guided
-              <br />
-              session
-            </h3>
-            <div className="stat-figure">
-              <small>Minutes</small>
-              <strong>10–15</strong>
-            </div>
-          </div>
-          <div className="type-line" aria-hidden="true">
-            <span>Describe a typical situation in which you feel behind on tasks or deadlines.</span>
-            <b />
-          </div>
-          <p className="stat-foot">Only timing is measured. Typed content is never analyzed for meaning.</p>
-        </Reveal>
-      </div>
     </section>
   )
 }
@@ -463,7 +413,9 @@ function Evidence() {
       <div className="section-head split">
         <Reveal>
           <Eyebrow>Evidence</Eyebrow>
-          <h2>Tested with clinicians, reported honestly.</h2>
+          <h2>
+            Tested with clinicians, reported <em className="accent">honestly.</em>
+          </h2>
         </Reveal>
         <Reveal delay={0.1}>
           <p className="section-sub">
@@ -835,8 +787,29 @@ function Report() {
   )
 }
 
+// Methods each step is built on (moved here from the old marquee)
+const ALGO_METHODS: string[][] = [
+  ['Key down / up', 'Mouse x, y', 'ms timestamps'],
+  ['Weighted kernel', '0.1 · 0.2 · 0.4 · 0.2 · 0.1'],
+  ['8-feature vector', 'Attention heatmap'],
+  ['EWMA', 'λ = 0.2'],
+  ['Hotelling T²', 'Shrinkage covariance', 'Harrell–Davis cut-offs'],
+  ['Psychomotor Slowing Index', 'Psychomotor Agitation Index'],
+  ['Fuzzy logic', 'Seven rules'],
+  ['71 healthy adults', 'Percentile ranks'],
+]
+
 function Algorithm() {
-  const [open, setOpen] = useState<number | null>(0)
+  const [active, setActive] = useState(0)
+  const [touched, setTouched] = useState(false)
+  const ref = useRef<HTMLDivElement>(null)
+  // The timeline advances as you scroll past it, until a step is clicked.
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start 0.75', 'end 0.35'] })
+  useMotionValueEvent(scrollYProgress, 'change', (v) => {
+    if (!touched) setActive(Math.min(7, Math.max(0, Math.floor(v * 8))))
+  })
+  const step = ALGORITHM_STEPS[active]
+  const Icon = ALGO_ICONS[active] ?? Activity
 
   return (
     <section id="algorithm" className="section algorithm">
@@ -846,42 +819,67 @@ function Algorithm() {
           <h2>Eight steps from keystroke to flag.</h2>
         </Reveal>
         <Reveal delay={0.1}>
-          <p className="section-sub">Each step runs in order inside a session. Open one for the technical detail.</p>
+          <p className="section-sub">Each step runs in order inside a session, on the clinic computer. Pick a step for the technical detail.</p>
         </Reveal>
       </div>
-      <ol className="algo-list">
-        {ALGORITHM_STEPS.map((step, i) => {
-          const Icon = ALGO_ICONS[i] ?? Activity
-          const isOpen = open === i
-          return (
-            <motion.li
-              key={step.num}
-              className={`algo-row${isOpen ? ' open' : ''}`}
-              initial={{ opacity: 0, y: 20, filter: 'blur(8px)' }}
-              whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-              viewport={{ once: true, amount: 0.4 }}
-              transition={{ duration: 0.8, ease: EASE, delay: (i % 2) * 0.06 }}
-            >
-                <button onClick={() => setOpen(isOpen ? null : i)} aria-expanded={isOpen}>
-                  <span className="algo-num mono">{step.num.padStart(2, '0')}</span>
-                  <span className="icon-disc">
-                    <Icon size={17} />
+      <div ref={ref} className="algo-tl">
+        <div className="algo-track" aria-hidden="true">
+          <motion.i animate={{ scaleX: active / 7 }} transition={{ duration: 0.5, ease: EASE }} />
+        </div>
+        <ol className="algo-steps" role="tablist" aria-label="Algorithm steps">
+          {ALGORITHM_STEPS.map((s, i) => {
+            const StepIcon = ALGO_ICONS[i] ?? Activity
+            return (
+              <li key={s.num}>
+                <button
+                  role="tab"
+                  aria-selected={active === i}
+                  className={active === i ? 'on' : i < active ? 'past' : ''}
+                  onClick={() => {
+                    setTouched(true)
+                    setActive(i)
+                  }}
+                >
+                  <span className="algo-dot">
+                    <StepIcon size={16} />
                   </span>
-                  <span className="algo-text">
-                    <strong>{step.title}</strong>
-                    <span>{step.summary}</span>
-                  </span>
-                  <Plus size={18} className="algo-plus" />
+                  <span className="algo-step-num mono">{s.num.padStart(2, '0')}</span>
+                  <span className="algo-step-title">{s.title}</span>
                 </button>
-                <div className="algo-detail">
-                  <div>
-                    <p>{step.detail}</p>
-                  </div>
-                </div>
-            </motion.li>
-          )
-        })}
-      </ol>
+              </li>
+            )
+          })}
+        </ol>
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={active}
+            className="algo-panel"
+            role="tabpanel"
+            initial={{ opacity: 0, y: 14, filter: 'blur(6px)' }}
+            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+            exit={{ opacity: 0, y: -10, filter: 'blur(6px)' }}
+            transition={{ duration: 0.35, ease: EASE }}
+          >
+            <div className="algo-panel-side">
+              <span className="icon-disc">
+                <Icon size={18} />
+              </span>
+              <span className="mono">Step {step.num} of 8</span>
+            </div>
+            <div className="algo-panel-main">
+              <h3>{step.title}</h3>
+              <p className="algo-summary">{step.summary}</p>
+              <p className="algo-detail-text">{step.detail}</p>
+              <div className="algo-chips">
+                <span className="mono">Built on</span>
+                {ALGO_METHODS[active].map((m) => (
+                  <b key={m}>{m}</b>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        </AnimatePresence>
+      </div>
     </section>
   )
 }
@@ -929,9 +927,11 @@ function Footer() {
     <footer className="footer">
       <div className="footer-top">
         <div>
-          <p className="footer-big">Questions about deploying PsyClick in your clinic?</p>
+          <p className="footer-big">
+            Bring PsyClick to your clinic.
+          </p>
           <a className="footer-link" href="#team">
-            Contact the ByteMe team <ArrowUpRight size={16} />
+            Questions about deploying? Contact the ByteMe team <ArrowUpRight size={16} />
           </a>
         </div>
         <div className="footer-cta">
@@ -981,10 +981,41 @@ function usePauseOffscreen() {
   }, [])
 }
 
+/**
+ * Cursor spotlight: cards light up softly where the pointer is. One delegated
+ * listener sets --mx/--my on the hovered card; mouse/trackpad only.
+ */
+const SPOT = '.fb, .trust-card, .evidence-card, .metric, .algo-panel, .try-card'
+function useSpotlight() {
+  useEffect(() => {
+    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return
+    let raf = 0
+    let ev: PointerEvent | null = null
+    const paint = () => {
+      raf = 0
+      const card = (ev?.target as Element | null)?.closest?.(SPOT) as HTMLElement | null
+      if (!card || !ev) return
+      const r = card.getBoundingClientRect()
+      card.style.setProperty('--mx', `${ev.clientX - r.left}px`)
+      card.style.setProperty('--my', `${ev.clientY - r.top}px`)
+    }
+    const onMove = (e: PointerEvent) => {
+      ev = e
+      if (!raf) raf = requestAnimationFrame(paint)
+    }
+    document.addEventListener('pointermove', onMove, { passive: true })
+    return () => {
+      document.removeEventListener('pointermove', onMove)
+      cancelAnimationFrame(raf)
+    }
+  }, [])
+}
+
 export default function Landing() {
   const [introDone, setIntroDone] = useState(false)
   const onIntroDone = useCallback(() => setIntroDone(true), [])
   usePauseOffscreen()
+  useSpotlight()
   return (
     <ReactLenis root options={{ lerp: 0.1, smoothWheel: true, anchors: { offset: -80 } }}>
       <MotionConfig reducedMotion="user">
@@ -992,8 +1023,9 @@ export default function Landing() {
         <main className="pc">
           <Nav />
           <Hero play={introDone} />
-          <Measures />
+          <Metrics />
           <About />
+          <TryRhythm />
           <AppShowcase />
           <RolePanels />
           <GuideFlow />

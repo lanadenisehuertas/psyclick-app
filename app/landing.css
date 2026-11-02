@@ -6619,3 +6619,61 @@ html.intro-seen .intro {
   .algo-step-title { display: none; }
   .algo-panel { margin-top: 18px; }
 }
+
+/* Algorithm hold now includes the heading */
+.algo-pin > .algo-tl { position: static; }
+.algo-stick {
+  position: sticky;
+  top: 88px;
+  z-index: 1;
+}
+.algo-stick .section-head.split { margin-bottom: clamp(24px, 3vw, 40px); }
+.algo-stick h2 { margin-top: 14px; font-size: clamp(32px, 3.6vw, 52px); }
+.algo-stick .algo-panel { margin-top: 24px; padding: 28px 36px; min-height: 270px; }
+@media (max-height: 820px) and (min-width: 901px) {
+  .algo-stick .section-sub { display: none; }
+  .algo-stick .algo-panel { min-height: 0; }
+}
+@media (max-width: 900px) {
+  .algo-stick { top: 72px; }
+  .algo-stick .section-sub { display: none; }
+  .algo-stick .section-head.split { margin-bottom: 18px; }
+}
+@media (max-width: 600px) {
+  .algo-stick h2 { font-size: 28px; }
+  .algo-stick .eyebrow-row { display: none; }
+  .algo-stick .algo-panel { padding: 18px 18px; }
+  .algo-stick .algo-detail-text { font-size: 14px; line-height: 1.6; }
+  .algo-stick .algo-summary { font-size: 15px; }
+}
+@media (max-width: 600px) and (max-height: 780px) {
+  .algo-stick .algo-chips { display: none; }
+}
+
+/* About: statement holds while its words light up */
+.about-pin { position: relative; }
+.about-stick { position: sticky; top: 120px; }
+.about-spacer { height: 90vh; }
+@media (max-width: 900px) {
+  .about-stick { top: 96px; }
+  .about-spacer { height: 70vh; }
+}
+
+/* Who it's for: holds while scroll walks the three roles (desktop/tablet) */
+.roles-pin { position: relative; }
+.roles-stick { position: sticky; top: 88px; }
+.roles-spacer { height: 150vh; }
+.roles-stick .section-head.split { margin-bottom: clamp(24px, 3vw, 40px); }
+@media (max-width: 900px), (max-height: 699px) {
+  .roles-stick { position: static; }
+  .roles-spacer { display: none; }
+}
+
+/* phones: crossfade panels without blur filters (filter animations repaint every frame) */
+@media (max-width: 900px) {
+  .algo-panel,
+  .role-panel,
+  .flow-device-screen > div,
+  .pd-sheet,
+  .pd-modal { filter: none !important; }
+}

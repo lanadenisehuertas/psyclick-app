@@ -1,9 +1,10 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { motion, useMotionValueEvent, useScroll } from 'framer-motion'
+import { useLenis } from 'lenis/react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import type React from 'react'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 export const EASE = [0.22, 1, 0.36, 1] as const
 
@@ -119,4 +120,47 @@ export function SnapNav({
       </button>
     </div>
   )
+}
+
+/**
+ * Scroll-driven steps for a "hold" section: put `ref` on a wrapper that holds a
+ * sticky block plus a spacer. While the block is held, scrolling walks through
+ * `count` steps; goTo(i) scrolls to step i so scroll and view stay in sync.
+ * With `media` set, scrolling only drives steps while that query matches.
+ */
+export function useScrollSteps(count: number, top = 88, media?: string) {
+  const ref = useRef<HTMLDivElement>(null)
+  const [active, setActive] = useState(0)
+  const enabled = useRef(!media)
+  const lenis = useLenis()
+
+  useEffect(() => {
+    if (!media) return
+    const mq = window.matchMedia(media)
+    const update = () => (enabled.current = mq.matches)
+    update()
+    mq.addEventListener('change', update)
+    return () => mq.removeEventListener('change', update)
+  }, [media])
+
+  const { scrollYProgress } = useScroll({ target: ref, offset: [`start ${top}px`, 'end end'] })
+  useMotionValueEvent(scrollYProgress, 'change', (v) => {
+    if (!enabled.current) return
+    const i = Math.min(count - 1, Math.max(0, Math.floor(v * count)))
+    setActive((prev) => (prev === i ? prev : i))
+  })
+
+  const goTo = (i: number) => {
+    setActive(i)
+    const el = ref.current
+    if (!el || !enabled.current) return
+    const r = el.getBoundingClientRect()
+    const y0 = r.top + window.scrollY - top
+    const y1 = r.bottom + window.scrollY - window.innerHeight
+    const y = y0 + ((i + 0.5) / count) * (y1 - y0)
+    if (lenis) lenis.scrollTo(y, { duration: 0.8 })
+    else window.scrollTo({ top: y, behavior: 'smooth' })
+  }
+
+  return { ref, active, goTo }
 }

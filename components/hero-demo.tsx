@@ -39,6 +39,19 @@ export default function HeroDemo({ play }: { play: boolean }) {
     mq.addEventListener('change', update)
     return () => mq.removeEventListener('change', update)
   }, [])
+  // Load the ~1 MB 3D chunk only once the browser is idle after the intro,
+  // so it never competes with first interactions.
+  const [idle, setIdle] = useState(false)
+  useEffect(() => {
+    if (!play || !wide || idle) return
+    const w = window as Window & { requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => number; cancelIdleCallback?: (id: number) => void }
+    if (w.requestIdleCallback) {
+      const id = w.requestIdleCallback(() => setIdle(true), { timeout: 2000 })
+      return () => w.cancelIdleCallback?.(id)
+    }
+    const id = window.setTimeout(() => setIdle(true), 600)
+    return () => clearTimeout(id)
+  }, [play, wide, idle])
 
   useEffect(() => {
     if (reduce) {
@@ -81,7 +94,7 @@ export default function HeroDemo({ play }: { play: boolean }) {
       aria-label="Illustration: a client types “Honestly, it was fine.” in PsyClick. PsyClick times each keystroke and cursor movement, notices a long pause and a hesitant cursor, and flags Follow up even though the PHQ-9 score is mild."
     >
       <div className="hd-glass" aria-hidden="true">
-        {play && wide && <HeroGlass still={!!reduce} />}
+        {play && wide && idle && <HeroGlass still={!!reduce} />}
       </div>
 
       {/* The app window */}

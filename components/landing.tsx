@@ -36,12 +36,12 @@ import {
   type MotionValue,
   type TargetAndTransition,
 } from 'framer-motion'
-import { ReactLenis, useLenis } from 'lenis/react'
+import { ReactLenis } from 'lenis/react'
 import type React from 'react'
-import { useCallback, useEffect, useRef, useState, useTransition } from 'react'
+import { Suspense, useCallback, useEffect, useRef, useState, useTransition } from 'react'
 
 import AppDashboard from '@/components/app-dashboard'
-import { EASE, Eyebrow, Reveal } from '@/components/landing-kit'
+import { EASE, Eyebrow, Reveal, useScrollSteps } from '@/components/landing-kit'
 import {
   FEATURE_CARDS,
   CLINICIAN_STEPS,
@@ -81,9 +81,20 @@ function Word({ children, progress, range }: { children: React.ReactNode; progre
 }
 
 /** Statement that inks in word by word as it scrolls; tokens may be inline illustrations. */
-function ScrollWords({ tokens, className }: { tokens: Token[]; className?: string }) {
+function ScrollWords({
+  tokens,
+  className,
+  target,
+}: {
+  tokens: Token[]
+  className?: string
+  /** a hold wrapper: words fill across the whole hold instead of the paragraph's own pass */
+  target?: React.RefObject<HTMLElement | null>
+}) {
   const ref = useRef<HTMLParagraphElement>(null)
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start 0.85', 'end 0.5'] })
+  const { scrollYProgress } = useScroll(
+    target ? { target, offset: ['start 120px', 'end end'] } : { target: ref, offset: ['start 0.85', 'end 0.5'] },
+  )
   const words = tokens.flatMap<Token>((t) => (typeof t === 'string' ? t.split(' ') : [t]))
   return (
     <p ref={ref} className={className}>
@@ -337,12 +348,17 @@ function Metrics() {
 }
 
 function About() {
+  // The statement holds on screen while its words light up with scroll
+  const holdRef = useRef<HTMLDivElement>(null)
   return (
     <section id="overview" className="section about">
+      <div ref={holdRef} className="about-pin">
+      <div className="about-stick">
       <Reveal>
         <Eyebrow>About PsyClick</Eyebrow>
       </Reveal>
       <ScrollWords
+        target={holdRef}
         className="statement"
         tokens={[
           'Adults can mask distress in a session. The rhythm of their typing',
@@ -354,6 +370,9 @@ function About() {
           'and puts it in front of the clinician.',
         ]}
       />
+      </div>
+      <div className="about-spacer" aria-hidden="true" />
+      </div>
       <div className="about-foot">
         <Reveal className="about-byline">
           <div className="avatar-stack">
@@ -441,8 +460,10 @@ function Evidence() {
 }
 
 function RolePanels() {
-  const [active, setActive] = useState<'clients' | 'clinicians' | 'admins'>('clinicians')
-  const [, startTransition] = useTransition()
+  // Desktop/tablet: the section holds while scrolling walks Clinicians, Clients,
+  // Administrators. Phones keep plain tabs (the stacked panel is taller than the screen).
+  const { ref, active: roleIdx, goTo } = useScrollSteps(3, 88, '(min-width: 901px) and (min-height: 700px)')
+  const active = (['clinicians', 'clients', 'admins'] as const)[roleIdx]
   const tabs = [
     { id: 'clinicians' as const, label: 'Clinicians', icon: UserCheck },
     { id: 'clients' as const, label: 'Clients', icon: Users },
@@ -452,6 +473,8 @@ function RolePanels() {
   return (
     <section id="for-clinicians" className="section roles">
       <span id="for-clients" className="anchor-alias" />
+      <div ref={ref} className="roles-pin">
+      <div className="roles-stick">
       <div className="section-head split">
         <Reveal>
           <Eyebrow>Who it&apos;s for</Eyebrow>
@@ -467,7 +490,7 @@ function RolePanels() {
                   role="tab"
                   aria-selected={active === t.id}
                   className={active === t.id ? 'on' : ''}
-                  onClick={() => startTransition(() => setActive(t.id))}
+                  onClick={() => goTo(tabs.findIndex((x) => x.id === t.id))}
                 >
                   <Icon size={15} /> {t.label}
                 </button>
@@ -611,6 +634,9 @@ function RolePanels() {
           )}
         </motion.div>
       </AnimatePresence>
+      </div>
+      <div className="roles-spacer" aria-hidden="true" />
+      </div>
     </section>
   )
 }
@@ -800,33 +826,16 @@ const ALGO_METHODS: string[][] = [
 ]
 
 function Algorithm() {
-  const [active, setActive] = useState(0)
-  const ref = useRef<HTMLDivElement>(null)
-  const lenis = useLenis()
-  // The timeline holds on screen (sticky) while scrolling walks through the
-  // eight steps, one step per stretch of scroll, so each one can be read.
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start 96px', 'end end'] })
-  useMotionValueEvent(scrollYProgress, 'change', (v) => {
-    const i = Math.min(7, Math.max(0, Math.floor(v * 8)))
-    setActive((prev) => (prev === i ? prev : i))
-  })
-  // Clicking a step scrolls to that step's stretch, so scroll and view agree.
-  const goTo = (i: number) => {
-    const el = ref.current
-    if (!el) return
-    const r = el.getBoundingClientRect()
-    const y0 = r.top + window.scrollY - 96
-    const y1 = r.bottom + window.scrollY - window.innerHeight
-    const y = y0 + ((i + 0.5) / 8) * (y1 - y0)
-    setActive(i)
-    if (lenis) lenis.scrollTo(y, { duration: 0.8 })
-    else window.scrollTo({ top: y, behavior: 'smooth' })
-  }
+  // The heading, timeline and panel hold on screen (sticky) while scrolling
+  // walks through the eight steps, one per stretch of scroll.
+  const { ref, active, goTo } = useScrollSteps(8, 88)
   const step = ALGORITHM_STEPS[active]
   const Icon = ALGO_ICONS[active] ?? Activity
 
   return (
     <section id="algorithm" className="section algorithm">
+      <div ref={ref} className="algo-pin">
+      <div className="algo-stick">
       <div className="section-head split">
         <Reveal>
           <Eyebrow>Behind the signals</Eyebrow>
@@ -836,7 +845,6 @@ function Algorithm() {
           <p className="section-sub">Each step runs in order inside a session, on the clinic computer. Keep scrolling to walk through them, or pick a step.</p>
         </Reveal>
       </div>
-      <div ref={ref} className="algo-pin">
       <div className="algo-tl">
         <div className="algo-track" aria-hidden="true">
           <motion.i animate={{ scaleX: active / 7 }} transition={{ duration: 0.5, ease: EASE }} />
@@ -891,6 +899,7 @@ function Algorithm() {
             </div>
           </motion.div>
         </AnimatePresence>
+      </div>
       </div>
       <div className="algo-spacer" aria-hidden="true" />
       </div>
@@ -1030,6 +1039,10 @@ export default function Landing() {
   const onIntroDone = useCallback(() => setIntroDone(true), [])
   usePauseOffscreen()
   useSpotlight()
+  // Hydrated: fade out the page loader painted by the layout
+  useEffect(() => {
+    document.documentElement.classList.add('pc-ready')
+  }, [])
   return (
     <ReactLenis root options={{ lerp: 0.1, smoothWheel: true, anchors: { offset: -80 } }}>
       <MotionConfig reducedMotion="user">
@@ -1039,18 +1052,30 @@ export default function Landing() {
           <Hero play={introDone} />
           <Metrics />
           <About />
-          <TryRhythm />
-          <AppShowcase />
-          <RolePanels />
-          <GuideFlow />
-          <FeaturesBento />
-          <Report />
-          <Algorithm />
-          <Evidence />
-          <DownloadHub />
-          <Trust />
-          <Team />
-          <Faq />
+          {/* Suspense boundaries let React hydrate below-the-fold sections in
+              separate, interruptible chunks instead of one long task. */}
+          <Suspense>
+            <TryRhythm />
+            <AppShowcase />
+          </Suspense>
+          <Suspense>
+            <RolePanels />
+            <GuideFlow />
+          </Suspense>
+          <Suspense>
+            <FeaturesBento />
+            <Report />
+          </Suspense>
+          <Suspense>
+            <Algorithm />
+            <Evidence />
+          </Suspense>
+          <Suspense>
+            <DownloadHub />
+            <Trust />
+            <Team />
+            <Faq />
+          </Suspense>
           <Footer />
         </main>
       </MotionConfig>

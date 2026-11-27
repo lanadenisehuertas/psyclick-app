@@ -1,7 +1,6 @@
 'use client'
 
 import { motion, useInView, useReducedMotion } from 'framer-motion'
-import dynamic from 'next/dynamic'
 import { Keyboard, MousePointer2 } from 'lucide-react'
 import { Fragment, useEffect, useRef, useState } from 'react'
 import { EASE } from '@/components/landing-kit'
@@ -16,8 +15,6 @@ import { EASE } from '@/components/landing-kit'
  * The typing loops only while the demo is on screen; static for reduced motion.
  */
 
-// Glass keycaps + pointer floating behind the demo cards (WebGL, client only)
-const HeroGlass = dynamic(() => import('@/components/hero-glass'), { ssr: false, loading: () => null })
 
 const SENTENCE = 'Honestly, it was fine.'
 const PAUSE_AT = SENTENCE.indexOf('fine')
@@ -30,29 +27,6 @@ export default function HeroDemo({ play }: { play: boolean }) {
   const ref = useRef<HTMLDivElement>(null)
   const live = useInView(ref, { margin: '-10% 0px' })
   const [typed, setTyped] = useState(reduce ? SENTENCE.length : 0)
-  // the 3D layer only fits the overlapping layout (stacked cards on phones skip it)
-  const [wide, setWide] = useState(false)
-  useEffect(() => {
-    const mq = window.matchMedia('(min-width: 601px)')
-    const update = () => setWide(mq.matches)
-    update()
-    mq.addEventListener('change', update)
-    return () => mq.removeEventListener('change', update)
-  }, [])
-  // Load the ~1 MB 3D chunk only once the browser is idle after the intro,
-  // so it never competes with first interactions.
-  const [idle, setIdle] = useState(false)
-  useEffect(() => {
-    if (!play || !wide || idle) return
-    const w = window as Window & { requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => number; cancelIdleCallback?: (id: number) => void }
-    if (w.requestIdleCallback) {
-      const id = w.requestIdleCallback(() => setIdle(true), { timeout: 2000 })
-      return () => w.cancelIdleCallback?.(id)
-    }
-    const id = window.setTimeout(() => setIdle(true), 600)
-    return () => clearTimeout(id)
-  }, [play, wide, idle])
-
   useEffect(() => {
     if (reduce) {
       setTyped(SENTENCE.length)
@@ -93,9 +67,6 @@ export default function HeroDemo({ play }: { play: boolean }) {
       role="img"
       aria-label="Illustration: a client types “Honestly, it was fine.” in PsyClick. PsyClick times each keystroke and cursor movement, notices a long pause and a hesitant cursor, and flags Follow up even though the PHQ-9 score is mild."
     >
-      <div className="hd-glass" aria-hidden="true">
-        {play && wide && idle && <HeroGlass still={!!reduce} />}
-      </div>
 
       {/* The app window */}
       <motion.div className="hd-window" {...show(0)}>

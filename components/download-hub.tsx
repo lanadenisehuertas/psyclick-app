@@ -275,6 +275,23 @@ export default function DownloadHub() {
                 </li>
               ))}
             </ol>
+
+            {/* What step 3 looks like, so the Windows warning is expected rather than alarming */}
+            <figure className={`hub-ss${step === 2 ? ' on' : ''}`}>
+              <div className="hub-ss-win" aria-hidden="true">
+                <b>Windows protected your PC</b>
+                <p>
+                  Microsoft Defender SmartScreen prevented an unrecognized app from starting. <u>More info</u>
+                </p>
+                <div className="hub-ss-btns">
+                  <span className="hl">Run anyway</span>
+                  <span>Don’t run</span>
+                </div>
+              </div>
+              <figcaption>
+                Step 3 may show this blue window. Click <b>More info</b>, then <b>Run anyway</b>.
+              </figcaption>
+            </figure>
           </div>
         </div>
 

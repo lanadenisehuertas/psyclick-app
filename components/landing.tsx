@@ -40,7 +40,7 @@ import { ReactLenis } from 'lenis/react'
 import type React from 'react'
 import { Suspense, useCallback, useEffect, useRef, useState, useTransition } from 'react'
 
-import AppDashboard from '@/components/app-dashboard'
+import DashStage from '@/components/dash-stage'
 import { EASE, Eyebrow, Reveal, useScrollSteps } from '@/components/landing-kit'
 import {
   FEATURE_CARDS,
@@ -53,7 +53,6 @@ import {
 import HeroInstrument from '@/components/hero-instrument'
 import DownloadHub from '@/components/download-hub'
 import FeaturesBento from '@/components/features-bento'
-import FooterWord from '@/components/footer-word'
 import GuideFlow from '@/components/guide-flow'
 import TryRhythm from '@/components/try-rhythm'
 import { Team, Trust } from '@/components/trust-team'
@@ -62,11 +61,11 @@ import IntroTakeover from '@/components/intro-takeover'
 import HeroDemo from '@/components/hero-demo'
 
 const NAV = [
-  { href: '#overview', label: 'Overview' },
   { href: '#app', label: 'The app' },
   { href: '#guide', label: 'How it works' },
-  { href: '#features', label: 'Features' },
   { href: '#algorithm', label: 'Algorithm' },
+  { href: '#report', label: 'The report' },
+  { href: '#for-clinicians', label: 'For clinics' },
   { href: '#evidence', label: 'Evidence' },
   { href: '#faq', label: 'FAQ' },
 ]
@@ -302,6 +301,58 @@ function Hero({ play }: { play: boolean }) {
               See how a session runs
             </a>
           </motion.div>
+          <motion.ol
+            className="hero-chain"
+            aria-label="How PsyClick works"
+            initial={{ opacity: 0, y: 14 }}
+            animate={at({ opacity: 1, y: 0 }, { opacity: 0, y: 14 })}
+            transition={{ duration: 0.8, ease: EASE, delay: 0.95 }}
+          >
+            <li>
+              <div className="hc-card" aria-hidden="true">
+                <span className="hc-field">
+                  Honestly, it was fine<i />
+                </span>
+              </div>
+              <p>
+                <b>1</b>
+                <span>
+                  Client answers
+                  <small>types short replies</small>
+                </span>
+              </p>
+            </li>
+            <li>
+              <div className="hc-card" aria-hidden="true">
+                <span className="hc-bars">
+                  {[40, 55, 35, 60, 45, 100, 50].map((h, i) => (
+                    <i key={i} className={i === 5 ? 'late' : ''} style={{ height: `${h}%` }} />
+                  ))}
+                </span>
+                <small className="mono">pause 1.1 s</small>
+              </div>
+              <p>
+                <b>2</b>
+                <span>
+                  PsyClick times it
+                  <small>keys, pauses, cursor</small>
+                </span>
+              </p>
+            </li>
+            <li>
+              <div className="hc-card" aria-hidden="true">
+                <span className="pd-pill follow">Follow up</span>
+                <small className="mono">1.18× baseline</small>
+              </div>
+              <p>
+                <b>3</b>
+                <span>
+                  Clinician gets a flag
+                  <small>and decides</small>
+                </span>
+              </p>
+            </li>
+          </motion.ol>
           <motion.p
             className="hero-trust"
             initial={{ opacity: 0 }}
@@ -399,6 +450,76 @@ function About() {
   )
 }
 
+const READS = [
+  ['Time between keys', 'flight time'],
+  ['How long each key is held', 'dwell time'],
+  ['Pauses and corrections', 'pause and error rate'],
+  ['Cursor speed and path', 'velocity, jerk, path entropy'],
+]
+const NEVER = [
+  ['What the words mean', 'text is not analysed'],
+  ['The screen or other apps', 'only its own window'],
+  ['Microphone or camera', 'never used'],
+  ['Anything after the session', 'recording stops at the end'],
+]
+
+/** Exactly what is and is not recorded, stated next to the claim. */
+function Reads() {
+  return (
+    <section id="what-it-reads" className="section reads" aria-labelledby="reads-title">
+      <div className="section-head split">
+        <Reveal>
+          <Eyebrow>What it records</Eyebrow>
+          <h2 id="reads-title">
+            Timing, never <em className="accent">meaning.</em>
+          </h2>
+        </Reveal>
+        <Reveal delay={0.1}>
+          <p className="section-sub">
+            PsyClick keeps when keys go down and up and how the cursor moves. What the client writes is never analysed.
+          </p>
+        </Reveal>
+      </div>
+      <div className="reads-grid">
+        <Reveal className="reads-col yes">
+          <h3>
+            <i>
+              <Check size={15} />
+            </i>
+            What PsyClick records
+          </h3>
+          <ul>
+            {READS.map(([a, b]) => (
+              <li key={a}>
+                {a} <small>{b}</small>
+              </li>
+            ))}
+          </ul>
+        </Reveal>
+        <Reveal className="reads-col no" delay={0.08}>
+          <h3>
+            <i>
+              <X size={15} />
+            </i>
+            What it never records
+          </h3>
+          <ul>
+            {NEVER.map(([a, b]) => (
+              <li key={a}>
+                {a} <small>{b}</small>
+              </li>
+            ))}
+          </ul>
+        </Reveal>
+      </div>
+      <Reveal className="reads-note" delay={0.12}>
+        <Shield size={16} /> PsyClick supports the clinician’s judgment. It does not diagnose, and it never replaces a crisis
+        assessment or emergency protocol.
+      </Reveal>
+    </section>
+  )
+}
+
 function AppShowcase() {
   return (
     <section id="app" className="section app-show">
@@ -414,8 +535,10 @@ function AppShowcase() {
           </p>
         </Reveal>
       </div>
-      <AppDashboard />
-      <p className="dash-note">Sample data. Layout mirrors the PsyClick dashboard.</p>
+      <div className="lab-frame">
+        <DashStage />
+      </div>
+      <p className="dash-note">Interactive sample with made-up data. Click around: the layout mirrors the PsyClick dashboard.</p>
     </section>
   )
 }
@@ -712,6 +835,13 @@ function MiniRadar({ run }: { run: boolean }) {
   )
 }
 
+const FLAGS = [
+  { label: 'No concerns', tone: 'clear', means: 'Timing matches the client’s own baseline and healthy adults.', next: 'Continue usual care.' },
+  { label: 'Follow up', tone: 'follow', means: 'Responses are slowed or agitated compared with the baseline.', next: 'Check in with the client within 48–72 hours.' },
+  { label: 'Review now', tone: 'review', means: 'A strong change across several signals.', next: 'Go through the report with the client during this visit.' },
+  { label: 'Repeat session', tone: 'repeat', means: 'Not enough clean data, for example an interrupted session.', next: 'Run the session again. No result is given.' },
+]
+
 function Report() {
   const ringRef = useRef<HTMLDivElement>(null)
   const inView = useInView(ringRef, { once: true, amount: 0.4 })
@@ -731,6 +861,7 @@ function Report() {
         </Reveal>
       </div>
 
+      <div className="lab-frame">
       <div ref={ringRef} className={`bento${inView ? ' in' : ''}`}>
         <Reveal className="tile tile-flag">
           <div className="t2-ring" style={{ '--p': inView ? 0.62 : 0 } as React.CSSProperties}>
@@ -809,6 +940,34 @@ function Report() {
           </ul>
         </Reveal>
       </div>
+      </div>
+
+      <Reveal className="flag-table-wrap" delay={0.1}>
+        <table className="flag-table">
+          <caption>What each result means, and what the clinician does next</caption>
+          <thead>
+            <tr>
+              <th scope="col">Result</th>
+              <th scope="col">What it means</th>
+              <th scope="col">Next step</th>
+            </tr>
+          </thead>
+          <tbody>
+            {FLAGS.map((f) => (
+              <tr key={f.label}>
+                <td>
+                  <span className={`pd-pill ${f.tone}`}>{f.label}</span>
+                </td>
+                <td>{f.means}</td>
+                <td>{f.next}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <p className="flag-foot">
+          <ShieldCheck size={15} /> A PHQ-9 self-harm answer is shown at the top of every report, whatever the result.
+        </p>
+      </Reveal>
     </section>
   )
 }
@@ -823,6 +982,18 @@ const ALGO_METHODS: string[][] = [
   ['Psychomotor Slowing Index', 'Psychomotor Agitation Index'],
   ['Fuzzy logic', 'Seven rules'],
   ['71 healthy adults', 'Percentile ranks'],
+]
+
+// One line per step for readers who are not technical
+const ALGO_PLAIN = [
+  'Every key press and cursor move is logged with a timestamp.',
+  'Shaky hand jitter is removed from the cursor path.',
+  'Raw timing becomes eight measures, such as the time between keys.',
+  'The warm-up typing becomes this client’s normal for today.',
+  'All eight measures are checked together for an unusual shift.',
+  'The shift is labelled as slowed down or sped up.',
+  'Seven simple rules turn the results into one of four flags.',
+  'Each measure is placed against 71 healthy adults.',
 ]
 
 function Algorithm() {
@@ -888,6 +1059,9 @@ function Algorithm() {
             </div>
             <div className="algo-panel-main">
               <h3>{step.title}</h3>
+              <p className="algo-plain">
+                <b>In plain words:</b> {ALGO_PLAIN[active]}
+              </p>
               <p className="algo-summary">{step.summary}</p>
               <p className="algo-detail-text">{step.detail}</p>
               <div className="algo-chips">
@@ -964,7 +1138,9 @@ function Footer() {
           </a>
         </div>
       </div>
-      <FooterWord />
+      <p className="lab-word" aria-hidden="true">
+        psyclick
+      </p>
       <div className="footer-mid">
         <nav aria-label="Footer">
           {NAV.map((l) => (
@@ -984,6 +1160,59 @@ function Footer() {
   )
 }
 
+const TABS = [
+  ['#guide', 'How it works'],
+  ['#report', 'Report'],
+  ['#download', 'Download'],
+] as const
+
+/** Small bar fixed at the bottom: jumps to the three main chapters, the current one marked. */
+function FloatTabs({ show }: { show: boolean }) {
+  const [active, setActive] = useState(-1)
+  const [visible, setVisible] = useState(false)
+  useEffect(() => {
+    let raf = 0
+    const read = () => {
+      raf = 0
+      const vh = window.innerHeight
+      let a = -1
+      TABS.forEach(([href], i) => {
+        const el = document.querySelector(href)
+        if (el && el.getBoundingClientRect().top < vh * 0.4) a = i
+      })
+      setActive(a)
+      const dl = document.querySelector('#download')?.getBoundingClientRect()
+      const overDownload = dl ? dl.top < vh * 0.7 && dl.bottom > vh * 0.3 : false
+      setVisible(window.scrollY > vh * 0.8 && !overDownload)
+    }
+    const onScroll = () => {
+      if (!raf) raf = requestAnimationFrame(read)
+    }
+    read()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('resize', onScroll)
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', onScroll)
+      cancelAnimationFrame(raf)
+    }
+  }, [])
+  return (
+    <nav className={`lab-tabs${show && visible ? ' on' : ''}`} aria-label="Jump to a section">
+      {TABS.map(([href, label], i) => (
+        <a
+          key={href}
+          href={href}
+          className={active === i ? 'active' : undefined}
+          aria-current={active === i ? 'location' : undefined}
+        >
+          {label}
+        </a>
+      ))}
+    </nav>
+  )
+}
+
 /* ─── Page ──────────────────────────────────────────────── */
 
 /**
@@ -991,54 +1220,41 @@ function Footer() {
  * their section is far off screen. Mark sections that are out of view so CSS
  * can pause them; anything on screen (plus a margin) runs exactly as designed.
  */
-function usePauseOffscreen() {
-  useEffect(() => {
-    const els = Array.from(document.querySelectorAll<HTMLElement>('main.pc > section, main.pc > footer, main.pc > div'))
-    const io = new IntersectionObserver(
-      (entries) => entries.forEach((e) => e.target.toggleAttribute('data-offscreen', !e.isIntersecting)),
-      { rootMargin: '300px 0px' },
-    )
-    els.forEach((el) => io.observe(el))
-
-    return () => io.disconnect()
-  }, [])
+let pauseIO: IntersectionObserver | null = null
+function getPauseIO() {
+  pauseIO ??= new IntersectionObserver(
+    (entries) => entries.forEach((e) => e.target.toggleAttribute('data-offscreen', !e.isIntersecting)),
+    { rootMargin: '300px 0px' },
+  )
+  return pauseIO
 }
 
 /**
- * Cursor spotlight: cards light up softly where the pointer is. One delegated
- * listener sets --mx/--my on the hovered card; mouse/trackpad only.
+ * Placed after each group of sections (inside its Suspense boundary). Its effect
+ * runs only once that group has hydrated, so data-offscreen is never stamped on
+ * server HTML that React has yet to hydrate (which caused hydration mismatches).
+ * It observes the sections between itself and the previous marker.
  */
-const SPOT = '.fb, .trust-card, .evidence-card, .metric, .algo-panel, .try-card'
-function useSpotlight() {
+function PauseOffscreen() {
+  const ref = useRef<HTMLSpanElement>(null)
   useEffect(() => {
-    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return
-    let raf = 0
-    let ev: PointerEvent | null = null
-    const paint = () => {
-      raf = 0
-      const card = (ev?.target as Element | null)?.closest?.(SPOT) as HTMLElement | null
-      if (!card || !ev) return
-      const r = card.getBoundingClientRect()
-      card.style.setProperty('--mx', `${ev.clientX - r.left}px`)
-      card.style.setProperty('--my', `${ev.clientY - r.top}px`)
+    const io = getPauseIO()
+    const els: Element[] = []
+    let el = ref.current?.previousElementSibling ?? null
+    while (el && !el.hasAttribute('data-pause-marker')) {
+      if (el.matches('section, footer, div')) els.push(el)
+      el = el.previousElementSibling
     }
-    const onMove = (e: PointerEvent) => {
-      ev = e
-      if (!raf) raf = requestAnimationFrame(paint)
-    }
-    document.addEventListener('pointermove', onMove, { passive: true })
-    return () => {
-      document.removeEventListener('pointermove', onMove)
-      cancelAnimationFrame(raf)
-    }
+    els.forEach((e) => io.observe(e))
+    return () => els.forEach((e) => io.unobserve(e))
   }, [])
+  return <span ref={ref} data-pause-marker="" hidden />
 }
+
 
 export default function Landing() {
   const [introDone, setIntroDone] = useState(false)
   const onIntroDone = useCallback(() => setIntroDone(true), [])
-  usePauseOffscreen()
-  useSpotlight()
   // Hydrated: fade out the page loader painted by the layout
   useEffect(() => {
     document.documentElement.classList.add('pc-ready')
@@ -1050,33 +1266,46 @@ export default function Landing() {
         <main className="pc">
           <Nav />
           <Hero play={introDone} />
-          <Metrics />
-          <About />
+          <PauseOffscreen />
           {/* Suspense boundaries let React hydrate below-the-fold sections in
               separate, interruptible chunks instead of one long task. */}
           <Suspense>
-            <TryRhythm />
             <AppShowcase />
+            <PauseOffscreen />
+          </Suspense>
+          <About />
+          <PauseOffscreen />
+          <Suspense>
+            <Reads />
+            <Metrics />
+            <TryRhythm />
+            <PauseOffscreen />
           </Suspense>
           <Suspense>
-            <RolePanels />
             <GuideFlow />
-          </Suspense>
-          <Suspense>
-            <FeaturesBento />
-            <Report />
-          </Suspense>
-          <Suspense>
             <Algorithm />
+            <PauseOffscreen />
+          </Suspense>
+          <Suspense>
+            <Report />
+            <RolePanels />
+            <FeaturesBento />
+            <PauseOffscreen />
+          </Suspense>
+          <Suspense>
             <Evidence />
+            <Trust />
+            <PauseOffscreen />
           </Suspense>
           <Suspense>
             <DownloadHub />
-            <Trust />
             <Team />
             <Faq />
+            <PauseOffscreen />
           </Suspense>
           <Footer />
+          <FloatTabs show={introDone} />
+          <PauseOffscreen />
         </main>
       </MotionConfig>
     </ReactLenis>

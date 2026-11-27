@@ -1,6 +1,6 @@
 import type React from "react"
 import type { Metadata, Viewport } from "next"
-import { DM_Sans, IBM_Plex_Mono, Instrument_Serif, Schibsted_Grotesk } from "next/font/google"
+import { DM_Sans, IBM_Plex_Mono, Schibsted_Grotesk } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"
 
@@ -14,14 +14,6 @@ const sans = DM_Sans({
   subsets: ["latin"],
   variable: "--font-body",
   weight: ["400", "500", "600", "700"],
-})
-
-// Serif italic for the occasional accent word in a headline
-const serif = Instrument_Serif({
-  subsets: ["latin"],
-  variable: "--font-serif",
-  weight: "400",
-  style: "italic",
 })
 
 const mono = IBM_Plex_Mono({
@@ -77,7 +69,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${display.variable} ${sans.variable} ${mono.variable} ${serif.variable}`} suppressHydrationWarning>
+    <html lang="en" className={`${display.variable} ${sans.variable} ${mono.variable}`} suppressHydrationWarning>
       <body className="font-sans antialiased">
         {/* Page loader: plain HTML + CSS so it paints before any JS runs.
             Landing adds .pc-ready to <html> once hydrated, which fades it out. */}

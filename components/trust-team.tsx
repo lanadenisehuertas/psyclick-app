@@ -1,7 +1,7 @@
 'use client'
 
-import { motion, useInView, useMotionValue, useSpring, useTransform } from 'framer-motion'
-import { Check, Database, GraduationCap, Lock, Mail } from 'lucide-react'
+import { motion, useInView } from 'framer-motion'
+import { Check, Database, Lock } from 'lucide-react'
 import { useRef } from 'react'
 import { Eyebrow, Reveal, SnapNav } from '@/components/landing-kit'
 import { TEAM_MEMBERS } from '@/lib/landing-data'
@@ -130,34 +130,12 @@ export function Trust() {
   )
 }
 
-/* ─── Team: portraits with depth ─── */
+/* ─── Team: one row of portraits, text under each, like a staff page ─── */
 
 function Person({ m, i }: { m: (typeof TEAM_MEMBERS)[number]; i: number }) {
-  const ref = useRef<HTMLDivElement>(null)
-  const px = useMotionValue(0.5)
-  const py = useMotionValue(0.5)
-  const rotateY = useSpring(useTransform(px, [0, 1], [-9, 9]), { stiffness: 150, damping: 15 })
-  const rotateX = useSpring(useTransform(py, [0, 1], [8, -8]), { stiffness: 150, damping: 15 })
-  const glareX = useTransform(px, [0, 1], ['0%', '100%'])
-
   return (
-    <Reveal className="member" delay={i * 0.08}>
-      <motion.div
-        ref={ref}
-        className="member-card"
-        style={{ rotateX, rotateY }}
-        onPointerMove={(e) => {
-          const r = ref.current!.getBoundingClientRect()
-          px.set((e.clientX - r.left) / r.width)
-          py.set((e.clientY - r.top) / r.height)
-        }}
-        onPointerLeave={() => {
-          px.set(0.5)
-          py.set(0.5)
-        }}
-      >
-        <div className="member-bg" />
-        <span className="member-initials">{m.initials}</span>
+    <Reveal className="person" delay={i * 0.06}>
+      <figure className="person-photo">
         <img
           src={m.photo}
           alt={m.name}
@@ -167,15 +145,12 @@ function Person({ m, i }: { m: (typeof TEAM_MEMBERS)[number]; i: number }) {
             ;(e.target as HTMLImageElement).style.display = 'none'
           }}
         />
-        <motion.span className="member-glare" style={{ left: glareX }} aria-hidden="true" />
-        <div className="member-info">
-          <strong>{m.name}</strong>
-          <span>{m.role}</span>
-          <a href={`mailto:${m.email}`} className="member-mail">
-            <Mail size={13} /> {m.email}
-          </a>
-        </div>
-      </motion.div>
+      </figure>
+      <strong>{m.name}</strong>
+      <span className="person-role">{m.role}</span>
+      <a href={`mailto:${m.email}`} className="person-mail">
+        {m.email}
+      </a>
     </Reveal>
   )
 }
@@ -185,23 +160,16 @@ export function Team() {
     <section id="team" className="section team">
       <div className="section-head split">
         <Reveal>
-          <Eyebrow>Team</Eyebrow>
-          <h2>
-            Built by <em className="accent">ByteMe.</em>
-          </h2>
+          <h2>The team behind PsyClick</h2>
         </Reveal>
-        <Reveal delay={0.1} className="team-adviser">
-          <span className="team-adviser-icon">
-            <GraduationCap size={20} />
-          </span>
-          <p>
-            BS Computer Science, Software Engineering · FEU Institute of Technology
-            <br />
-            Thesis adviser <strong>Mr. Justine Jude C. Pura</strong>
+        <Reveal delay={0.1}>
+          <p className="section-sub">
+            Built by ByteMe, BS Computer Science (Software Engineering) at FEU Institute of Technology, as a thesis advised by
+            Mr. Justine Jude C. Pura.
           </p>
         </Reveal>
       </div>
-      <div className="member-grid">
+      <div className="people">
         {TEAM_MEMBERS.map((m, i) => (
           <Person key={m.name} m={m} i={i} />
         ))}

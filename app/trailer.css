@@ -1,0 +1,418 @@
+/* ═════════════════════════════════════════════════════════
+   Trailer layer, loaded after system.css.
+   Night chapters lit by the brand sweep, bright paper
+   chapters, gradient words, two-tone headlines, and
+   scroll-driven reveals. Brand sweep from the logo:
+   mint #70e8c0, cyan #68d8e8, periwinkle #78a8d8.
+   ═════════════════════════════════════════════════════════ */
+:root {
+  --night: #03161b;
+  --sx-deep: #03161b;
+  --sx-deep-2: #0a252c;
+  --sx-paper: #f3f6f6;
+  --gt-dark: linear-gradient(92deg, #8ff0cf 0%, #68d8e8 42%, #8fb4e8 100%);
+  --gt-light: linear-gradient(92deg, #0b8f7c 0%, #0a6b80 45%, #3d5fa8 100%);
+  --glow-cyan: rgba(104, 216, 232, 0.22);
+  --glow-mint: rgba(112, 232, 192, 0.16);
+  --glow-peri: rgba(120, 168, 216, 0.18);
+}
+
+/* ── Text variation ── */
+.pc .dim {
+  opacity: 0.42;
+}
+.pc .gt {
+  background-image: var(--gt-light);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+.sx-hero .gt,
+.about .gt,
+.flow .gt,
+.algorithm .gt,
+.sx-evidence .gt,
+.hub .gt,
+.footer .gt {
+  background-image: var(--gt-dark);
+}
+.section h2,
+.flow h2,
+.hub h2,
+.sx-evidence h2,
+.download h2 {
+  font-size: clamp(36px, 5vw, 68px);
+  font-weight: 500;
+  line-height: 1.04;
+  letter-spacing: -0.035em;
+}
+
+/* ── Nav: dark glass once the page moves ── */
+.pc .nav.scrolled {
+  background: rgba(3, 22, 27, 0.72) !important;
+  -webkit-backdrop-filter: saturate(1.6) blur(20px) !important;
+  backdrop-filter: saturate(1.6) blur(20px) !important;
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.08);
+}
+.nav.scrolled .nav-pill a:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+.nav.scrolled .btn-ink {
+  background: #fff;
+  color: var(--night);
+}
+.nav.scrolled .nav-brand {
+  color: #fff;
+}
+
+/* ── Hero: a pinned opening shot ── */
+.sx-hero {
+  display: block;
+  height: 230vh;
+  min-height: 0;
+  padding: 0;
+  background: var(--night);
+  overflow: visible;
+}
+.sx-hero-sticky {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+  isolation: isolate;
+  perspective: 1400px;
+}
+.sx-hero-media {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background: url('/art/workstation-duo.webp') 70% 50% / cover no-repeat;
+  transform-origin: 60% 50%;
+}
+.sx-hero-glow {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(55% 45% at 50% 100%, rgba(104, 216, 232, 0.38), transparent 70%),
+    radial-gradient(40% 40% at 12% 18%, var(--glow-mint), transparent 70%),
+    radial-gradient(40% 40% at 88% 22%, var(--glow-peri), transparent 70%),
+    linear-gradient(180deg, rgba(3, 22, 27, 0.7) 0%, rgba(3, 22, 27, 0.25) 45%, rgba(3, 22, 27, 0.9) 100%);
+}
+.sx-hero-copy {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: clamp(96px, 15vh, 160px);
+  width: min(1120px, calc(100% - 2 * var(--gutter)));
+  margin: 0 auto;
+  text-align: center;
+}
+.sx-hero h1 {
+  font-size: clamp(44px, 6.8vw, 108px);
+  font-weight: 500;
+  line-height: 0.98;
+  letter-spacing: -0.045em;
+}
+.sx-hero-lede {
+  max-width: 60ch;
+  margin: 28px auto 0;
+  font-size: clamp(16px, 1.4vw, 20px);
+  color: #fff;
+}
+.sx-hero-actions {
+  justify-content: center;
+  margin-top: 32px;
+}
+.sx-hero-stage {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 72vh;
+  width: min(880px, 92vw);
+  margin: 0 auto;
+  transform-origin: 50% 0;
+  will-change: transform;
+}
+.sx-hero .hd {
+  width: 100%;
+  max-width: none;
+  justify-self: auto;
+  padding: 0 0 56px;
+}
+.sx-hero .hd-window {
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.1),
+    0 60px 120px -40px rgba(0, 0, 0, 0.75),
+    0 0 120px -20px rgba(104, 216, 232, 0.45);
+}
+.sx-hero .hd-report {
+  right: -28px;
+  box-shadow:
+    0 30px 60px -24px rgba(0, 0, 0, 0.6),
+    0 0 60px -20px rgba(112, 232, 192, 0.5);
+}
+.sx-hero-facts {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 24px;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* ── Night chapters ── */
+.about {
+  background:
+    radial-gradient(50% 40% at 50% 35%, rgba(104, 216, 232, 0.1), transparent 70%),
+    var(--night);
+  box-shadow: 0 0 0 100vmax var(--night);
+  clip-path: inset(0 -100vmax);
+}
+.about .statement,
+.about .statement * {
+  color: #fff;
+}
+.flow {
+  background:
+    radial-gradient(45% 50% at 85% 10%, var(--glow-cyan), transparent 70%),
+    radial-gradient(40% 45% at 5% 90%, var(--glow-mint), transparent 70%),
+    var(--night);
+}
+.algorithm::before {
+  background:
+    radial-gradient(40% 40% at 15% 30%, var(--glow-peri), transparent 70%),
+    radial-gradient(45% 45% at 90% 85%, var(--glow-cyan), transparent 70%),
+    var(--night);
+}
+.sx-evidence {
+  background:
+    radial-gradient(50% 45% at 80% 0%, var(--glow-cyan), transparent 70%),
+    radial-gradient(45% 45% at 0% 100%, var(--glow-mint), transparent 70%),
+    var(--night);
+}
+.sx-ev-value {
+  background-image: var(--gt-dark);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent !important;
+  font-size: clamp(32px, 3.6vw, 56px) !important;
+}
+.sx-ev-table thead th,
+.sx-commit li {
+  border-color: rgba(255, 255, 255, 0.2);
+}
+.hub {
+  background:
+    radial-gradient(60% 55% at 75% 40%, rgba(104, 216, 232, 0.28), transparent 70%),
+    radial-gradient(45% 45% at 0% 0%, var(--glow-mint), transparent 70%),
+    var(--night) !important;
+}
+
+/* ── Rhythm bars: night drapes with lit tips ── */
+.sx-rhythm i,
+.sx-rhythm.deep i {
+  background: linear-gradient(180deg, var(--night) 0%, var(--night) 50%, #13606e 82%, #68d8e8 100%);
+}
+.sx-rhythm.up i,
+.sx-rhythm.up.deep i {
+  background: linear-gradient(0deg, var(--night) 0%, var(--night) 50%, #13606e 82%, #8ff0cf 100%);
+}
+.sx-rhythm i.pause {
+  background: linear-gradient(180deg, var(--night) 0%, var(--night) 50%, #8a5a12 82%, #f5a623 100%);
+}
+.sx-rhythm.up i.pause {
+  background: linear-gradient(0deg, var(--night) 0%, var(--night) 50%, #8a5a12 82%, #f5a623 100%);
+}
+
+/* ── Product frames on paper sit in brand light ── */
+.lab-frame {
+  isolation: isolate;
+}
+.lab-frame::before {
+  display: block;
+  content: '';
+  position: absolute;
+  inset: 6% 6% -4%;
+  z-index: -1;
+  background: radial-gradient(closest-side, rgba(104, 216, 232, 0.4), rgba(112, 232, 192, 0.16) 60%, transparent);
+  filter: blur(40px);
+  pointer-events: none;
+}
+
+/* ── End card ── */
+.footer {
+  background:
+    radial-gradient(50% 60% at 50% 100%, rgba(104, 216, 232, 0.22), transparent 70%),
+    var(--night);
+  color: #fff;
+  border-top: 0;
+  overflow: hidden;
+}
+.footer-big {
+  color: #fff;
+}
+.footer-link {
+  color: #8fdbe8;
+}
+.footer-link:hover {
+  color: #fff;
+}
+.footer-cta p,
+.footer-mid p,
+.footer-disclaimer {
+  color: rgba(255, 255, 255, 0.6) !important;
+}
+.footer-mid {
+  border-color: rgba(255, 255, 255, 0.12);
+}
+.footer-mid nav a {
+  color: rgba(255, 255, 255, 0.85);
+}
+.footer-mid nav a:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+.footer .btn-coral {
+  background: #fff;
+  color: var(--night);
+}
+.sx-endmark {
+  max-width: 1240px;
+  margin: clamp(48px, 6vw, 96px) auto 0;
+  font-family: var(--f-display);
+  font-weight: 500;
+  font-size: clamp(80px, 19vw, 300px);
+  line-height: 0.85;
+  letter-spacing: -0.06em;
+  text-align: center;
+  background-image: var(--gt-dark);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -webkit-mask-image: linear-gradient(180deg, #000 30%, transparent 105%);
+  mask-image: linear-gradient(180deg, #000 30%, transparent 105%);
+  user-select: none;
+}
+
+/* ── Scroll-driven reveals ── */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .section h2,
+    .flow h2,
+    .hub h2,
+    .sx-evidence h2,
+    .footer-big {
+      animation: sx-rise linear both;
+      animation-timeline: view();
+      animation-range: entry 5% entry 80%;
+    }
+    .lab-frame,
+    .try-card,
+    .flow-device {
+      animation: sx-zoom linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 35%;
+    }
+    .sx-ev-table tbody tr,
+    .sx-commit > *,
+    .faq-item {
+      animation: sx-slide linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 90%;
+    }
+    .sx-endmark {
+      animation: sx-end linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 60%;
+    }
+  }
+}
+@keyframes sx-rise {
+  from {
+    opacity: 0;
+    transform: translateY(48px);
+    filter: blur(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+@keyframes sx-zoom {
+  from {
+    opacity: 0.2;
+    transform: perspective(1400px) rotateX(16deg) scale(0.86);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes sx-slide {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes sx-end {
+  from {
+    opacity: 0;
+    transform: translateY(20%) scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ── Phones ── */
+@media (max-width: 640px) {
+  .sx-hero {
+    height: 200vh;
+  }
+  .sx-hero-media {
+    background: url('/art/workstation-duo.webp') 62% 50% / cover no-repeat;
+  }
+  .sx-hero-copy {
+    top: 92px;
+  }
+  .sx-hero-actions {
+    flex-direction: column;
+    gap: 4px;
+  }
+  .sx-hero-stage {
+    top: 76vh;
+    width: 94vw;
+  }
+  .sx-hero-facts {
+    display: none;
+  }
+}
+
+/* the report card overlaps the window's lower corner, inside the shot */
+.sx-hero .hd {
+  padding: 0;
+}
+.sx-hero .hd-report {
+  bottom: -36px;
+  right: -36px;
+}
+@media (max-width: 960px) {
+  .sx-hero .hd-report {
+    right: -8px;
+  }
+}
+.sx-hero .hd {
+  aspect-ratio: auto;
+}

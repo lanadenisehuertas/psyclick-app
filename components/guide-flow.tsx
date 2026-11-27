@@ -299,7 +299,9 @@ export default function GuideFlow() {
         <div className="flow-head">
           <Reveal>
             <Eyebrow dark>How it works</Eyebrow>
-            <h2>One calm path through a session.</h2>
+            <h2>
+              One calm path <span className="dim">through a session.</span>
+            </h2>
           </Reveal>
           <Reveal delay={0.1} className="flow-head-side">
             <p>Every session follows the same order, so results stay comparable from visit to visit.</p>

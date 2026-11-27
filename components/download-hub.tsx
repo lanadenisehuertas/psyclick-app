@@ -80,7 +80,9 @@ export default function DownloadHub() {
     >
       <div className="hub-inner">
         <Reveal className="hub-head">
-          <h2>PsyClick for Windows</h2>
+          <h2>
+            PsyClick <span className="gt">for Windows</span>
+          </h2>
           <p>One installer for every role. Run the setup and sign in with the ID you were given. Everything is stored on the computer and works without internet.</p>
         </Reveal>
 

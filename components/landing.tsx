@@ -31,6 +31,7 @@ import {
   motion,
   useInView,
   useMotionValueEvent,
+  useReducedMotion,
   useScroll,
   useTransform,
   type MotionValue,
@@ -176,26 +177,46 @@ function Nav() {
 }
 
 function Hero({ play }: { play: boolean }) {
+  const ref = useRef<HTMLElement>(null)
+  const reduce = useReducedMotion()
+  const { scrollYProgress: p } = useScroll({ target: ref, offset: ['start start', 'end end'] })
+  // The trailer shot: the headline lifts away while the app window rises and
+  // tilts flat into the middle of the screen, over a slow pull-back of the room.
+  const copyY = useTransform(p, [0, 0.55], ['0vh', '-14vh'])
+  const copyO = useTransform(p, [0.05, 0.45], [1, 0])
+  const copyBlur = useTransform(p, [0.05, 0.45], ['blur(0px)', 'blur(10px)'])
+  const stageY = useTransform(p, [0, 0.7], ['0vh', '-46vh'])
+  const stageRot = useTransform(p, [0, 0.7], [26, 0])
+  const stageScale = useTransform(p, [0, 0.7], [0.84, 1.08])
+  const mediaScale = useTransform(p, [0, 1], [1.18, 1])
+  const mediaO = useTransform(p, [0, 1], [0.5, 0.16])
   const lines: React.ReactNode[] = [
-    'PsyClick catches',
-    'what words',
+    'PsyClick catches what',
     <>
-      don’t <em className="accent">say.</em>
+      words <span className="gt">don’t say.</span>
     </>,
   ]
   const at = (to: TargetAndTransition, from: TargetAndTransition) => (play ? to : from)
   return (
-    <section id="top" className="sx-hero">
-      <div className="sx-hero-media" aria-hidden="true" />
-      <div className="sx-hero-grid">
-        <div className="sx-hero-copy">
+    <section ref={ref} id="top" className="sx-hero">
+      <div className="sx-hero-sticky">
+        <motion.div
+          className="sx-hero-media"
+          aria-hidden="true"
+          style={reduce ? undefined : { scale: mediaScale, opacity: mediaO }}
+        />
+        <div className="sx-hero-glow" aria-hidden="true" />
+        <motion.div
+          className="sx-hero-copy"
+          style={reduce ? undefined : { y: copyY, opacity: copyO, filter: copyBlur }}
+        >
           <h1>
             {lines.map((line, i) => (
               <span className="line-mask" key={i}>
                 <motion.span
                   initial={{ y: '110%' }}
                   animate={at({ y: '0%' }, { y: '110%' })}
-                  transition={{ duration: 0.9, ease: EASE, delay: 0.3 + i * 0.12 }}
+                  transition={{ duration: 1, ease: EASE, delay: 0.3 + i * 0.14 }}
                 >
                   {line}
                 </motion.span>
@@ -209,7 +230,8 @@ function Hero({ play }: { play: boolean }) {
             transition={{ duration: 0.8, ease: EASE, delay: 0.7 }}
           >
             A Windows app that times every keystroke and cursor move while a client answers PHQ-9, GAD-7 and short
-            written prompts, then flags psychomotor signs of depression and anxiety for the clinician to review.
+            written prompts, <span className="dim">then flags psychomotor signs of depression and anxiety for the
+            clinician to review.</span>
           </motion.p>
           <motion.div
             className="sx-hero-actions"
@@ -224,16 +246,25 @@ function Hero({ play }: { play: boolean }) {
               See how a session runs
             </a>
           </motion.div>
-          <motion.p
-            className="sx-hero-facts"
-            initial={{ opacity: 0 }}
-            animate={at({ opacity: 1 }, { opacity: 0 })}
-            transition={{ duration: 0.8, ease: EASE, delay: 1 }}
-          >
-            Windows 10 or later <i /> Works offline <i /> Pairs with PHQ-9 and GAD-7
-          </motion.p>
-        </div>
-        <HeroDemo play={play} />
+        </motion.div>
+        <motion.div
+          className="sx-hero-stage"
+          initial={{ opacity: 0 }}
+          animate={at({ opacity: 1 }, { opacity: 0 })}
+          transition={{ duration: 1.2, ease: EASE, delay: 0.9 }}
+          style={reduce ? undefined : { y: stageY, rotateX: stageRot, scale: stageScale }}
+        >
+          <HeroDemo play={play} />
+        </motion.div>
+        <motion.p
+          className="sx-hero-facts"
+          initial={{ opacity: 0 }}
+          animate={at({ opacity: 1 }, { opacity: 0 })}
+          transition={{ duration: 0.8, ease: EASE, delay: 1.1 }}
+          style={reduce ? undefined : { opacity: copyO }}
+        >
+          Windows 10 or later <i /> Works offline <i /> Pairs with PHQ-9 and GAD-7
+        </motion.p>
       </div>
     </section>
   )
@@ -331,7 +362,7 @@ function Reads() {
         <Reveal>
           <Eyebrow>What it records</Eyebrow>
           <h2 id="reads-title">
-            Timing, never meaning.
+            Timing, <span className="dim">never meaning.</span>
           </h2>
         </Reveal>
         <Reveal delay={0.1}>
@@ -386,7 +417,9 @@ function AppShowcase() {
       <div className="section-head split">
         <Reveal>
           <Eyebrow>Inside the app</Eyebrow>
-          <h2>Every session lands on the clinician’s dashboard.</h2>
+          <h2>
+            Every session lands <span className="dim">on the clinician’s dashboard.</span>
+          </h2>
         </Reveal>
         <Reveal delay={0.1}>
           <p className="section-sub">
@@ -443,7 +476,9 @@ function Evidence() {
       <div className="sx-wrap">
         <div className="sx-ev-head">
           <Reveal>
-            <h2>Tested with clinicians, reported honestly.</h2>
+            <h2>
+              Tested with clinicians. <span className="gt">Reported honestly.</span>
+            </h2>
           </Reveal>
           <Reveal delay={0.1}>
             <p>
@@ -508,7 +543,9 @@ function RolePanels() {
       <div className="section-head split">
         <Reveal>
           <Eyebrow>Who it&apos;s for</Eyebrow>
-          <h2>Built for everyone in the room.</h2>
+          <h2>
+            Built for everyone <span className="dim">in the room.</span>
+          </h2>
         </Reveal>
         <Reveal delay={0.1}>
           <div className="segmented" role="tablist" aria-label="Choose a role">
@@ -758,7 +795,9 @@ function Report() {
       <div className="section-head split">
         <Reveal>
           <Eyebrow>The report</Eyebrow>
-          <h2>The most important results, first.</h2>
+          <h2>
+            The most important results, <span className="gt">first.</span>
+          </h2>
         </Reveal>
         <Reveal delay={0.1}>
           <p className="section-sub">
@@ -917,7 +956,9 @@ function Algorithm() {
       <div className="section-head split">
         <Reveal>
           <Eyebrow>Behind the signals</Eyebrow>
-          <h2>Eight steps from keystroke to flag.</h2>
+          <h2>
+            Eight steps <span className="dim">from keystroke to flag.</span>
+          </h2>
         </Reveal>
         <Reveal delay={0.1}>
           <p className="section-sub">Each step runs in order inside a session, on the clinic computer. Keep scrolling to walk through them, or pick a step.</p>
@@ -996,7 +1037,9 @@ function Faq() {
       <div className="faq-grid">
         <Reveal>
           <Eyebrow>FAQ</Eyebrow>
-          <h2>Common questions.</h2>
+          <h2>
+            Common <span className="dim">questions.</span>
+          </h2>
           <p className="section-sub">
             Still unsure? Write to the team from the <a href="#team">team section</a>.
           </p>
@@ -1056,6 +1099,9 @@ function Footer() {
         </nav>
         <p>© 2026 PsyClick by ByteMe</p>
       </div>
+      <p className="sx-endmark" aria-hidden="true">
+        PsyClick
+      </p>
       <p className="footer-disclaimer">
         PsyClick is a decision-support tool. It does not replace clinical judgment, diagnosis, emergency assessment, or
         clinic protocols.
@@ -1117,9 +1163,9 @@ export default function Landing() {
         <main className="pc">
           <Nav />
           <Hero play={introDone} />
-          <RhythmField dir="down" />
           <PauseOffscreen />
           <About />
+          <RhythmField dir="down" />
           <PauseOffscreen />
           {/* Suspense boundaries let React hydrate below-the-fold sections in
               separate, interruptible chunks instead of one long task. */}

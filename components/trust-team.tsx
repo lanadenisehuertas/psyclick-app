@@ -160,7 +160,9 @@ export function Team() {
     <section id="team" className="section team">
       <div className="section-head split">
         <Reveal>
-          <h2>The team behind PsyClick</h2>
+          <h2>
+            The team <span className="dim">behind PsyClick</span>
+          </h2>
         </Reveal>
         <Reveal delay={0.1}>
           <p className="section-sub">

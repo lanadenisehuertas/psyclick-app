@@ -93,7 +93,7 @@ export default function TryRhythm() {
         <Reveal>
           <Eyebrow>Try it</Eyebrow>
           <h2>
-            Type a line. See your rhythm.
+            Type a line. <span className="gt">See your rhythm.</span>
           </h2>
         </Reveal>
         <Reveal delay={0.1}>

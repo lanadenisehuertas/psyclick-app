@@ -2,40 +2,57 @@
 name: PsyClick
 description: Landing page for a Windows clinical decision-support app that reads psychomotor timing alongside PHQ-9 and GAD-7.
 colors:
-  paper: "#eceff0"
+  night: "#03161b"
+  night-raised: "#0a252c"
+  paper: "#f3f6f6"
   surface: "#f7f9f9"
   field: "#0b5f70"
-  deep: "#072f37"
-  deep-raised: "#0c3b44"
   ink: "#0f2a33"
   slate: "#46606a"
   muted: "#5c757d"
-  on-field: "#cfe3e7"
+  on-night: "#cfe3e7"
   hairline: "rgba(15, 42, 51, 0.12)"
   hairline-on-dark: "rgba(255, 255, 255, 0.14)"
-  signal-cyan: "#5fc6d8"
+  sweep-mint: "#8ff0cf"
+  sweep-cyan: "#68d8e8"
+  sweep-peri: "#8fb4e8"
+  sweep-mint-ink: "#0b8f7c"
+  sweep-cyan-ink: "#0a6b80"
+  sweep-peri-ink: "#3d5fa8"
   flag-amber: "#f5a623"
   white: "#ffffff"
+gradients:
+  sweep-on-night: "linear-gradient(92deg, #8ff0cf 0%, #68d8e8 42%, #8fb4e8 100%)"
+  sweep-on-paper: "linear-gradient(92deg, #0b8f7c 0%, #0a6b80 45%, #3d5fa8 100%)"
+  glow-cyan: "rgba(104, 216, 232, 0.22)"
+  glow-mint: "rgba(112, 232, 192, 0.16)"
+  glow-peri: "rgba(120, 168, 216, 0.18)"
 typography:
   display:
     fontFamily: "Schibsted Grotesk, system-ui, sans-serif"
-    fontSize: "clamp(48px, 7vw, 88px)"
-    fontWeight: 400
+    fontSize: "clamp(44px, 6.8vw, 108px)"
+    fontWeight: 500
     lineHeight: 0.98
-    letterSpacing: "-0.035em"
+    letterSpacing: "-0.045em"
   headline:
     fontFamily: "Schibsted Grotesk, system-ui, sans-serif"
-    fontSize: "clamp(32px, 4vw, 48px)"
-    fontWeight: 400
-    lineHeight: 1.08
-    letterSpacing: "-0.025em"
+    fontSize: "clamp(36px, 5vw, 68px)"
+    fontWeight: 500
+    lineHeight: 1.04
+    letterSpacing: "-0.035em"
   figure:
     fontFamily: "Schibsted Grotesk, system-ui, sans-serif"
-    fontSize: "clamp(28px, 3vw, 48px)"
+    fontSize: "clamp(32px, 3.6vw, 56px)"
     fontWeight: 400
     lineHeight: 1
     letterSpacing: "-0.03em"
     fontFeature: "\"tnum\" 1"
+  endmark:
+    fontFamily: "Schibsted Grotesk, system-ui, sans-serif"
+    fontSize: "clamp(80px, 19vw, 300px)"
+    fontWeight: 500
+    lineHeight: 0.85
+    letterSpacing: "-0.06em"
   title:
     fontFamily: "Schibsted Grotesk, system-ui, sans-serif"
     fontSize: "20px"
@@ -44,7 +61,7 @@ typography:
     letterSpacing: "-0.02em"
   lede:
     fontFamily: "DM Sans, system-ui, sans-serif"
-    fontSize: "20px"
+    fontSize: "clamp(16px, 1.4vw, 20px)"
     fontWeight: 400
     lineHeight: 1.5
   body:
@@ -83,17 +100,17 @@ components:
     height: "48px"
     typography: "{typography.body}"
   button-primary-hover:
-    backgroundColor: "{colors.deep}"
+    backgroundColor: "{colors.night}"
     textColor: "{colors.white}"
-  button-on-field:
+  button-on-night:
     backgroundColor: "{colors.white}"
-    textColor: "{colors.deep}"
+    textColor: "{colors.night}"
     rounded: "{rounded.r1}"
     padding: "0 22px"
     height: "48px"
-  button-on-field-hover:
+  button-on-night-hover:
     backgroundColor: "{colors.paper}"
-    textColor: "{colors.deep}"
+    textColor: "{colors.night}"
   button-ghost:
     backgroundColor: "transparent"
     textColor: "{colors.ink}"
@@ -111,12 +128,12 @@ components:
     textColor: "{colors.ink}"
     rounded: "{rounded.r2}"
   pipeline-panel:
-    backgroundColor: "{colors.deep-raised}"
-    textColor: "{colors.on-field}"
+    backgroundColor: "{colors.night-raised}"
+    textColor: "{colors.on-night}"
     rounded: "{rounded.r3}"
   nav-bar:
-    backgroundColor: "{colors.paper}"
-    textColor: "{colors.ink}"
+    backgroundColor: "rgba(3, 22, 27, 0.72)"
+    textColor: "{colors.white}"
     padding: "14px clamp(20px, 4vw, 56px)"
 ---
 
@@ -124,54 +141,62 @@ components:
 
 ## Overview
 
-**Creative North Star: "The Measured Field"**
+**Creative North Star: "The Trailer"**
 
-The page is a two-colour systems document: cool grey paper and one committed teal field, with a deeper teal band where the pipeline runs. Nothing on it is decorative in the ornamental sense. Its one expressive device is borrowed from the product's own signal: the Rhythm field, a row of keystroke-gap bars that grows out of one colour into the other as the visitor scrolls, with a single amber bar standing for the long pause the app exists to notice. The design lets that timing trace carry the identity, and lets the real app screens, the report, and an evidence table with its limits carry the persuasion.
+The page plays like a product trailer. It opens on a pinned shot: the headline sits over a dim clinic workstation, then lifts and blurs away as the PsyClick task window rises from below, tips flat from a 26° tilt and settles in the centre of the screen. From there the page alternates between night chapters (near-black teal lit by soft brand light) and bright paper chapters where the product screens sit. It ends on a large "PsyClick" wordmark in the brand sweep.
 
-Density is calm and editorial. Large Schibsted Grotesk at regular weight sets the voice; DM Sans does the reading; IBM Plex Mono appears for measured values only. Separation comes from hairlines and from switching the ground colour, not from cards floating on shadows. One teal duotone photograph of a clinic workstation (generated, provenance in `public/art/workstation-duo.webp.json`) sits behind the hero field, and the live task window sits over its monitor.
+The colour comes from the logo's sweep: mint, cyan and periwinkle. On night chapters it appears as soft radial light, as gradient key words in headlines and as the Evidence figures. On paper the same sweep is darkened so it holds contrast. The Rhythm field carries over from the earlier system: a row of keystroke-gap bars between chapters, now night-coloured with lit cyan or mint tips and one amber pause bar.
 
-The build rejected glass, glows, dot grids, eyebrow labels, gradient text, italics and serif faces; `app/system.css` enforces the first and last of these at page scope.
+Headlines are large Schibsted Grotesk at weight 500 and get variety from tone, not weight: a dimmed second clause ("Timing, never meaning." with "never meaning." at 42% opacity), or a gradient key phrase ("Type a line. See your rhythm."). DM Sans does the reading; IBM Plex Mono sets measured values only.
+
+Motion follows the scroll. The hero is a framer-motion shot tied to scroll progress. Below it, CSS scroll-driven animations (`animation-timeline: view()`) bring headings up out of a blur, tilt product frames up to flat, and slide in table rows and FAQ items. Browsers without scroll timelines, and visitors with reduced motion, get the static page.
+
+The trailer layer lives in `app/trailer.css`, loaded after `app/system.css` and `app/landing.css`. It overrides the paper and deep tokens at `:root`.
 
 **Key Characteristics:**
-- Two grounds only: paper (#eceff0) and teal field (#0b5f70), plus deep teal (#072f37) for the pipeline and download bands.
-- Chapter changes are wipes of the Rhythm field, not borders or gradients.
-- Hairline rules (12% ink on paper, 14% white on teal) do the structural work.
-- Regular-weight grotesk display with tight negative tracking.
-- Amber appears only as a flag: the pause bar, a follow-up marker.
-- Three radii (6 / 12 / 20), two elevations, flat at rest.
+- Two grounds: night (#03161b) for the hero, About, How it works, Algorithm, Evidence, Download and the footer; paper (#f3f6f6) for the product, try-it, report, roles, team and FAQ chapters.
+- Night chapters are lit by two or three blurred radial glows in the brand sweep, placed off-centre.
+- Two-tone headlines: one clause dimmed or one phrase in the sweep gradient, never both in one heading.
+- A pinned 230vh hero (200vh on phones) whose sticky stage holds the opening shot.
+- Rhythm fields with lit tips move between chapters.
+- Three radii (6 / 12 / 20), flat surfaces, coloured light only around product windows and on night grounds.
 
-**Known gaps (deferred from the finish review, not part of the system):** the page still runs 13 sections plus footer against a target of about 9; the app mocks (hero window, dashboard stage, report tiles, download hub, roles panel) do not yet share one frame language; the legacy `app/landing.css` under the system layer still carries off-scale radii, many shadow rules and uppercase labels; Plex Mono still sets two non-measured labels in the hero window; two small tags use a 4px radius.
+**Known gaps (deferred, not part of the system):** the page still runs 13 sections plus footer against a target of about 9; the app mocks do not yet share one frame language; the legacy `app/landing.css` under the system layer still carries off-scale radii, many shadow rules and uppercase labels; Safari does not yet run the CSS scroll reveals.
 
 ## Colors
 
-A cool, low-chroma paper against a single saturated teal, with amber held back for flags.
+Near-black teal and bright cool paper, lit by the logo's mint-to-periwinkle sweep, with amber held back for flags.
 
-### Primary
-- **Clinic Teal Field** (field): The hero ground, the Evidence section ground, the Rhythm bars, the primary button, focus rings, text selection and the footer link. It is a ground colour first and an accent second.
-- **Deep Pipeline Teal** (deep): The ground for How it works, the 8-step Algorithm and the Download hub; also the primary button's hover. The Rhythm field switches to this colour (`deep` variant) when it wipes into and out of that band.
-- **Raised Deep** (deep-raised): The algorithm panel and step dots, one step lighter than the band they sit on.
+### Grounds
+- **Night** (night): The dark chapter ground and the nav glass tint. Every night section adds glows over it; none is flat black.
+- **Night Raised** (night-raised): The algorithm panel and step dots, one step lighter than night.
+- **Paper** (paper): The light chapter ground.
+- **Clean Surface** (surface) and **White** (white): App windows, report cards, the button on night.
 
-### Secondary
-- **Signal Cyan** (signal-cyan): Lives only inside the deep band: the algorithm progress track, the active step outline, chip fills at 14% alpha. It never appears on paper.
+### Brand sweep
+- **Sweep on night** (`sweep-on-night`: #8ff0cf to #68d8e8 to #8fb4e8): Gradient key words in headlines on night, the hero's "don't say.", Evidence figures and the end-card wordmark.
+- **Sweep on paper** (`sweep-on-paper`: #0b8f7c to #0a6b80 to #3d5fa8): The same sweep darkened for gradient words on paper, so it keeps text contrast.
+- **Glows** (glow-cyan, glow-mint, glow-peri): Radial light on night grounds, each `radial-gradient(… , transparent 70%)` at 16 to 38% alpha. On paper there is one glow only: a 40px-blurred cyan-to-mint pool behind each product frame.
 
-### Tertiary
-- **Flag Amber** (flag-amber): The single pause bar in each Rhythm field and the follow-up flag on the report card. Nothing else.
+### Action
+- **Clinic Teal** (field): The primary button on paper, focus rings and text selection.
 
-### Neutral
-- **Grey Paper** (paper): The page ground, the scrolled nav, the footer, the roles panel.
-- **Clean Surface** (surface) and **White** (white): App windows, report cards and the button that sits on teal.
-- **Clinic Ink** (ink): All body and heading text on paper.
-- **Slate** (slate): Sub-headlines and footer copy on paper.
-- **Muted** (muted): Small secondary labels on paper; this replaced an older grey that failed contrast.
-- **Field Mist** (on-field): Body text, ledes and table copy on teal and deep grounds.
-- **Hairline** (hairline) and **Hairline on Dark** (hairline-on-dark): Every rule, table row, list divider and card border.
+### Text
+- **Clinic Ink** (ink), **Slate** (slate), **Muted** (muted): Text on paper, in that order of weight.
+- **Night Mist** (on-night): Body copy on night. Headlines on night are white.
+- **Hairline** (hairline) and **Hairline on Dark** (hairline-on-dark, 12 to 20% white): Every rule, table row and divider.
+
+### Flag
+- **Flag Amber** (flag-amber): The pause bar in each Rhythm field (lit to #f5a623 at its tip) and the follow-up flag on the report card. Nothing else.
 
 ### Named Rules
-**The Two Grounds Rule.** A section's ground is paper, field, or deep. No section sits on a gradient, a tint, a photo wash or a third hue.
+**The Lit Night Rule.** A night chapter always carries brand-sweep light, placed off-centre. A flat black band reads as a template.
 
-**The Amber Is a Flag Rule.** Amber marks something the clinician should look at. It is never a highlight, a button, or a decoration.
+**The One Accent per Heading Rule.** A heading gets one dimmed clause or one gradient phrase, never both and never more than one phrase.
 
-**The Cyan Stays Home Rule.** Signal cyan is the pipeline's progress colour and appears only on the deep band.
+**The Contrast-Safe Sweep Rule.** Gradient text on paper uses `sweep-on-paper`; the light sweep is for night only.
+
+**The Amber Is a Flag Rule.** Amber marks something the clinician should look at. It is never a highlight, a button or a decoration.
 
 ## Typography
 
@@ -179,104 +204,116 @@ A cool, low-chroma paper against a single saturated teal, with amber held back f
 **Body Font:** DM Sans (with system-ui, sans-serif)
 **Label/Mono Font:** IBM Plex Mono (with ui-monospace, monospace)
 
-**Character:** A plain, slightly mechanical grotesk at regular weight, set large and tight, over a soft humanist sans for reading. The mono is an instrument readout, not a style.
+**Character:** A big, tight grotesk at medium weight over a soft humanist sans. The mono is an instrument readout, not a style.
 
 ### Hierarchy
-- **Display** (400, clamp 48 to 88px, 0.98): The hero headline only, white on the field, revealed line by line from masks.
-- **Headline** (400, clamp 32 to 48px, 1.08): Every section h2, balanced wrap.
-- **Figure** (400 display face, clamp 28 to 48px, 1.0, tabular): Measured results in the Evidence table.
-- **Title** (400 display face, 20px, 1.25): h3s, Evidence commitments, the Reads column heads.
-- **Lede** (DM Sans 400, 20px, 1.5, max 52ch): The hero lede; drops to 16px under 640px.
-- **Body** (DM Sans 400, 16px, 1.6, max about 48 to 52ch): Section subs, table copy, FAQ.
-- **Label** (DM Sans 500, 13px): Table column heads, hero facts row, disclaimer.
-- **Data** (Plex Mono 400, 13px): Timing values, counts, scores inside the app mocks.
+- **Display** (500, clamp 44 to 108px, 0.98, -0.045em): The hero headline only, centred, revealed line by line from masks.
+- **Headline** (500, clamp 36 to 68px, 1.04, -0.035em): Every section h2.
+- **Figure** (400, clamp 32 to 56px, tabular, sweep gradient): Evidence results.
+- **Endmark** (500, clamp 80 to 300px, 0.85, -0.06em): The footer wordmark, faded out at its foot with a mask.
+- **Title** (400, 20px): h3s, Evidence commitments, column heads.
+- **Lede** (DM Sans 400, clamp 16 to 20px, max 60ch): The hero lede, whose second clause is dimmed.
+- **Body** (DM Sans 400, 16px, 1.6): Subs, table copy, FAQ.
+- **Label** (DM Sans 500, 13px): Table heads, hero facts row, disclaimer.
+- **Data** (Plex Mono 400, 13px): Timing values and scores inside the app mocks.
 
 ### Named Rules
-**The Six Steps Rule.** New type sits on 13 / 16 / 20 / 28 / 48 / 88. A size between steps needs a reason the scale cannot answer.
+**The Tone Not Weight Rule.** Headline variety comes from opacity (`.dim`, 0.42) or the sweep gradient (`.gt`), not from bold, italic or a size jump.
 
-**The Regular Voice Rule.** Display and headline are weight 400. Emphasis comes from size and position, never from bold, italic, colour or gradient on a word.
-
-**The Mono Means Measured Rule.** Plex Mono sets a number the app measured or a value it reports. It does not set labels, headings or decorative tags.
+**The Mono Means Measured Rule.** Plex Mono sets a number the app measured or a value it reports. It does not set labels or headings.
 
 ## Layout
 
-Content sits in a 1200px wrap (1320px for the hero grid) inside a fluid gutter of clamp(20px, 4vw, 56px). Sections breathe at clamp(80px, 9vw, 128px) vertical padding. The hero fills at least the viewport (min 680px) and anchors its copy to the bottom-left over the photograph, with the live app window to the right on a 1.08 / 0.92 split.
+Content sits in a 1200px wrap inside a fluid gutter of clamp(20px, 4vw, 56px). Sections breathe at clamp(80px, 9vw, 128px).
 
-Section heads use a two-column split: headline left, sub right, aligned to the bottom. The Evidence section is a real table (value, method, limit) that collapses to stacked rows with an inline "Limit:" label under 640px. The four commitments under it run 4 columns, then 2 under 960px, then 1.
+The hero is a 230vh section with a 100svh sticky stage. The copy block is centred near the top (`top: clamp(96px, 15vh, 160px)`). The app window starts at 72vh, below the fold edge, and travels up to the centre. The facts row sits at the stage's foot and fades with the headline. On phones the section is 200vh, the actions stack and the facts row hides.
 
-Three scroll holds pin About, Roles and the 8-step Algorithm while their content steps with scroll; these are standing behaviour, not optional.
+About runs full-bleed on night using a 100vmax box-shadow and a matching `clip-path` so its glow reaches the viewport edges. The Evidence section is a real table (result, measure, method, limit) that collapses to stacked rows under 640px.
 
-Breakpoints: 960px (hero and Evidence head go single column) and 640px (nav links hide, hero photo crops to the top 60% over deep, the report card drops but the typing window stays).
+Three scroll holds pin About, Roles and the 8-step Algorithm while their content steps with scroll; these are standing behaviour.
+
+Breakpoints: 960px and 640px.
 
 ### Named Rules
-**The Wipe Not Border Rule.** A chapter change between paper and teal is made by a Rhythm field, never by a rule, a curve or a gradient seam.
+**The Wipe Not Border Rule.** A change between night and paper happens through a Rhythm field or a hard cut, never a rule line or a soft gradient seam.
 
 ## Elevation & Depth
 
-The system is flat at rest. Depth comes from changing the ground colour and from hairlines. Two shadows exist, both for app mocks that need to read as windows on a surface.
+Surfaces are flat. Depth on night comes from the glows and from surface steps; depth on paper comes from the product frames and the light pool behind them.
 
 ### Shadow Vocabulary
-- **Hairline lift** (`box-shadow: 0 1px 2px rgba(15, 42, 51, 0.06), 0 0 0 1px rgba(15, 42, 51, 0.12)`): Small surfaces on paper that need an edge.
-- **Window drop** (`box-shadow: 0 24px 60px -30px rgba(7, 47, 55, 0.45), 0 0 0 1px rgba(15, 42, 51, 0.12)`): A product window resting on paper. Over the hero photograph the same role uses a deeper black drop (`0 40px 80px -40px rgba(0, 0, 0, 0.55)`).
+- **Hairline lift** (`0 1px 2px rgba(15, 42, 51, 0.06), 0 0 0 1px rgba(15, 42, 51, 0.12)`): Small surfaces on paper.
+- **Window drop** (`0 24px 60px -30px rgba(7, 47, 55, 0.45), 0 0 0 1px rgba(15, 42, 51, 0.12)`): A product window on paper.
+- **Hero window** (`0 0 0 1px rgba(255,255,255,0.1), 0 60px 120px -40px rgba(0,0,0,0.75), 0 0 120px -20px rgba(104,216,232,0.45)`): The task window in the opening shot, with a cyan halo.
+- **Hero report** (`0 30px 60px -24px rgba(0,0,0,0.6), 0 0 60px -20px rgba(112,232,192,0.5)`): The report card on the window's corner, with a mint halo.
 
 ### Named Rules
-**The No Glow Rule.** No coloured shadows, halos, rings or blurred light. An active state is an outline (1px, offset 4px), not a glow.
+**The Light Belongs to the Product Rule.** Coloured glow appears on night grounds and around product windows only. Buttons, cards, text and icons never glow.
 
-**The No Glass Rule.** No backdrop blur and no text shadow anywhere on the page.
+**The One Glass Rule.** The scrolled nav is the only glass surface (`rgba(3, 22, 27, 0.72)`, `saturate(1.6) blur(20px)`). `app/system.css` disables backdrop blur everywhere else.
+
+## Motion
+
+- **Ease:** `cubic-bezier(0.22, 1, 0.36, 1)` for reveals and the headline masks.
+- **Opening shot** (framer-motion, scroll progress of the hero): headline y 0 to -14vh and blur 0 to 10px with opacity 1 to 0 across 5 to 45%; window y 0 to -46vh, rotateX 26° to 0 and scale 0.84 to 1.08 across 0 to 70%; photo scale 1.18 to 1 and opacity 0.5 to 0.16 across the whole hold. Skipped under reduced motion.
+- **Heading rise** (`sx-rise`, `view()` entry 5% to 80%): opacity 0, y 48px, blur 10px to rest.
+- **Frame zoom** (`sx-zoom`, entry 0% to cover 35%): product frames, the try-it card and the flow device from rotateX 16° and scale 0.86 at 20% opacity to flat.
+- **Row slide** (`sx-slide`, entry 0% to 90%): Evidence rows, commitments and FAQ items from y 24px.
+- **End card** (`sx-end`, entry 0% to cover 60%): the wordmark rises from y 20% and scale 0.92.
+- **Rhythm wipe:** bars scale with `--p` (scroll progress) and a per-bar delay `--d`; under reduced motion they hold at 60% height.
+- **State:** colour transitions only, 0.2s.
 
 ## Shapes
 
-Three radii: 6px for interactive things (buttons, nav links, focus rings), 12px for app windows, report cards and tiles, 20px for the large algorithm panel. Full-bleed bands (hero, Evidence, pipeline, download, footer) have square corners and run edge to edge. Lists and tables are open rows on hairlines with no container at all.
+Three radii: 6px for interactive things, 12px for app windows and cards, 20px for the algorithm panel. Full-bleed bands have square corners. Lists and tables are open rows on hairlines.
 
-The Rhythm field is the recurring silhouette: 84 flat-topped bars at 2px gaps, heights drawn from one typed sentence, one bar at full height in amber.
+The Rhythm field is the recurring silhouette: 84 flat-topped bars at 2px gaps, heights from one typed sentence, night at the root and lit at the tip (#68d8e8 hanging down, #8ff0cf rising up), one bar tipped amber.
 
 ## Components
 
 ### Buttons
-Quiet, rectangular, confident.
-- **Shape:** gently squared (6px), 48px tall, 22px side padding, DM Sans 500 16px.
-- **Primary:** teal field with white text; hovers to deep teal. Colour transitions only, 0.2s.
-- **On teal:** white with deep-teal text; hovers to paper. This is the hero and download action.
-- **Ghost:** transparent with a hairline border and ink text; hovers to white.
-- **Text link on teal:** white, underlined at 40% white with a 6px offset; the underline goes solid on hover.
-- **Small:** 38px tall, 16px padding, 14px text.
-- **Focus:** 2px teal outline, 3px offset, 6px radius, on every focusable element.
-
-### Cards / Containers
-- **Corner Style:** 12px.
-- **Background:** white or clean surface on paper; raised deep on the deep band.
-- **Shadow Strategy:** none at rest; see Elevation for windows.
-- **Border:** 1px hairline.
-- **Internal Padding:** 16 to 24px.
+- **Shape:** 6px, 48px tall, 22px side padding, DM Sans 500 16px.
+- **Primary (paper):** teal with white text; hovers to night.
+- **On night:** white with night text; the hero, nav, download and footer action.
+- **Ghost:** transparent with a hairline border; hovers to white.
+- **Text link on night:** white, underlined at 40% white, 6px offset; solid on hover.
+- **Focus:** 2px outline, 3px offset, on every focusable element.
 
 ### Navigation
-A plain full-width bar. White text over the teal hero, with the Download action as a white button. Once scrolled it turns paper with ink text and a bottom hairline, and the action becomes a teal button. Links are 86% opacity at rest, full on hover with a faint fill, 6px radius. Under 640px the links hide behind a menu button.
+Transparent over the hero. Once scrolled it becomes dark glass with white text, a white hairline at 8% and a white Download button. Links hover to a faint white fill.
+
+### Gradient Headline
+An h2 with one `.gt` span (sweep gradient, clipped to text) or one `.dim` span (0.42 opacity). Night sections switch `.gt` to the light sweep automatically.
 
 ### Evidence Table
-The trust surface. A full-width table on the teal field: 13px label heads over a 40% white rule, rows on 14% white hairlines, the measured value in the figure style, and a dedicated limit column so every result carries its caveat beside it.
+On night, between a cyan glow at the top right and a mint glow at the bottom left. Values are figures in the light sweep; each row carries its method and its limit. Rows slide in as they enter.
 
 ### Rhythm Field (signature)
-A band of 84 bars between chapters. Scroll progress (`--p`) scales each bar with a per-bar delay (`--d`), so the teal grows down out of the field into paper (`down`) or rises up out of paper into the next field (`up`). The `deep` variant uses deep teal for wipes into and out of the pipeline band. One bar is amber. Under reduced motion the bars hold at 60% of their height.
+A band of 84 bars between chapters; `down` hangs from night into paper, `up` rises out of paper into night. `deep` marks the wipes beside the pipeline band. One bar is amber.
 
-### Live App Window
-The PsyClick task window, typing, set on the hero photograph's monitor: white, 12px, the window drop shadow. The report card that overlaps it is marked as a sample.
+### Opening Shot
+The sticky hero stage: photo layer, glow layer, copy, app window with report card overlapping its lower-right corner, facts row. The report card is marked as a sample.
+
+### End Card
+The footer on night with a cyan glow at its foot, white links in on-night tones, and the "PsyClick" endmark (decorative, `aria-hidden`) before the disclaimer.
 
 ## Do's and Don'ts
 
 ### Do:
-- **Do** put every section on paper (#eceff0), field (#0b5f70) or deep (#072f37), and change between them with a Rhythm field.
-- **Do** separate content with 1px hairlines (rgba(15, 42, 51, 0.12) on paper, rgba(255, 255, 255, 0.14) on teal).
-- **Do** set display and headline in Schibsted Grotesk 400 with negative tracking (-0.025em to -0.035em).
-- **Do** keep amber (#f5a623) for flags: the pause bar and follow-up markers.
-- **Do** show measured results with their limit beside them, as the Evidence table does.
+- **Do** light every night chapter with off-centre brand-sweep glows.
+- **Do** give each headline at most one dimmed clause or one gradient phrase.
+- **Do** use `sweep-on-paper` for gradient words on paper and `sweep-on-night` on night.
+- **Do** let product windows carry the coloured halos and the light pools.
+- **Do** tie motion to scroll, and leave the page complete without it.
+- **Do** keep amber (#f5a623) for flags.
+- **Do** show measured results with their limit beside them.
 - **Do** keep the 8-step algorithm stepper and the scroll holds on About, Roles and Algorithm.
-- **Do** label any illustrative app data as a sample.
+- **Do** label illustrative app data as a sample.
 
 ### Don't:
-- **Don't** use backdrop blur, glass panels, glows, halos or text shadows.
-- **Don't** use dot grids, corner brackets, ghost wordmarks or grain overlays.
-- **Don't** put a small label or tag above a heading.
-- **Don't** use italics, serif faces, gradient text or a coloured accent word in a headline.
-- **Don't** use gradients as fills; the legacy gradient tokens are flattened to solid teal.
-- **Don't** introduce radii outside 6 / 12 / 20px or shadows outside the two in Elevation.
-- **Don't** show customers, testimonials, pricing or usage numbers the product does not have.
+- **Don't** add glass beyond the scrolled nav, or glow to buttons, cards or icons.
+- **Don't** use dot grids, corner brackets, grain overlays or eyebrow labels above headings.
+- **Don't** use italics or serif faces.
+- **Don't** put a gradient on a whole headline or on a surface fill; the sweep lives in words, figures, glows and the endmark.
+- **Don't** introduce radii outside 6 / 12 / 20px.
+- **Don't** show customers, testimonials, pricing, certifications or usage numbers the product does not have.

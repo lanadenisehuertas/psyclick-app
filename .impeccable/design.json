@@ -1,23 +1,23 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-27T12:00:00Z",
+  "generatedAt": "2026-11-27T18:00:00Z",
   "title": "Design System: PsyClick",
   "extensions": {
     "colorMeta": {
+      "night": {
+        "role": "primary",
+        "displayName": "Night",
+        "canonical": "#03161b"
+      },
+      "night-raised": {
+        "role": "primary",
+        "displayName": "Night Raised",
+        "canonical": "#0a252c"
+      },
       "paper": {
         "role": "neutral",
-        "displayName": "Grey Paper",
-        "canonical": "#eceff0",
-        "tonalRamp": [
-          "#1f2526",
-          "#363e40",
-          "#505a5c",
-          "#6c7779",
-          "#8b9698",
-          "#adb6b8",
-          "#ced5d6",
-          "#eceff0"
-        ]
+        "displayName": "Paper",
+        "canonical": "#f3f6f6"
       },
       "surface": {
         "role": "neutral",
@@ -36,7 +36,7 @@
       },
       "field": {
         "role": "primary",
-        "displayName": "Clinic Teal Field",
+        "displayName": "Clinic Teal",
         "canonical": "#0b5f70",
         "tonalRamp": [
           "#031c22",
@@ -47,36 +47,6 @@
           "#5c9ead",
           "#94c3cd",
           "#d4e7eb"
-        ]
-      },
-      "deep": {
-        "role": "primary",
-        "displayName": "Deep Pipeline Teal",
-        "canonical": "#072f37",
-        "tonalRamp": [
-          "#031418",
-          "#072f37",
-          "#0c3b44",
-          "#15505b",
-          "#2a6a76",
-          "#518b96",
-          "#8cb4bc",
-          "#cfe3e7"
-        ]
-      },
-      "deep-raised": {
-        "role": "primary",
-        "displayName": "Raised Deep",
-        "canonical": "#0c3b44",
-        "tonalRamp": [
-          "#041a1f",
-          "#072f37",
-          "#0c3b44",
-          "#18505b",
-          "#2e6a75",
-          "#558b95",
-          "#8eb3ba",
-          "#d0e3e6"
         ]
       },
       "ink": {
@@ -124,9 +94,9 @@
           "#e0e7e9"
         ]
       },
-      "on-field": {
+      "on-night": {
         "role": "neutral",
-        "displayName": "Field Mist",
+        "displayName": "Night Mist",
         "canonical": "#cfe3e7",
         "tonalRamp": [
           "#1d2e31",
@@ -149,20 +119,35 @@
         "displayName": "Hairline on Dark",
         "canonical": "rgba(255, 255, 255, 0.14)"
       },
-      "signal-cyan": {
+      "sweep-mint": {
         "role": "secondary",
-        "displayName": "Signal Cyan",
-        "canonical": "#5fc6d8",
-        "tonalRamp": [
-          "#0d2d33",
-          "#174a53",
-          "#236a76",
-          "#348e9c",
-          "#5fc6d8",
-          "#8fdbe8",
-          "#bfeaf2",
-          "#e6f8fb"
-        ]
+        "displayName": "Sweep Mint",
+        "canonical": "#8ff0cf"
+      },
+      "sweep-cyan": {
+        "role": "secondary",
+        "displayName": "Sweep Cyan",
+        "canonical": "#68d8e8"
+      },
+      "sweep-peri": {
+        "role": "secondary",
+        "displayName": "Sweep Periwinkle",
+        "canonical": "#8fb4e8"
+      },
+      "sweep-mint-ink": {
+        "role": "secondary",
+        "displayName": "Sweep Mint on Paper",
+        "canonical": "#0b8f7c"
+      },
+      "sweep-cyan-ink": {
+        "role": "secondary",
+        "displayName": "Sweep Cyan on Paper",
+        "canonical": "#0a6b80"
+      },
+      "sweep-peri-ink": {
+        "role": "secondary",
+        "displayName": "Sweep Periwinkle on Paper",
+        "canonical": "#3d5fa8"
       },
       "flag-amber": {
         "role": "tertiary",
@@ -188,15 +173,15 @@
     "typographyMeta": {
       "display": {
         "displayName": "Display",
-        "purpose": "Hero headline only, white on the teal field, revealed line by line from masks."
+        "purpose": "Hero headline only, centred over the opening shot, revealed line by line from masks."
       },
       "headline": {
         "displayName": "Headline",
-        "purpose": "Every section h2, balanced wrap."
+        "purpose": "Every section h2; one dimmed clause or one gradient phrase."
       },
       "figure": {
         "displayName": "Figure",
-        "purpose": "Measured results in the Evidence table, tabular numerals."
+        "purpose": "Evidence results in the night sweep, tabular numerals."
       },
       "title": {
         "displayName": "Title",
@@ -204,7 +189,7 @@
       },
       "lede": {
         "displayName": "Lede",
-        "purpose": "Hero lede, max 52ch; 16px under 640px."
+        "purpose": "Hero lede, max 60ch; its second clause is dimmed."
       },
       "body": {
         "displayName": "Body",
@@ -217,6 +202,10 @@
       "data": {
         "displayName": "Data",
         "purpose": "Measured values inside app mocks only."
+      },
+      "endmark": {
+        "displayName": "Endmark",
+        "purpose": "Footer PsyClick wordmark in the night sweep, masked at its foot."
       }
     },
     "shadows": [
@@ -231,9 +220,14 @@
         "purpose": "A product window resting on paper."
       },
       {
-        "name": "window-drop-photo",
-        "value": "0 40px 80px -40px rgba(0, 0, 0, 0.55)",
-        "purpose": "The live app window over the hero photograph."
+        "name": "hero-window",
+        "value": "0 0 0 1px rgba(255,255,255,0.1), 0 60px 120px -40px rgba(0,0,0,0.75), 0 0 120px -20px rgba(104,216,232,0.45)",
+        "purpose": "Task window in the opening shot, with a cyan halo."
+      },
+      {
+        "name": "hero-report",
+        "value": "0 30px 60px -24px rgba(0,0,0,0.6), 0 0 60px -20px rgba(112,232,192,0.5)",
+        "purpose": "Sample report card on the window corner, with a mint halo."
       }
     ],
     "motion": [
@@ -245,12 +239,32 @@
       {
         "name": "state",
         "value": "0.2s",
-        "purpose": "Button and link colour transitions; colour only, no lift."
+        "purpose": "Colour transitions on buttons and links."
       },
       {
-        "name": "headline-reveal",
-        "value": "0.9s, 0.12s stagger per line, from y 110%",
-        "purpose": "Hero h1 lines rising out of their masks."
+        "name": "opening-shot",
+        "value": "hero 230vh; headline y 0 to -14vh, blur 0 to 10px, opacity 1 to 0 (5-45%); window y 0 to -46vh, rotateX 26deg to 0, scale 0.84 to 1.08 (0-70%); photo scale 1.18 to 1, opacity 0.5 to 0.16",
+        "purpose": "Pinned hero tied to scroll progress (framer-motion)."
+      },
+      {
+        "name": "heading-rise",
+        "value": "sx-rise, view() entry 5% to 80%: opacity 0, y 48px, blur 10px to rest",
+        "purpose": "Section headings."
+      },
+      {
+        "name": "frame-zoom",
+        "value": "sx-zoom, view() entry 0% to cover 35%: rotateX 16deg, scale 0.86, opacity 0.2 to flat",
+        "purpose": "Product frames, try-it card, flow device."
+      },
+      {
+        "name": "row-slide",
+        "value": "sx-slide, view() entry 0% to 90%: y 24px, opacity 0 to rest",
+        "purpose": "Evidence rows, commitments, FAQ items."
+      },
+      {
+        "name": "end-card",
+        "value": "sx-end, view() entry 0% to cover 60%: y 20%, scale 0.92 to rest",
+        "purpose": "Footer endmark."
       },
       {
         "name": "rhythm-wipe",
@@ -259,8 +273,8 @@
       },
       {
         "name": "reduced-motion",
-        "value": "bars hold at scaleY(--h * 0.6); MotionConfig reducedMotion user",
-        "purpose": "Static rhythm field and no reveal motion."
+        "value": "no scroll transforms or view() reveals; bars hold at scaleY(--h * 0.6)",
+        "purpose": "Static page under prefers-reduced-motion."
       }
     ],
     "breakpoints": [
@@ -272,6 +286,28 @@
         "name": "medium",
         "value": "960px"
       }
+    ],
+    "gradients": [
+      {
+        "name": "sweep-on-night",
+        "value": "linear-gradient(92deg, #8ff0cf 0%, #68d8e8 42%, #8fb4e8 100%)",
+        "purpose": "Gradient key words, Evidence figures and the endmark on night."
+      },
+      {
+        "name": "sweep-on-paper",
+        "value": "linear-gradient(92deg, #0b8f7c 0%, #0a6b80 45%, #3d5fa8 100%)",
+        "purpose": "Gradient key words on paper, contrast-safe."
+      },
+      {
+        "name": "night-glow",
+        "value": "radial-gradient(45% 50% at 85% 10%, rgba(104,216,232,0.22), transparent 70%), radial-gradient(40% 45% at 5% 90%, rgba(112,232,192,0.16), transparent 70%), #03161b",
+        "purpose": "Off-centre brand light on night chapters."
+      },
+      {
+        "name": "frame-pool",
+        "value": "radial-gradient(closest-side, rgba(104,216,232,0.4), rgba(112,232,192,0.16) 60%, transparent); filter: blur(40px)",
+        "purpose": "Light pool behind product frames on paper."
+      }
     ]
   },
   "components": [
@@ -281,15 +317,15 @@
       "refersTo": "button-primary",
       "description": "Teal action on paper; hovers to deep teal.",
       "html": "<button class=\"ds-btn-primary\">Download for Windows</button>",
-      "css": ".ds-btn-primary { height: 48px; padding: 0 22px; border: 0; border-radius: 6px; background: #0b5f70; color: #fff; font-family: 'DM Sans', system-ui, sans-serif; font-size: 16px; font-weight: 500; cursor: pointer; transition: background-color 0.2s, color 0.2s; } .ds-btn-primary:hover { background: #072f37; } .ds-btn-primary:focus-visible { outline: 2px solid #0b5f70; outline-offset: 3px; }"
+      "css": ".ds-btn-primary { height: 48px; padding: 0 22px; border: 0; border-radius: 6px; background: #0b5f70; color: #fff; font-family: 'DM Sans', system-ui, sans-serif; font-size: 16px; font-weight: 500; cursor: pointer; transition: background-color 0.2s, color 0.2s; } .ds-btn-primary:hover { background: #03161b; } .ds-btn-primary:focus-visible { outline: 2px solid #0b5f70; outline-offset: 3px; }"
     },
     {
-      "name": "Button on Teal",
+      "name": "Button on Night",
       "kind": "button",
-      "refersTo": "button-on-field",
-      "description": "White action on the teal field: the hero and download CTA.",
+      "refersTo": "button-on-night",
+      "description": "White action on night: the hero, nav, download and footer CTA.",
       "html": "<div class=\"ds-field-demo\"><button class=\"ds-btn-light\">Download for Windows <svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M5 12h14\"/><path d=\"m12 5 7 7-7 7\"/></svg></button><a class=\"ds-link-light\" href=\"#\">See how a session runs</a></div>",
-      "css": ".ds-field-demo { display: flex; align-items: center; gap: 28px; padding: 32px; background: #0b5f70; } .ds-btn-light { display: inline-flex; align-items: center; gap: 8px; height: 48px; padding: 0 22px; border: 0; border-radius: 6px; background: #fff; color: #072f37; font-family: 'DM Sans', system-ui, sans-serif; font-size: 16px; font-weight: 500; cursor: pointer; transition: background-color 0.2s; } .ds-btn-light:hover { background: #eceff0; } .ds-btn-light:focus-visible { outline: 2px solid #fff; outline-offset: 3px; } .ds-link-light { color: #fff; font-family: 'DM Sans', system-ui, sans-serif; font-weight: 500; text-decoration: underline; text-decoration-color: rgba(255,255,255,0.4); text-underline-offset: 6px; transition: text-decoration-color 0.2s; } .ds-link-light:hover { text-decoration-color: #fff; }"
+      "css": ".ds-field-demo { display: flex; align-items: center; gap: 28px; padding: 32px; background: #03161b; } .ds-btn-light { display: inline-flex; align-items: center; gap: 8px; height: 48px; padding: 0 22px; border: 0; border-radius: 6px; background: #fff; color: #03161b; font-family: 'DM Sans', system-ui, sans-serif; font-size: 16px; font-weight: 500; cursor: pointer; transition: background-color 0.2s; } .ds-btn-light:hover { background: #eceff0; } .ds-btn-light:focus-visible { outline: 2px solid #fff; outline-offset: 3px; } .ds-link-light { color: #fff; font-family: 'DM Sans', system-ui, sans-serif; font-weight: 500; text-decoration: underline; text-decoration-color: rgba(255,255,255,0.4); text-underline-offset: 6px; transition: text-decoration-color 0.2s; } .ds-link-light:hover { text-decoration-color: #fff; }"
     },
     {
       "name": "Ghost Button",
@@ -303,25 +339,25 @@
       "name": "Navigation Bar",
       "kind": "nav",
       "refersTo": "nav-bar",
-      "description": "Plain full-width bar; shown in its scrolled paper state.",
+      "description": "Dark glass once scrolled; the only glass surface on the page.",
       "html": "<nav class=\"ds-nav\"><strong class=\"ds-nav-brand\">PsyClick</strong><div class=\"ds-nav-links\"><a href=\"#\">The app</a><a href=\"#\">How it works</a><a href=\"#\">Evidence</a><a href=\"#\">FAQ</a></div><button class=\"ds-nav-cta\">Download</button></nav>",
-      "css": ".ds-nav { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 14px 32px; background: #eceff0; color: #0f2a33; border-bottom: 1px solid rgba(15,42,51,0.12); font-family: 'DM Sans', system-ui, sans-serif; } .ds-nav-brand { font-family: 'Schibsted Grotesk', system-ui, sans-serif; font-size: 20px; font-weight: 600; } .ds-nav-links { display: flex; gap: 4px; } .ds-nav-links a { padding: 8px 12px; border-radius: 6px; color: inherit; opacity: 0.86; text-decoration: none; font-size: 15px; transition: opacity 0.2s, background-color 0.2s; } .ds-nav-links a:hover { opacity: 1; background: rgba(15,42,51,0.06); } .ds-nav-links a:focus-visible { outline: 2px solid #0b5f70; outline-offset: 3px; } .ds-nav-cta { height: 38px; padding: 0 16px; border: 0; border-radius: 6px; background: #0b5f70; color: #fff; font-size: 14px; font-weight: 500; cursor: pointer; transition: background-color 0.2s; } .ds-nav-cta:hover { background: #072f37; }"
+      "css": ".ds-nav { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 14px 32px; background: rgba(3,22,27,0.72); -webkit-backdrop-filter: saturate(1.6) blur(20px); backdrop-filter: saturate(1.6) blur(20px); color: #fff; border-bottom: 1px solid rgba(255,255,255,0.08); font-family: 'DM Sans', system-ui, sans-serif; } .ds-nav-brand { font-family: 'Schibsted Grotesk', system-ui, sans-serif; font-size: 20px; font-weight: 600; } .ds-nav-links { display: flex; gap: 4px; } .ds-nav-links a { padding: 8px 12px; border-radius: 6px; color: inherit; opacity: 0.86; text-decoration: none; font-size: 15px; transition: opacity 0.2s, background-color 0.2s; } .ds-nav-links a:hover { opacity: 1; background: rgba(255,255,255,0.08); } .ds-nav-links a:focus-visible { outline: 2px solid #fff; outline-offset: 3px; } .ds-nav-cta { height: 38px; padding: 0 16px; border: 0; border-radius: 6px; background: #fff; color: #03161b; font-size: 14px; font-weight: 500; cursor: pointer; transition: background-color 0.2s; } .ds-nav-cta:hover { background: #f3f6f6; }"
     },
     {
       "name": "Rhythm Field",
       "kind": "custom",
       "refersTo": "rhythm-field",
-      "description": "Signature chapter wipe: keystroke-gap bars of the field colour over paper, one amber pause bar.",
+      "description": "Signature chapter wipe: night bars with lit cyan tips over paper, one amber-tipped pause bar.",
       "html": "<div class=\"ds-rhythm\"><i style=\"--h:.42\"></i><i style=\"--h:.7\"></i><i style=\"--h:.35\"></i><i style=\"--h:.58\"></i><i style=\"--h:.8\"></i><i style=\"--h:.3\"></i><i style=\"--h:.64\"></i><i style=\"--h:.5\"></i><i style=\"--h:.74\"></i><i style=\"--h:.38\"></i><i style=\"--h:.55\"></i><i style=\"--h:.45\"></i><i class=\"pause\" style=\"--h:1\"></i><i style=\"--h:.62\"></i><i style=\"--h:.33\"></i><i style=\"--h:.69\"></i><i style=\"--h:.48\"></i><i style=\"--h:.77\"></i><i style=\"--h:.4\"></i><i style=\"--h:.6\"></i></div>",
-      "css": ".ds-rhythm { display: flex; align-items: flex-start; gap: 2px; height: 140px; background: #eceff0; overflow: hidden; } .ds-rhythm i { flex: 1 1 0; height: 100%; background: #0b5f70; transform-origin: 50% 0; transform: scaleY(var(--h)); transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1); } .ds-rhythm:hover i { transform: scaleY(calc(var(--h) * 0.5)); } .ds-rhythm i.pause { background: #f5a623; }"
+      "css": ".ds-rhythm { display: flex; align-items: flex-start; gap: 2px; height: 140px; background: #f3f6f6; overflow: hidden; } .ds-rhythm i { flex: 1 1 0; height: 100%; background: linear-gradient(180deg, #03161b 0%, #03161b 50%, #13606e 82%, #68d8e8 100%); transform-origin: 50% 0; transform: scaleY(var(--h)); transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1); } .ds-rhythm:hover i { transform: scaleY(calc(var(--h) * 0.5)); } .ds-rhythm i.pause { background: linear-gradient(180deg, #03161b 0%, #03161b 50%, #8a5a12 82%, #f5a623 100%); }"
     },
     {
       "name": "Evidence Table",
       "kind": "custom",
       "refersTo": "evidence-table",
-      "description": "Measured results on the teal field, each with its method and limit.",
+      "description": "Measured results on lit night, figures in the brand sweep, each with its method and limit.",
       "html": "<div class=\"ds-ev\"><table class=\"ds-ev-table\"><thead><tr><th>Result</th><th>Value</th><th>Method</th><th>Limit</th></tr></thead><tbody><tr><th>Measure</th><td class=\"ds-ev-value\">0.00</td><td>How it was tested</td><td>What it does not show</td></tr></tbody></table></div>",
-      "css": ".ds-ev { padding: 32px; background: #0b5f70; font-family: 'DM Sans', system-ui, sans-serif; } .ds-ev-table { width: 100%; border-collapse: collapse; font-size: 16px; line-height: 1.5; } .ds-ev-table thead th { padding: 0 24px 12px 0; border-bottom: 1px solid rgba(255,255,255,0.4); font-size: 13px; font-weight: 500; text-align: left; color: #cfe3e7; } .ds-ev-table td, .ds-ev-table tbody th { padding: 24px 24px 24px 0; border-bottom: 1px solid rgba(255,255,255,0.14); text-align: left; vertical-align: top; color: #cfe3e7; } .ds-ev-table tbody th { font-weight: 500; color: #fff; } .ds-ev-value { font-family: 'Schibsted Grotesk', system-ui, sans-serif; font-size: 40px; line-height: 1; letter-spacing: -0.03em; color: #fff !important; font-variant-numeric: tabular-nums; } .ds-ev-table tbody tr:hover td, .ds-ev-table tbody tr:hover th { color: #fff; }"
+      "css": ".ds-ev { padding: 32px; background: radial-gradient(50% 45% at 80% 0%, rgba(104,216,232,0.22), transparent 70%), radial-gradient(45% 45% at 0% 100%, rgba(112,232,192,0.16), transparent 70%), #03161b; font-family: 'DM Sans', system-ui, sans-serif; } .ds-ev-table { width: 100%; border-collapse: collapse; font-size: 16px; line-height: 1.5; } .ds-ev-table thead th { padding: 0 24px 12px 0; border-bottom: 1px solid rgba(255,255,255,0.4); font-size: 13px; font-weight: 500; text-align: left; color: #cfe3e7; } .ds-ev-table td, .ds-ev-table tbody th { padding: 24px 24px 24px 0; border-bottom: 1px solid rgba(255,255,255,0.14); text-align: left; vertical-align: top; color: #cfe3e7; } .ds-ev-table tbody th { font-weight: 500; color: #fff; } .ds-ev-value { font-family: 'Schibsted Grotesk', system-ui, sans-serif; font-size: 40px; line-height: 1; letter-spacing: -0.03em; background-image: linear-gradient(92deg, #8ff0cf 0%, #68d8e8 42%, #8fb4e8 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent !important; font-variant-numeric: tabular-nums; } .ds-ev-table tbody tr:hover td, .ds-ev-table tbody tr:hover th { color: #fff; }"
     },
     {
       "name": "App Window Card",
@@ -337,84 +373,93 @@
       "refersTo": "pipeline-panel",
       "description": "The algorithm step panel on the deep band, with signal-cyan progress.",
       "html": "<div class=\"ds-deep\"><div class=\"ds-track\"><i></i></div><div class=\"ds-panel\"><h3>Step 3 · Baseline</h3><p>Each step runs in order inside a session, on the clinic computer.</p></div></div>",
-      "css": ".ds-deep { padding: 32px; background: #072f37; font-family: 'DM Sans', system-ui, sans-serif; } .ds-track { height: 2px; margin-bottom: 24px; background: rgba(255,255,255,0.14); } .ds-track i { display: block; width: 38%; height: 100%; background: #5fc6d8; } .ds-panel { padding: 28px; border-radius: 20px; background: #0c3b44; box-shadow: inset 0 0 0 1px rgba(255,255,255,0.14); color: #cfe3e7; transition: box-shadow 0.2s; } .ds-panel:hover { box-shadow: inset 0 0 0 1px rgba(95,198,216,0.5); } .ds-panel h3 { margin: 0 0 8px; font-family: 'Schibsted Grotesk', system-ui, sans-serif; font-size: 20px; font-weight: 400; letter-spacing: -0.02em; color: #fff; } .ds-panel p { margin: 0; font-size: 16px; line-height: 1.6; }"
+      "css": ".ds-deep { padding: 32px; background: #03161b; font-family: 'DM Sans', system-ui, sans-serif; } .ds-track { height: 2px; margin-bottom: 24px; background: rgba(255,255,255,0.14); } .ds-track i { display: block; width: 38%; height: 100%; background: #68d8e8; } .ds-panel { padding: 28px; border-radius: 20px; background: #0a252c; box-shadow: inset 0 0 0 1px rgba(255,255,255,0.14); color: #cfe3e7; transition: box-shadow 0.2s; } .ds-panel:hover { box-shadow: inset 0 0 0 1px rgba(104,216,232,0.5); } .ds-panel h3 { margin: 0 0 8px; font-family: 'Schibsted Grotesk', system-ui, sans-serif; font-size: 20px; font-weight: 400; letter-spacing: -0.02em; color: #fff; } .ds-panel p { margin: 0; font-size: 16px; line-height: 1.6; }"
+    },
+    {
+      "name": "Gradient Headline",
+      "kind": "custom",
+      "refersTo": "gradient-headline",
+      "description": "Two-tone section heading: one gradient phrase on night, or one dimmed clause on paper.",
+      "html": "<div class=\"ds-gh\"><h2 class=\"ds-gh-night\">Tested with clinicians. <span class=\"gt\">Reported honestly.</span></h2><h2 class=\"ds-gh-paper\">Timing, <span class=\"dim\">never meaning.</span></h2></div>",
+      "css": ".ds-gh { font-family: 'Schibsted Grotesk', system-ui, sans-serif; } .ds-gh h2 { margin: 0; padding: 40px 32px; font-size: 56px; font-weight: 500; line-height: 1.04; letter-spacing: -0.035em; } .ds-gh-night { background: radial-gradient(50% 60% at 85% 10%, rgba(104,216,232,0.22), transparent 70%), #03161b; color: #fff; } .ds-gh-night .gt { background-image: linear-gradient(92deg, #8ff0cf 0%, #68d8e8 42%, #8fb4e8 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; } .ds-gh-paper { background: #f3f6f6; color: #0f2a33; } .ds-gh-paper .dim { opacity: 0.42; }"
     }
   ],
   "narrative": {
-    "northStar": "The Measured Field",
-    "overview": "The page is a two-colour systems document: cool grey paper and one committed teal field, with a deeper teal band where the pipeline runs. Nothing on it is decorative in the ornamental sense. Its one expressive device is borrowed from the product's own signal: the Rhythm field, a row of keystroke-gap bars that grows out of one colour into the other as the visitor scrolls, with a single amber bar standing for the long pause the app exists to notice. The design lets that timing trace carry the identity, and lets the real app screens, the report, and an evidence table with its limits carry the persuasion.\n\nDensity is calm and editorial. Large Schibsted Grotesk at regular weight sets the voice; DM Sans does the reading; IBM Plex Mono appears for measured values only. Separation comes from hairlines and from switching the ground colour, not from cards floating on shadows. One teal duotone photograph of a clinic workstation (generated, provenance in `public/art/workstation-duo.webp.json`) sits behind the hero field, and the live task window sits over its monitor.\n\nThe build rejected glass, glows, dot grids, eyebrow labels, gradient text, italics and serif faces; `app/system.css` enforces the first and last of these at page scope.",
+    "northStar": "The Trailer",
+    "overview": "The page plays like a product trailer. It opens on a pinned shot: the headline sits over a dim clinic workstation, then lifts and blurs away as the PsyClick task window rises from below, tips flat from a 26° tilt and settles in the centre of the screen. From there the page alternates between night chapters (near-black teal lit by soft brand light) and bright paper chapters where the product screens sit. It ends on a large \"PsyClick\" wordmark in the brand sweep.\n\nThe colour comes from the logo's sweep: mint, cyan and periwinkle. On night chapters it appears as soft radial light, as gradient key words in headlines and as the Evidence figures. On paper the same sweep is darkened so it holds contrast. The Rhythm field carries over from the earlier system: a row of keystroke-gap bars between chapters, now night-coloured with lit cyan or mint tips and one amber pause bar.\n\nHeadlines are large Schibsted Grotesk at weight 500 and get variety from tone, not weight: a dimmed second clause (\"Timing, never meaning.\" with \"never meaning.\" at 42% opacity), or a gradient key phrase (\"Type a line. See your rhythm.\"). DM Sans does the reading; IBM Plex Mono sets measured values only.\n\nMotion follows the scroll. The hero is a framer-motion shot tied to scroll progress. Below it, CSS scroll-driven animations (`animation-timeline: view()`) bring headings up out of a blur, tilt product frames up to flat, and slide in table rows and FAQ items. Browsers without scroll timelines, and visitors with reduced motion, get the static page.\n\nThe trailer layer lives in `app/trailer.css`, loaded after `app/system.css` and `app/landing.css`. It overrides the paper and deep tokens at `:root`.",
     "keyCharacteristics": [
-      "Two grounds only: paper (#eceff0) and teal field (#0b5f70), plus deep teal (#072f37) for the pipeline and download bands.",
-      "Chapter changes are wipes of the Rhythm field, not borders or gradients.",
-      "Hairline rules (12% ink on paper, 14% white on teal) do the structural work.",
-      "Regular-weight grotesk display with tight negative tracking.",
-      "Amber appears only as a flag: the pause bar, a follow-up marker.",
-      "Three radii (6 / 12 / 20), two elevations, flat at rest."
+      "Two grounds: night (#03161b) for the hero, About, How it works, Algorithm, Evidence, Download and the footer; paper (#f3f6f6) for the product, try-it, report, roles, team and FAQ chapters.",
+      "Night chapters are lit by two or three blurred radial glows in the brand sweep, placed off-centre.",
+      "Two-tone headlines: one clause dimmed or one phrase in the sweep gradient, never both in one heading.",
+      "A pinned 230vh hero (200vh on phones) whose sticky stage holds the opening shot.",
+      "Rhythm fields with lit tips move between chapters.",
+      "Three radii (6 / 12 / 20), flat surfaces, coloured light only around product windows and on night grounds."
     ],
     "rules": [
       {
-        "name": "The Two Grounds Rule",
-        "body": "A section's ground is paper, field, or deep. No section sits on a gradient, a tint, a photo wash or a third hue.",
+        "name": "The Lit Night Rule",
+        "body": "A night chapter always carries brand-sweep light, placed off-centre. A flat black band reads as a template.",
+        "section": "colors"
+      },
+      {
+        "name": "The One Accent per Heading Rule",
+        "body": "A heading gets one dimmed clause or one gradient phrase, never both and never more than one phrase.",
+        "section": "colors"
+      },
+      {
+        "name": "The Contrast-Safe Sweep Rule",
+        "body": "Gradient text on paper uses `sweep-on-paper`; the light sweep is for night only.",
         "section": "colors"
       },
       {
         "name": "The Amber Is a Flag Rule",
-        "body": "Amber marks something the clinician should look at. It is never a highlight, a button, or a decoration.",
+        "body": "Amber marks something the clinician should look at. It is never a highlight, a button or a decoration.",
         "section": "colors"
       },
       {
-        "name": "The Cyan Stays Home Rule",
-        "body": "Signal cyan is the pipeline's progress colour and appears only on the deep band.",
-        "section": "colors"
-      },
-      {
-        "name": "The Six Steps Rule",
-        "body": "New type sits on 13 / 16 / 20 / 28 / 48 / 88. A size between steps needs a reason the scale cannot answer.",
-        "section": "typography"
-      },
-      {
-        "name": "The Regular Voice Rule",
-        "body": "Display and headline are weight 400. Emphasis comes from size and position, never from bold, italic, colour or gradient on a word.",
+        "name": "The Tone Not Weight Rule",
+        "body": "Headline variety comes from opacity (`.dim`, 0.42) or the sweep gradient (`.gt`), not from bold, italic or a size jump.",
         "section": "typography"
       },
       {
         "name": "The Mono Means Measured Rule",
-        "body": "Plex Mono sets a number the app measured or a value it reports. It does not set labels, headings or decorative tags.",
+        "body": "Plex Mono sets a number the app measured or a value it reports. It does not set labels or headings.",
         "section": "typography"
       },
       {
         "name": "The Wipe Not Border Rule",
-        "body": "A chapter change between paper and teal is made by a Rhythm field, never by a rule, a curve or a gradient seam.",
+        "body": "A change between night and paper happens through a Rhythm field or a hard cut, never a rule line or a soft gradient seam.",
         "section": "layout"
       },
       {
-        "name": "The No Glow Rule",
-        "body": "No coloured shadows, halos, rings or blurred light. An active state is an outline (1px, offset 4px), not a glow.",
+        "name": "The Light Belongs to the Product Rule",
+        "body": "Coloured glow appears on night grounds and around product windows only. Buttons, cards, text and icons never glow.",
         "section": "elevation"
       },
       {
-        "name": "The No Glass Rule",
-        "body": "No backdrop blur and no text shadow anywhere on the page.",
+        "name": "The One Glass Rule",
+        "body": "The scrolled nav is the only glass surface (`rgba(3, 22, 27, 0.72)`, `saturate(1.6) blur(20px)`). `app/system.css` disables backdrop blur everywhere else.",
         "section": "elevation"
       }
     ],
     "dos": [
-      "Do put every section on paper (#eceff0), field (#0b5f70) or deep (#072f37), and change between them with a Rhythm field.",
-      "Do separate content with 1px hairlines (rgba(15, 42, 51, 0.12) on paper, rgba(255, 255, 255, 0.14) on teal).",
-      "Do set display and headline in Schibsted Grotesk 400 with negative tracking (-0.025em to -0.035em).",
-      "Do keep amber (#f5a623) for flags: the pause bar and follow-up markers.",
-      "Do show measured results with their limit beside them, as the Evidence table does.",
+      "Do light every night chapter with off-centre brand-sweep glows.",
+      "Do give each headline at most one dimmed clause or one gradient phrase.",
+      "Do use `sweep-on-paper` for gradient words on paper and `sweep-on-night` on night.",
+      "Do let product windows carry the coloured halos and the light pools.",
+      "Do tie motion to scroll, and leave the page complete without it.",
+      "Do keep amber (#f5a623) for flags.",
+      "Do show measured results with their limit beside them.",
       "Do keep the 8-step algorithm stepper and the scroll holds on About, Roles and Algorithm.",
-      "Do label any illustrative app data as a sample."
+      "Do label illustrative app data as a sample."
     ],
     "donts": [
-      "Don't use backdrop blur, glass panels, glows, halos or text shadows.",
-      "Don't use dot grids, corner brackets, ghost wordmarks or grain overlays.",
-      "Don't put a small label or tag above a heading.",
-      "Don't use italics, serif faces, gradient text or a coloured accent word in a headline.",
-      "Don't use gradients as fills; the legacy gradient tokens are flattened to solid teal.",
-      "Don't introduce radii outside 6 / 12 / 20px or shadows outside the two in Elevation.",
-      "Don't show customers, testimonials, pricing or usage numbers the product does not have."
+      "Don't add glass beyond the scrolled nav, or glow to buttons, cards or icons.",
+      "Don't use dot grids, corner brackets, grain overlays or eyebrow labels above headings.",
+      "Don't use italics or serif faces.",
+      "Don't put a gradient on a whole headline or on a surface fill; the sweep lives in words, figures, glows and the endmark.",
+      "Don't introduce radii outside 6 / 12 / 20px.",
+      "Don't show customers, testimonials, pricing, certifications or usage numbers the product does not have."
     ]
   }
 }

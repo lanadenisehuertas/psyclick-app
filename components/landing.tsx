@@ -50,12 +50,10 @@ import {
   FAQ_ITEMS,
   TEAM_MEMBERS,
 } from '@/lib/landing-data'
-import HeroInstrument from '@/components/hero-instrument'
 import DownloadHub from '@/components/download-hub'
-import FeaturesBento from '@/components/features-bento'
 import GuideFlow from '@/components/guide-flow'
 import TryRhythm from '@/components/try-rhythm'
-import { Team, Trust } from '@/components/trust-team'
+import { Team } from '@/components/trust-team'
 import IntroTakeover from '@/components/intro-takeover'
 
 import HeroDemo from '@/components/hero-demo'
@@ -75,7 +73,7 @@ const ALGO_ICONS = [Activity, MousePointer2, BarChart3, Database, Brain, HeartPu
 type Token = string | { node: React.ReactNode; key: string }
 
 function Word({ children, progress, range }: { children: React.ReactNode; progress: MotionValue<number>; range: [number, number] }) {
-  const opacity = useTransform(progress, range, [0.18, 1])
+  const opacity = useTransform(progress, range, [0.4, 1])
   return <motion.span style={{ opacity }}>{children} </motion.span>
 }
 
@@ -104,54 +102,6 @@ function ScrollWords({
       ))}
     </p>
   )
-}
-
-function KeysChip() {
-  return (
-    <span className="inl inl-keys" aria-hidden="true">
-      {[0, 1, 2].map((i) => (
-        <i key={i} style={{ animationDelay: `${i * 0.18 + (i === 2 ? 0.5 : 0)}s` }} className={i === 2 ? 'late' : ''} />
-      ))}
-    </span>
-  )
-}
-
-function CursorChip() {
-  return (
-    <span className="inl inl-cursor" aria-hidden="true">
-      <svg viewBox="0 0 80 28">
-        <path d="M4,22 C18,20 22,6 34,8 C44,10 40,22 32,20 C24,18 34,4 48,6 C58,7 64,10 76,6" />
-      </svg>
-    </span>
-  )
-}
-
-function BaselineChip() {
-  return (
-    <span className="inl inl-base" aria-hidden="true">
-      <svg viewBox="0 0 80 28">
-        <line x1="0" y1="16" x2="80" y2="16" className="b" />
-        <path d="M0,18 L14,14 L24,19 L34,12 L44,17 L54,9 L64,15 L80,11" />
-      </svg>
-    </span>
-  )
-}
-
-function CountUp({ to, decimals = 0 }: { to: number; decimals?: number }) {
-  const ref = useRef<HTMLSpanElement>(null)
-  const inView = useInView(ref, { once: true, amount: 0.6 })
-  useEffect(() => {
-    if (!inView) return
-    const controls = animate(0, to, {
-      duration: 1.6,
-      ease: EASE,
-      onUpdate: (v) => {
-        if (ref.current) ref.current.textContent = Number(v.toFixed(decimals)).toLocaleString('en-US')
-      },
-    })
-    return () => controls.stop()
-  }, [inView, to, decimals])
-  return <span ref={ref}>0</span>
 }
 
 /* ─── Sections ──────────────────────────────────────────── */
@@ -227,52 +177,25 @@ function Nav() {
 
 function Hero({ play }: { play: boolean }) {
   const lines: React.ReactNode[] = [
-    'catches what',
+    'PsyClick catches',
+    'what words',
     <>
-      words don’t <em className="accent">say.</em>
+      don’t <em className="accent">say.</em>
     </>,
   ]
   const at = (to: TargetAndTransition, from: TargetAndTransition) => (play ? to : from)
-  const heroRef = useRef<HTMLElement>(null)
-  // The live monitor is hidden on phones (Try it covers it), so don't run its canvas there
-  const [showInst, setShowInst] = useState(false)
-  useEffect(() => {
-    const mq = window.matchMedia('(min-width: 601px)')
-    const update = () => setShowInst(mq.matches)
-    update()
-    mq.addEventListener('change', update)
-    return () => mq.removeEventListener('change', update)
-  }, [])
-
   return (
-    <section id="top" className="hero" ref={heroRef}>
-      <div className="hero-grid">
-        <div className="hero-copy">
-          <motion.span
-            className="hero-tag"
-            initial={{ opacity: 0, y: 10 }}
-            animate={at({ opacity: 1, y: 0 }, { opacity: 0, y: 10 })}
-            transition={{ duration: 0.7, ease: EASE, delay: 0.2 }}
-          >
-            <i /> Keystroke &amp; cursor biomarkers for mental health screening
-          </motion.span>
+    <section id="top" className="sx-hero">
+      <div className="sx-hero-media" aria-hidden="true" />
+      <div className="sx-hero-grid">
+        <div className="sx-hero-copy">
           <h1>
-            <span className="line-mask">
-              <motion.span
-                className="hero-brand"
-                initial={{ y: '110%' }}
-                animate={at({ y: '0%' }, { y: '110%' })}
-                transition={{ duration: 0.9, ease: EASE, delay: 0.3 }}
-              >
-                PsyClick
-              </motion.span>
-            </span>
             {lines.map((line, i) => (
               <span className="line-mask" key={i}>
                 <motion.span
                   initial={{ y: '110%' }}
                   animate={at({ y: '0%' }, { y: '110%' })}
-                  transition={{ duration: 0.9, ease: EASE, delay: 0.42 + i * 0.12 }}
+                  transition={{ duration: 0.9, ease: EASE, delay: 0.3 + i * 0.12 }}
                 >
                   {line}
                 </motion.span>
@@ -280,7 +203,7 @@ function Hero({ play }: { play: boolean }) {
             ))}
           </h1>
           <motion.p
-            className="hero-lede"
+            className="sx-hero-lede"
             initial={{ opacity: 0, y: 14 }}
             animate={at({ opacity: 1, y: 0 }, { opacity: 0, y: 14 })}
             transition={{ duration: 0.8, ease: EASE, delay: 0.7 }}
@@ -289,112 +212,55 @@ function Hero({ play }: { play: boolean }) {
             written prompts, then flags psychomotor signs of depression and anxiety for the clinician to review.
           </motion.p>
           <motion.div
-            className="hero-actions"
+            className="sx-hero-actions"
             initial={{ opacity: 0, y: 14 }}
             animate={at({ opacity: 1, y: 0 }, { opacity: 0, y: 14 })}
             transition={{ duration: 0.8, ease: EASE, delay: 0.85 }}
           >
-            <a className="btn btn-ink" href="#download">
+            <a className="btn sx-btn-light" href="#download">
               Download for Windows <ArrowRight size={16} />
             </a>
-            <a className="btn btn-glass" href="#guide">
+            <a className="sx-link" href="#guide">
               See how a session runs
             </a>
           </motion.div>
-          <motion.ol
-            className="hero-chain"
-            aria-label="How PsyClick works"
-            initial={{ opacity: 0, y: 14 }}
-            animate={at({ opacity: 1, y: 0 }, { opacity: 0, y: 14 })}
-            transition={{ duration: 0.8, ease: EASE, delay: 0.95 }}
-          >
-            <li>
-              <div className="hc-card" aria-hidden="true">
-                <span className="hc-field">
-                  Honestly, it was fine<i />
-                </span>
-              </div>
-              <p>
-                <b>1</b>
-                <span>
-                  Client answers
-                  <small>types short replies</small>
-                </span>
-              </p>
-            </li>
-            <li>
-              <div className="hc-card" aria-hidden="true">
-                <span className="hc-bars">
-                  {[40, 55, 35, 60, 45, 100, 50].map((h, i) => (
-                    <i key={i} className={i === 5 ? 'late' : ''} style={{ height: `${h}%` }} />
-                  ))}
-                </span>
-                <small className="mono">pause 1.1 s</small>
-              </div>
-              <p>
-                <b>2</b>
-                <span>
-                  PsyClick times it
-                  <small>keys, pauses, cursor</small>
-                </span>
-              </p>
-            </li>
-            <li>
-              <div className="hc-card" aria-hidden="true">
-                <span className="pd-pill follow">Follow up</span>
-                <small className="mono">1.18× baseline</small>
-              </div>
-              <p>
-                <b>3</b>
-                <span>
-                  Clinician gets a flag
-                  <small>and decides</small>
-                </span>
-              </p>
-            </li>
-          </motion.ol>
           <motion.p
-            className="hero-trust"
+            className="sx-hero-facts"
             initial={{ opacity: 0 }}
             animate={at({ opacity: 1 }, { opacity: 0 })}
             transition={{ duration: 0.8, ease: EASE, delay: 1 }}
           >
-            <span>Pairs with</span> <b>PHQ-9</b> <b>GAD-7</b> <i /> Works offline <i /> Windows 10+
+            Windows 10 or later <i /> Works offline <i /> Pairs with PHQ-9 and GAD-7
           </motion.p>
         </div>
         <HeroDemo play={play} />
       </div>
-      <motion.div
-        className="hero-inst-slot"
-        initial={{ opacity: 0, y: 30 }}
-        animate={at({ opacity: 1, y: 0 }, { opacity: 0, y: 30 })}
-        transition={{ duration: 0.9, ease: EASE, delay: 1.1 }}
-      >
-        {showInst && <HeroInstrument heroRef={heroRef} />}
-      </motion.div>
     </section>
   )
 }
 
-const METRICS: { value: React.ReactNode; label: string; note: string }[] = [
-  { value: <CountUp to={2100} />, label: 'Psychologists and psychiatrists', note: 'for 110 million Filipinos (Alibudbud)' },
-  { value: <CountUp to={8} />, label: 'Psychomotor biomarkers', note: 'from keystroke timing and cursor movement' },
-  { value: '10–15', label: 'Minutes per session', note: 'consent, warm-ups, PHQ-9, GAD-7, 12 prompts' },
-  { value: '0', label: 'Words read for meaning', note: 'only the timing of keys and cursor is kept' },
-]
+/* Keystroke timing as a field of bars: the gaps of one typed sentence, with
+   one long pause. It wipes the page between the teal field and the paper. */
+const RHYTHM = Array.from({ length: 84 }, (_, i) => {
+  const r = Math.abs(Math.sin(i * 12.9898) * 43758.5453) % 1
+  const pause = i === 51
+  return { h: pause ? 1 : Math.round((0.26 + r * 0.56) * 1000) / 1000, d: Math.round((i / 84) * 0.45 * 1000) / 1000, pause }
+})
 
-/** Ruled band of key numbers right under the hero. */
-function Metrics() {
+function RhythmField({ dir, deep = false }: { dir: 'down' | 'up'; deep?: boolean }) {
+  const ref = useRef<HTMLDivElement>(null)
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] })
+  useMotionValueEvent(scrollYProgress, 'change', (v) => ref.current?.style.setProperty('--p', v.toFixed(3)))
   return (
-    <section className="metrics" aria-label="PsyClick at a glance">
-      {METRICS.map((m, i) => (
-        <Reveal key={m.label} className="metric" delay={i * 0.06}>
-          <strong>{m.value}</strong>
-          <span>{m.label}</span>
-          <small>{m.note}</small>
-        </Reveal>
+    <div ref={ref} className={`sx-rhythm ${dir}${deep ? ' deep' : ''}`} aria-hidden="true">
+      {RHYTHM.map((b, i) => (
+        <i
+          key={i}
+          className={b.pause ? 'pause' : undefined}
+          style={{ '--h': b.h, '--d': b.d } as React.CSSProperties}
+        />
       ))}
-    </section>
+    </div>
   )
 }
 
@@ -412,13 +278,7 @@ function About() {
         target={holdRef}
         className="statement"
         tokens={[
-          'Adults can mask distress in a session. The rhythm of their typing',
-          { key: 'keys', node: <KeysChip /> },
-          'and cursor movement',
-          { key: 'cursor', node: <CursorChip /> },
-          'often shifts anyway. PsyClick measures that hidden signal against each client’s own baseline',
-          { key: 'base', node: <BaselineChip /> },
-          'and puts it in front of the clinician.',
+          'Adults can mask distress in a session. The rhythm of their typing and cursor movement often shifts anyway. PsyClick measures that hidden signal against each client’s own baseline and puts it in front of the clinician.',
         ]}
       />
       </div>
@@ -471,7 +331,7 @@ function Reads() {
         <Reveal>
           <Eyebrow>What it records</Eyebrow>
           <h2 id="reads-title">
-            Timing, never <em className="accent">meaning.</em>
+            Timing, never meaning.
           </h2>
         </Reveal>
         <Reveal delay={0.1}>
@@ -543,40 +403,87 @@ function AppShowcase() {
   )
 }
 
+const EVIDENCE = [
+  {
+    value: 'κ = 1.00',
+    measure: 'Clinician concordance',
+    how: '15 of 15 clinical sessions matched the attending clinician’s judgment (z = 5.44, p < .001)',
+    limit: 'Small clinical sample; to be confirmed at larger scale',
+  },
+  {
+    value: '105',
+    measure: 'Normative participants',
+    how: 'Adults aged 18–64; 71 healthy adults form the reference baseline',
+    limit: 'Adults 18–64 only',
+  },
+  {
+    value: '4.64 / 5',
+    measure: 'ISO/IEC 25010 software quality',
+    how: 'Rated by five software engineering professionals',
+    limit: 'Software quality, not a clinical outcome',
+  },
+  {
+    value: '~90%',
+    measure: 'Hardware variance removed',
+    how: 'Device normalization cut timing variance by 89.4–90.1%',
+    limit: 'Four hardware setups tested',
+  },
+]
+
+const COMMITMENTS = [
+  ['Decision support only', 'No concerns, Follow up and Review now are prompts for a clinician, never a diagnosis, emergency assessment, or replacement for protocol.'],
+  ['Clinician review required', 'Every flag, score, and recommendation is reviewed by a qualified clinician before it informs any decision.'],
+  ['Timing, not content', 'What a client writes is never analyzed for meaning. Only the timing of keys and cursor movement is measured.'],
+  ['Local-first data', 'Everything is stored on the computer and works offline, then syncs when online so accounts work on any clinic computer.'],
+]
+
 function Evidence() {
-  const items = [
-    { value: 'κ = 1.00', unit: '', label: 'Clinician concordance', note: '15 of 15 clinical sessions matched the attending clinician’s judgment (z = 5.44, p < .001).' },
-    { value: '105', unit: '', label: 'Normative participants', note: 'Adults aged 18–64 built the reference baseline for population comparison.' },
-    { value: '4.64', unit: '/ 5', label: 'ISO/IEC 25010 rating', note: 'Software quality rated by five software engineering professionals.' },
-    { value: '~90%', unit: '', label: 'Hardware variance removed', note: 'Device normalization cut timing variance by 89.4–90.1% across four setups.' },
-  ]
   return (
-    <section id="evidence" className="section evidence">
-      <div className="section-head split">
-        <Reveal>
-          <Eyebrow>Evidence</Eyebrow>
-          <h2>
-            Tested with clinicians, reported <em className="accent">honestly.</em>
-          </h2>
-        </Reveal>
-        <Reveal delay={0.1}>
-          <p className="section-sub">
-            Results from the PsyClick thesis study. The concordance result comes from a small clinical sample and should be
-            confirmed at larger scale.
-          </p>
-        </Reveal>
-      </div>
-      <div className="evidence-grid">
-        {items.map((it, i) => (
-          <Reveal key={it.label} className={`evidence-card${i === 0 ? ' lead' : ''}`} delay={i * 0.07}>
-            <strong>
-              {it.value}
-              {it.unit && <small> {it.unit}</small>}
-            </strong>
-            <span>{it.label}</span>
-            <p>{it.note}</p>
+    <section id="evidence" className="sx-evidence">
+      <div className="sx-wrap">
+        <div className="sx-ev-head">
+          <Reveal>
+            <h2>Tested with clinicians, reported honestly.</h2>
           </Reveal>
-        ))}
+          <Reveal delay={0.1}>
+            <p>
+              Results from the PsyClick thesis study, each with its limit. For context: about 2,100 psychologists and
+              psychiatrists serve 110 million Filipinos (Alibudbud).
+            </p>
+          </Reveal>
+        </div>
+        <Reveal>
+          <table className="sx-ev-table">
+            <thead>
+              <tr>
+                <th scope="col">Result</th>
+                <th scope="col">Measure</th>
+                <th scope="col">How it was measured</th>
+                <th scope="col">Limit</th>
+              </tr>
+            </thead>
+            <tbody>
+              {EVIDENCE.map((r) => (
+                <tr key={r.measure}>
+                  <td className="sx-ev-value">{r.value}</td>
+                  <th scope="row">{r.measure}</th>
+                  <td>{r.how}</td>
+                  <td className="sx-ev-limit">{r.limit}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </Reveal>
+        <ul className="sx-commit" aria-label="What PsyClick holds to">
+          {COMMITMENTS.map(([t, d], i) => (
+            <Reveal key={t} delay={i * 0.06}>
+              <li>
+                <h3>{t}</h3>
+                <p>{d}</p>
+              </li>
+            </Reveal>
+          ))}
+        </ul>
       </div>
     </section>
   )
@@ -1138,9 +1045,6 @@ function Footer() {
           </a>
         </div>
       </div>
-      <p className="lab-word" aria-hidden="true">
-        psyclick
-      </p>
       <div className="footer-mid">
         <nav aria-label="Footer">
           {NAV.map((l) => (
@@ -1157,59 +1061,6 @@ function Footer() {
         clinic protocols.
       </p>
     </footer>
-  )
-}
-
-const TABS = [
-  ['#guide', 'How it works'],
-  ['#report', 'Report'],
-  ['#download', 'Download'],
-] as const
-
-/** Small bar fixed at the bottom: jumps to the three main chapters, the current one marked. */
-function FloatTabs({ show }: { show: boolean }) {
-  const [active, setActive] = useState(-1)
-  const [visible, setVisible] = useState(false)
-  useEffect(() => {
-    let raf = 0
-    const read = () => {
-      raf = 0
-      const vh = window.innerHeight
-      let a = -1
-      TABS.forEach(([href], i) => {
-        const el = document.querySelector(href)
-        if (el && el.getBoundingClientRect().top < vh * 0.4) a = i
-      })
-      setActive(a)
-      const dl = document.querySelector('#download')?.getBoundingClientRect()
-      const overDownload = dl ? dl.top < vh * 0.7 && dl.bottom > vh * 0.3 : false
-      setVisible(window.scrollY > vh * 0.8 && !overDownload)
-    }
-    const onScroll = () => {
-      if (!raf) raf = requestAnimationFrame(read)
-    }
-    read()
-    window.addEventListener('scroll', onScroll, { passive: true })
-    window.addEventListener('resize', onScroll)
-    return () => {
-      window.removeEventListener('scroll', onScroll)
-      window.removeEventListener('resize', onScroll)
-      cancelAnimationFrame(raf)
-    }
-  }, [])
-  return (
-    <nav className={`lab-tabs${show && visible ? ' on' : ''}`} aria-label="Jump to a section">
-      {TABS.map(([href, label], i) => (
-        <a
-          key={href}
-          href={href}
-          className={active === i ? 'active' : undefined}
-          aria-current={active === i ? 'location' : undefined}
-        >
-          {label}
-        </a>
-      ))}
-    </nav>
   )
 }
 
@@ -1266,35 +1117,30 @@ export default function Landing() {
         <main className="pc">
           <Nav />
           <Hero play={introDone} />
+          <RhythmField dir="down" />
+          <PauseOffscreen />
+          <About />
           <PauseOffscreen />
           {/* Suspense boundaries let React hydrate below-the-fold sections in
               separate, interruptible chunks instead of one long task. */}
           <Suspense>
             <AppShowcase />
-            <PauseOffscreen />
-          </Suspense>
-          <About />
-          <PauseOffscreen />
-          <Suspense>
             <Reads />
-            <Metrics />
             <TryRhythm />
+            <RhythmField dir="up" deep />
             <PauseOffscreen />
           </Suspense>
           <Suspense>
             <GuideFlow />
             <Algorithm />
+            <RhythmField dir="down" deep />
             <PauseOffscreen />
           </Suspense>
           <Suspense>
             <Report />
             <RolePanels />
-            <FeaturesBento />
-            <PauseOffscreen />
-          </Suspense>
-          <Suspense>
+            <RhythmField dir="up" />
             <Evidence />
-            <Trust />
             <PauseOffscreen />
           </Suspense>
           <Suspense>
@@ -1304,7 +1150,6 @@ export default function Landing() {
             <PauseOffscreen />
           </Suspense>
           <Footer />
-          <FloatTabs show={introDone} />
           <PauseOffscreen />
         </main>
       </MotionConfig>

@@ -93,7 +93,7 @@ export default function TryRhythm() {
         <Reveal>
           <Eyebrow>Try it</Eyebrow>
           <h2>
-            Type a line. See your <em className="accent">rhythm.</em>
+            Type a line. See your rhythm.
           </h2>
         </Reveal>
         <Reveal delay={0.1}>

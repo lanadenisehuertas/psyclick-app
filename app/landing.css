@@ -7157,38 +7157,6 @@ i {
   background: var(--ink);
 }
 
-/* Hero: the clinic room photo replaces the teal wash */
-.hero {
-  background: #eef6f6;
-}
-.hero::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background: url('/art/hero-room.webp') center right / cover no-repeat;
-  /* keep the photo calm under the headline, fade it into the page at the bottom */
-  -webkit-mask-image: linear-gradient(90deg, rgba(0, 0, 0, 0.35) 0%, #000 55%), linear-gradient(180deg, #000 70%, transparent 100%);
-  -webkit-mask-composite: source-in;
-  mask-image: linear-gradient(90deg, rgba(0, 0, 0, 0.35) 0%, #000 55%), linear-gradient(180deg, #000 70%, transparent 100%);
-  mask-composite: intersect;
-  pointer-events: none;
-}
-.hero::after {
-  /* a soft white field behind the copy so text sits on calm space */
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background: linear-gradient(90deg, rgba(246, 251, 251, 0.92) 0%, rgba(246, 251, 251, 0.6) 38%, rgba(246, 251, 251, 0) 62%);
-  pointer-events: none;
-}
-
-@media (max-width: 900px) {
-  /* copy spans the full width on phones: keep the room as a soft backdrop only */
-  .hero::after { background: rgba(246, 251, 251, 0.86); }
-}
-
 /* Download: flat deep teal (the keycap photo's own ground) with the keycap as its one object */
 .hub {
   background: #02697b;
@@ -7201,7 +7169,6 @@ i {
   width: min(30vw, 420px);
   aspect-ratio: 1;
   z-index: -1;
-  background: url('/art/keycap.webp') center / contain no-repeat;
   -webkit-mask-image: radial-gradient(closest-side, #000 62%, transparent);
   mask-image: radial-gradient(closest-side, #000 62%, transparent);
   pointer-events: none;

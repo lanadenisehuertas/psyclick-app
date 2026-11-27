@@ -1,0 +1,420 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-27T12:00:00Z",
+  "title": "Design System: PsyClick",
+  "extensions": {
+    "colorMeta": {
+      "paper": {
+        "role": "neutral",
+        "displayName": "Grey Paper",
+        "canonical": "#eceff0",
+        "tonalRamp": [
+          "#1f2526",
+          "#363e40",
+          "#505a5c",
+          "#6c7779",
+          "#8b9698",
+          "#adb6b8",
+          "#ced5d6",
+          "#eceff0"
+        ]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Clean Surface",
+        "canonical": "#f7f9f9",
+        "tonalRamp": [
+          "#222727",
+          "#3a4141",
+          "#555d5d",
+          "#727b7b",
+          "#929a9a",
+          "#b4bbbb",
+          "#d6dbdb",
+          "#f7f9f9"
+        ]
+      },
+      "field": {
+        "role": "primary",
+        "displayName": "Clinic Teal Field",
+        "canonical": "#0b5f70",
+        "tonalRamp": [
+          "#031c22",
+          "#062f37",
+          "#0a4553",
+          "#0b5f70",
+          "#2f7e8e",
+          "#5c9ead",
+          "#94c3cd",
+          "#d4e7eb"
+        ]
+      },
+      "deep": {
+        "role": "primary",
+        "displayName": "Deep Pipeline Teal",
+        "canonical": "#072f37",
+        "tonalRamp": [
+          "#031418",
+          "#072f37",
+          "#0c3b44",
+          "#15505b",
+          "#2a6a76",
+          "#518b96",
+          "#8cb4bc",
+          "#cfe3e7"
+        ]
+      },
+      "deep-raised": {
+        "role": "primary",
+        "displayName": "Raised Deep",
+        "canonical": "#0c3b44",
+        "tonalRamp": [
+          "#041a1f",
+          "#072f37",
+          "#0c3b44",
+          "#18505b",
+          "#2e6a75",
+          "#558b95",
+          "#8eb3ba",
+          "#d0e3e6"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Clinic Ink",
+        "canonical": "#0f2a33",
+        "tonalRamp": [
+          "#0f2a33",
+          "#1f3c46",
+          "#33525c",
+          "#4a6a74",
+          "#66848d",
+          "#88a2aa",
+          "#b2c5ca",
+          "#dde7ea"
+        ]
+      },
+      "slate": {
+        "role": "neutral",
+        "displayName": "Slate",
+        "canonical": "#46606a",
+        "tonalRamp": [
+          "#141d20",
+          "#243136",
+          "#35474e",
+          "#46606a",
+          "#627b85",
+          "#8499a1",
+          "#adbdc3",
+          "#d9e2e5"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Muted",
+        "canonical": "#5c757d",
+        "tonalRamp": [
+          "#172023",
+          "#283639",
+          "#3c4f55",
+          "#5c757d",
+          "#768c93",
+          "#94a7ad",
+          "#b9c7cb",
+          "#e0e7e9"
+        ]
+      },
+      "on-field": {
+        "role": "neutral",
+        "displayName": "Field Mist",
+        "canonical": "#cfe3e7",
+        "tonalRamp": [
+          "#1d2e31",
+          "#35494d",
+          "#4f666b",
+          "#6b8489",
+          "#8aa3a8",
+          "#abc3c8",
+          "#cfe3e7",
+          "#ecf4f6"
+        ]
+      },
+      "hairline": {
+        "role": "neutral",
+        "displayName": "Hairline",
+        "canonical": "rgba(15, 42, 51, 0.12)"
+      },
+      "hairline-on-dark": {
+        "role": "neutral",
+        "displayName": "Hairline on Dark",
+        "canonical": "rgba(255, 255, 255, 0.14)"
+      },
+      "signal-cyan": {
+        "role": "secondary",
+        "displayName": "Signal Cyan",
+        "canonical": "#5fc6d8",
+        "tonalRamp": [
+          "#0d2d33",
+          "#174a53",
+          "#236a76",
+          "#348e9c",
+          "#5fc6d8",
+          "#8fdbe8",
+          "#bfeaf2",
+          "#e6f8fb"
+        ]
+      },
+      "flag-amber": {
+        "role": "tertiary",
+        "displayName": "Flag Amber",
+        "canonical": "#f5a623",
+        "tonalRamp": [
+          "#3a2504",
+          "#5e3c08",
+          "#87560c",
+          "#b67511",
+          "#f5a623",
+          "#f8c063",
+          "#fbd9a0",
+          "#fdf0da"
+        ]
+      },
+      "white": {
+        "role": "neutral",
+        "displayName": "White",
+        "canonical": "#ffffff"
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Hero headline only, white on the teal field, revealed line by line from masks."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Every section h2, balanced wrap."
+      },
+      "figure": {
+        "displayName": "Figure",
+        "purpose": "Measured results in the Evidence table, tabular numerals."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "h3s, Evidence commitments, Reads column heads."
+      },
+      "lede": {
+        "displayName": "Lede",
+        "purpose": "Hero lede, max 52ch; 16px under 640px."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Section subs, table copy, FAQ."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Table column heads, hero facts row, disclaimer."
+      },
+      "data": {
+        "displayName": "Data",
+        "purpose": "Measured values inside app mocks only."
+      }
+    },
+    "shadows": [
+      {
+        "name": "hairline-lift",
+        "value": "0 1px 2px rgba(15, 42, 51, 0.06), 0 0 0 1px rgba(15, 42, 51, 0.12)",
+        "purpose": "Small surfaces on paper that need an edge."
+      },
+      {
+        "name": "window-drop",
+        "value": "0 24px 60px -30px rgba(7, 47, 55, 0.45), 0 0 0 1px rgba(15, 42, 51, 0.12)",
+        "purpose": "A product window resting on paper."
+      },
+      {
+        "name": "window-drop-photo",
+        "value": "0 40px 80px -40px rgba(0, 0, 0, 0.55)",
+        "purpose": "The live app window over the hero photograph."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease",
+        "value": "cubic-bezier(0.22, 1, 0.36, 1)",
+        "purpose": "Reveals, headline line masks, nav hide and show."
+      },
+      {
+        "name": "state",
+        "value": "0.2s",
+        "purpose": "Button and link colour transitions; colour only, no lift."
+      },
+      {
+        "name": "headline-reveal",
+        "value": "0.9s, 0.12s stagger per line, from y 110%",
+        "purpose": "Hero h1 lines rising out of their masks."
+      },
+      {
+        "name": "rhythm-wipe",
+        "value": "scaleY(--h * clamp(0, (1 - (--p - --d) * 2.4), 1)); delay spread 0 to 0.45 of scroll",
+        "purpose": "Rhythm field bars growing between grounds with scroll progress."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "bars hold at scaleY(--h * 0.6); MotionConfig reducedMotion user",
+        "purpose": "Static rhythm field and no reveal motion."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "narrow",
+        "value": "640px"
+      },
+      {
+        "name": "medium",
+        "value": "960px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Teal action on paper; hovers to deep teal.",
+      "html": "<button class=\"ds-btn-primary\">Download for Windows</button>",
+      "css": ".ds-btn-primary { height: 48px; padding: 0 22px; border: 0; border-radius: 6px; background: #0b5f70; color: #fff; font-family: 'DM Sans', system-ui, sans-serif; font-size: 16px; font-weight: 500; cursor: pointer; transition: background-color 0.2s, color 0.2s; } .ds-btn-primary:hover { background: #072f37; } .ds-btn-primary:focus-visible { outline: 2px solid #0b5f70; outline-offset: 3px; }"
+    },
+    {
+      "name": "Button on Teal",
+      "kind": "button",
+      "refersTo": "button-on-field",
+      "description": "White action on the teal field: the hero and download CTA.",
+      "html": "<div class=\"ds-field-demo\"><button class=\"ds-btn-light\">Download for Windows <svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M5 12h14\"/><path d=\"m12 5 7 7-7 7\"/></svg></button><a class=\"ds-link-light\" href=\"#\">See how a session runs</a></div>",
+      "css": ".ds-field-demo { display: flex; align-items: center; gap: 28px; padding: 32px; background: #0b5f70; } .ds-btn-light { display: inline-flex; align-items: center; gap: 8px; height: 48px; padding: 0 22px; border: 0; border-radius: 6px; background: #fff; color: #072f37; font-family: 'DM Sans', system-ui, sans-serif; font-size: 16px; font-weight: 500; cursor: pointer; transition: background-color 0.2s; } .ds-btn-light:hover { background: #eceff0; } .ds-btn-light:focus-visible { outline: 2px solid #fff; outline-offset: 3px; } .ds-link-light { color: #fff; font-family: 'DM Sans', system-ui, sans-serif; font-weight: 500; text-decoration: underline; text-decoration-color: rgba(255,255,255,0.4); text-underline-offset: 6px; transition: text-decoration-color 0.2s; } .ds-link-light:hover { text-decoration-color: #fff; }"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Secondary action on paper: hairline border, ink text.",
+      "html": "<button class=\"ds-btn-ghost\">Read the guide</button>",
+      "css": ".ds-btn-ghost { height: 48px; padding: 0 22px; border: 1px solid rgba(15,42,51,0.12); border-radius: 6px; background: transparent; color: #0f2a33; font-family: 'DM Sans', system-ui, sans-serif; font-size: 16px; font-weight: 500; cursor: pointer; transition: background-color 0.2s, border-color 0.2s; } .ds-btn-ghost:hover { background: #fff; } .ds-btn-ghost:focus-visible { outline: 2px solid #0b5f70; outline-offset: 3px; }"
+    },
+    {
+      "name": "Navigation Bar",
+      "kind": "nav",
+      "refersTo": "nav-bar",
+      "description": "Plain full-width bar; shown in its scrolled paper state.",
+      "html": "<nav class=\"ds-nav\"><strong class=\"ds-nav-brand\">PsyClick</strong><div class=\"ds-nav-links\"><a href=\"#\">The app</a><a href=\"#\">How it works</a><a href=\"#\">Evidence</a><a href=\"#\">FAQ</a></div><button class=\"ds-nav-cta\">Download</button></nav>",
+      "css": ".ds-nav { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 14px 32px; background: #eceff0; color: #0f2a33; border-bottom: 1px solid rgba(15,42,51,0.12); font-family: 'DM Sans', system-ui, sans-serif; } .ds-nav-brand { font-family: 'Schibsted Grotesk', system-ui, sans-serif; font-size: 20px; font-weight: 600; } .ds-nav-links { display: flex; gap: 4px; } .ds-nav-links a { padding: 8px 12px; border-radius: 6px; color: inherit; opacity: 0.86; text-decoration: none; font-size: 15px; transition: opacity 0.2s, background-color 0.2s; } .ds-nav-links a:hover { opacity: 1; background: rgba(15,42,51,0.06); } .ds-nav-links a:focus-visible { outline: 2px solid #0b5f70; outline-offset: 3px; } .ds-nav-cta { height: 38px; padding: 0 16px; border: 0; border-radius: 6px; background: #0b5f70; color: #fff; font-size: 14px; font-weight: 500; cursor: pointer; transition: background-color 0.2s; } .ds-nav-cta:hover { background: #072f37; }"
+    },
+    {
+      "name": "Rhythm Field",
+      "kind": "custom",
+      "refersTo": "rhythm-field",
+      "description": "Signature chapter wipe: keystroke-gap bars of the field colour over paper, one amber pause bar.",
+      "html": "<div class=\"ds-rhythm\"><i style=\"--h:.42\"></i><i style=\"--h:.7\"></i><i style=\"--h:.35\"></i><i style=\"--h:.58\"></i><i style=\"--h:.8\"></i><i style=\"--h:.3\"></i><i style=\"--h:.64\"></i><i style=\"--h:.5\"></i><i style=\"--h:.74\"></i><i style=\"--h:.38\"></i><i style=\"--h:.55\"></i><i style=\"--h:.45\"></i><i class=\"pause\" style=\"--h:1\"></i><i style=\"--h:.62\"></i><i style=\"--h:.33\"></i><i style=\"--h:.69\"></i><i style=\"--h:.48\"></i><i style=\"--h:.77\"></i><i style=\"--h:.4\"></i><i style=\"--h:.6\"></i></div>",
+      "css": ".ds-rhythm { display: flex; align-items: flex-start; gap: 2px; height: 140px; background: #eceff0; overflow: hidden; } .ds-rhythm i { flex: 1 1 0; height: 100%; background: #0b5f70; transform-origin: 50% 0; transform: scaleY(var(--h)); transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1); } .ds-rhythm:hover i { transform: scaleY(calc(var(--h) * 0.5)); } .ds-rhythm i.pause { background: #f5a623; }"
+    },
+    {
+      "name": "Evidence Table",
+      "kind": "custom",
+      "refersTo": "evidence-table",
+      "description": "Measured results on the teal field, each with its method and limit.",
+      "html": "<div class=\"ds-ev\"><table class=\"ds-ev-table\"><thead><tr><th>Result</th><th>Value</th><th>Method</th><th>Limit</th></tr></thead><tbody><tr><th>Measure</th><td class=\"ds-ev-value\">0.00</td><td>How it was tested</td><td>What it does not show</td></tr></tbody></table></div>",
+      "css": ".ds-ev { padding: 32px; background: #0b5f70; font-family: 'DM Sans', system-ui, sans-serif; } .ds-ev-table { width: 100%; border-collapse: collapse; font-size: 16px; line-height: 1.5; } .ds-ev-table thead th { padding: 0 24px 12px 0; border-bottom: 1px solid rgba(255,255,255,0.4); font-size: 13px; font-weight: 500; text-align: left; color: #cfe3e7; } .ds-ev-table td, .ds-ev-table tbody th { padding: 24px 24px 24px 0; border-bottom: 1px solid rgba(255,255,255,0.14); text-align: left; vertical-align: top; color: #cfe3e7; } .ds-ev-table tbody th { font-weight: 500; color: #fff; } .ds-ev-value { font-family: 'Schibsted Grotesk', system-ui, sans-serif; font-size: 40px; line-height: 1; letter-spacing: -0.03em; color: #fff !important; font-variant-numeric: tabular-nums; } .ds-ev-table tbody tr:hover td, .ds-ev-table tbody tr:hover th { color: #fff; }"
+    },
+    {
+      "name": "App Window Card",
+      "kind": "card",
+      "refersTo": "app-window",
+      "description": "A product window or report card: white, 12px, hairline, flat on paper.",
+      "html": "<div class=\"ds-card\"><div class=\"ds-card-head\">Clinician report <span class=\"ds-sample\">Sample</span></div><div class=\"ds-card-row\"><span>PHQ-9 self-report</span><b>6 · mild</b></div><div class=\"ds-card-row\"><span>Typing vs. baseline</span><b>1.18×</b></div><div class=\"ds-flag\"><i></i>Follow up · slowed responses</div></div>",
+      "css": ".ds-card { width: 300px; padding: 16px 18px; border-radius: 12px; background: #fff; color: #0f2a33; border: 1px solid rgba(15,42,51,0.12); font-family: 'DM Sans', system-ui, sans-serif; font-size: 13px; transition: box-shadow 0.2s; } .ds-card:hover { box-shadow: 0 24px 60px -30px rgba(7,47,55,0.45), 0 0 0 1px rgba(15,42,51,0.12); } .ds-card-head { margin-bottom: 10px; font-family: 'Schibsted Grotesk', system-ui, sans-serif; font-size: 16px; font-weight: 500; } .ds-sample { margin-left: 8px; padding: 2px 6px; border: 1px solid rgba(15,42,51,0.12); border-radius: 4px; font-family: 'DM Sans', system-ui, sans-serif; font-size: 11px; font-weight: 400; color: #5c757d; } .ds-card-row { display: flex; justify-content: space-between; padding: 8px 0; border-top: 1px solid rgba(15,42,51,0.12); color: #46606a; } .ds-card-row b { font-family: 'IBM Plex Mono', ui-monospace, monospace; color: #0f2a33; } .ds-flag { display: flex; align-items: center; gap: 8px; margin-top: 8px; padding: 8px 10px; border-radius: 6px; background: #fdf0da; color: #87560c; font-weight: 500; } .ds-flag i { width: 8px; height: 8px; border-radius: 50%; background: #f5a623; }"
+    },
+    {
+      "name": "Pipeline Panel",
+      "kind": "card",
+      "refersTo": "pipeline-panel",
+      "description": "The algorithm step panel on the deep band, with signal-cyan progress.",
+      "html": "<div class=\"ds-deep\"><div class=\"ds-track\"><i></i></div><div class=\"ds-panel\"><h3>Step 3 · Baseline</h3><p>Each step runs in order inside a session, on the clinic computer.</p></div></div>",
+      "css": ".ds-deep { padding: 32px; background: #072f37; font-family: 'DM Sans', system-ui, sans-serif; } .ds-track { height: 2px; margin-bottom: 24px; background: rgba(255,255,255,0.14); } .ds-track i { display: block; width: 38%; height: 100%; background: #5fc6d8; } .ds-panel { padding: 28px; border-radius: 20px; background: #0c3b44; box-shadow: inset 0 0 0 1px rgba(255,255,255,0.14); color: #cfe3e7; transition: box-shadow 0.2s; } .ds-panel:hover { box-shadow: inset 0 0 0 1px rgba(95,198,216,0.5); } .ds-panel h3 { margin: 0 0 8px; font-family: 'Schibsted Grotesk', system-ui, sans-serif; font-size: 20px; font-weight: 400; letter-spacing: -0.02em; color: #fff; } .ds-panel p { margin: 0; font-size: 16px; line-height: 1.6; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Measured Field",
+    "overview": "The page is a two-colour systems document: cool grey paper and one committed teal field, with a deeper teal band where the pipeline runs. Nothing on it is decorative in the ornamental sense. Its one expressive device is borrowed from the product's own signal: the Rhythm field, a row of keystroke-gap bars that grows out of one colour into the other as the visitor scrolls, with a single amber bar standing for the long pause the app exists to notice. The design lets that timing trace carry the identity, and lets the real app screens, the report, and an evidence table with its limits carry the persuasion.\n\nDensity is calm and editorial. Large Schibsted Grotesk at regular weight sets the voice; DM Sans does the reading; IBM Plex Mono appears for measured values only. Separation comes from hairlines and from switching the ground colour, not from cards floating on shadows. One teal duotone photograph of a clinic workstation (generated, provenance in `public/art/workstation-duo.webp.json`) sits behind the hero field, and the live task window sits over its monitor.\n\nThe build rejected glass, glows, dot grids, eyebrow labels, gradient text, italics and serif faces; `app/system.css` enforces the first and last of these at page scope.",
+    "keyCharacteristics": [
+      "Two grounds only: paper (#eceff0) and teal field (#0b5f70), plus deep teal (#072f37) for the pipeline and download bands.",
+      "Chapter changes are wipes of the Rhythm field, not borders or gradients.",
+      "Hairline rules (12% ink on paper, 14% white on teal) do the structural work.",
+      "Regular-weight grotesk display with tight negative tracking.",
+      "Amber appears only as a flag: the pause bar, a follow-up marker.",
+      "Three radii (6 / 12 / 20), two elevations, flat at rest."
+    ],
+    "rules": [
+      {
+        "name": "The Two Grounds Rule",
+        "body": "A section's ground is paper, field, or deep. No section sits on a gradient, a tint, a photo wash or a third hue.",
+        "section": "colors"
+      },
+      {
+        "name": "The Amber Is a Flag Rule",
+        "body": "Amber marks something the clinician should look at. It is never a highlight, a button, or a decoration.",
+        "section": "colors"
+      },
+      {
+        "name": "The Cyan Stays Home Rule",
+        "body": "Signal cyan is the pipeline's progress colour and appears only on the deep band.",
+        "section": "colors"
+      },
+      {
+        "name": "The Six Steps Rule",
+        "body": "New type sits on 13 / 16 / 20 / 28 / 48 / 88. A size between steps needs a reason the scale cannot answer.",
+        "section": "typography"
+      },
+      {
+        "name": "The Regular Voice Rule",
+        "body": "Display and headline are weight 400. Emphasis comes from size and position, never from bold, italic, colour or gradient on a word.",
+        "section": "typography"
+      },
+      {
+        "name": "The Mono Means Measured Rule",
+        "body": "Plex Mono sets a number the app measured or a value it reports. It does not set labels, headings or decorative tags.",
+        "section": "typography"
+      },
+      {
+        "name": "The Wipe Not Border Rule",
+        "body": "A chapter change between paper and teal is made by a Rhythm field, never by a rule, a curve or a gradient seam.",
+        "section": "layout"
+      },
+      {
+        "name": "The No Glow Rule",
+        "body": "No coloured shadows, halos, rings or blurred light. An active state is an outline (1px, offset 4px), not a glow.",
+        "section": "elevation"
+      },
+      {
+        "name": "The No Glass Rule",
+        "body": "No backdrop blur and no text shadow anywhere on the page.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do put every section on paper (#eceff0), field (#0b5f70) or deep (#072f37), and change between them with a Rhythm field.",
+      "Do separate content with 1px hairlines (rgba(15, 42, 51, 0.12) on paper, rgba(255, 255, 255, 0.14) on teal).",
+      "Do set display and headline in Schibsted Grotesk 400 with negative tracking (-0.025em to -0.035em).",
+      "Do keep amber (#f5a623) for flags: the pause bar and follow-up markers.",
+      "Do show measured results with their limit beside them, as the Evidence table does.",
+      "Do keep the 8-step algorithm stepper and the scroll holds on About, Roles and Algorithm.",
+      "Do label any illustrative app data as a sample."
+    ],
+    "donts": [
+      "Don't use backdrop blur, glass panels, glows, halos or text shadows.",
+      "Don't use dot grids, corner brackets, ghost wordmarks or grain overlays.",
+      "Don't put a small label or tag above a heading.",
+      "Don't use italics, serif faces, gradient text or a coloured accent word in a headline.",
+      "Don't use gradients as fills; the legacy gradient tokens are flattened to solid teal.",
+      "Don't introduce radii outside 6 / 12 / 20px or shadows outside the two in Elevation.",
+      "Don't show customers, testimonials, pricing or usage numbers the product does not have."
+    ]
+  }
+}

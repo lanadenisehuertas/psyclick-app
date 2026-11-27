@@ -1,6 +1,5 @@
 'use client'
 
-import { FileText, ShieldAlert } from 'lucide-react'
 import { motion, useMotionValue, useReducedMotion, useScroll, useSpring, useTransform } from 'framer-motion'
 import type React from 'react'
 import { useEffect, useRef } from 'react'
@@ -13,9 +12,6 @@ import AppDashboard from '@/components/app-dashboard'
  * the whole stage leans a few degrees toward the pointer. Transforms only, so it
  * stays cheap on clinic hardware; phones and reduced motion get the flat dashboard.
  */
-
-// Inter-key gaps for the rhythm card, ms; index 9 is the hesitation
-const GAPS = [120, 150, 110, 170, 130, 160, 120, 175, 140, 520, 180, 190, 170, 185]
 
 function Float({
   className,
@@ -80,30 +76,6 @@ export default function DashStage() {
           <p>Self-report says mild. Typing is 38% slower than this client’s own baseline.</p>
         </Float>
 
-        <Float className="ds-rhythm" depth={1} progress={scrollYProgress}>
-          <span className="ds-k mono">Prompt 4 · time between keys</span>
-          <div className="ds-bars">
-            {GAPS.map((g, i) => (
-              <i key={i} className={i === 9 ? 'late' : undefined} style={{ height: `${Math.min(100, g / 5.4)}%` }} />
-            ))}
-          </div>
-          <small>
-            <b>1.1 s</b> pause before “fine”
-          </small>
-        </Float>
-
-        <Float className="ds-safety" depth={1.8} progress={scrollYProgress}>
-          <ShieldAlert size={16} />
-          <span>
-            <b>Self-harm answer</b>
-            <small>Always shown first</small>
-          </span>
-        </Float>
-
-        <Float className="ds-pdf" depth={0.7} progress={scrollYProgress}>
-          <FileText size={15} />
-          <span>Report saved as PDF</span>
-        </Float>
       </motion.div>
     </div>
   )

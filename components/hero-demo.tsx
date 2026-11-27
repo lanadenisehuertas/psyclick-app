@@ -1,7 +1,6 @@
 'use client'
 
 import { motion, useInView, useReducedMotion } from 'framer-motion'
-import { Keyboard, MousePointer2 } from 'lucide-react'
 import { Fragment, useEffect, useRef, useState } from 'react'
 import { EASE } from '@/components/landing-kit'
 
@@ -9,9 +8,7 @@ import { EASE } from '@/components/landing-kit'
  * Hero product demo, drawn in DOM/SVG (no WebGL, so it shows everywhere).
  * Tells the study in one glance:
  *   the PsyClick window — a client answers a written prompt
- *   (1) keystrokes      — each key lands as a spike; the pause before "fine" shows amber
- *   (2) cursor          — the hesitation loop on the way to "Next"
- *   (3) report          — self-report looks mild, the rhythm says follow up
+ *    *   report             — self-report looks mild, the rhythm says follow up
  * The typing loops only while the demo is on screen; static for reduced motion.
  */
 
@@ -107,52 +104,11 @@ export default function HeroDemo({ play }: { play: boolean }) {
         </div>
       </motion.div>
 
-      {/* (1) keystrokes */}
-      <motion.div className="hd-card hd-keys" {...show(1)}>
-        <span className="hd-step mono">1</span>
-        <div className="hd-card-head">
-          <Keyboard size={15} /> Keystrokes
-        </div>
-        <div className="hd-caps" aria-hidden="true">
-          {['f', 'i', 'n', 'e'].map((k, i) => (
-            <kbd key={k} className={i === 0 ? 'late' : ''} style={{ animationDelay: `${i * 0.18}s` }}>
-              {k}
-            </kbd>
-          ))}
-        </div>
-        <dl>
-          <div>
-            <dt className="mono">Flight</dt>
-            <dd>+38%</dd>
-          </div>
-          <div>
-            <dt className="mono">Dwell</dt>
-            <dd>+24%</dd>
-          </div>
-        </dl>
-      </motion.div>
-
-      {/* (2) cursor */}
-      <motion.div className="hd-card hd-cursor" {...show(2)}>
-        <span className="hd-step mono">2</span>
-        <div className="hd-card-head">
-          <MousePointer2 size={15} /> Cursor
-        </div>
-        <svg viewBox="0 0 200 84" aria-hidden="true">
-          <path
-            className="hd-path"
-            d="M8,70 C40,66 62,40 92,44 C118,48 120,72 102,70 C82,68 96,30 128,28 C158,26 172,18 192,12"
-          />
-          <circle className="hd-ring" cx="104" cy="66" r="9" />
-          <circle className="hd-tip" cx="192" cy="12" r="4" />
-        </svg>
-        <small className="mono">hesitation loop · path entropy ↑</small>
-      </motion.div>
-
       {/* (3) report */}
       <motion.div className="hd-card hd-report" {...show(3)}>
-        <span className="hd-step mono">3</span>
-        <div className="hd-card-head">Clinician report</div>
+        <p className="hd-card-head">
+          Clinician report <span className="hd-sample mono">Sample</span>
+        </p>
         <div className="hd-row">
           <span>PHQ-9 self-report</span>
           <b>6 · mild</b>

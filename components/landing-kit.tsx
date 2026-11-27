@@ -33,16 +33,10 @@ export function Reveal({
   )
 }
 
-export function Eyebrow({ children, dark = false }: { children: React.ReactNode; dark?: boolean }) {
-  return (
-    <div className={`eyebrow-row${dark ? ' dark' : ''}`}>
-      <span className="eyebrow">
-        <i />
-        {children}
-      </span>
-      <span className="eyebrow-rule" />
-    </div>
-  )
+/** Section labels above headings were removed; headings carry their own weight. */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export function Eyebrow(_props: { children: React.ReactNode; dark?: boolean }) {
+  return null
 }
 
 
